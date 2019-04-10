@@ -34,7 +34,6 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         );
     }
 
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
@@ -125,5 +124,6 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(CONTACTS_TABLE_NAME, "id = ?", new String[] {id});
     }
+
 
 }
