@@ -84,8 +84,6 @@ public class TaskHome extends AppCompatActivity {
 
 
 
-
-
     class LoadTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {

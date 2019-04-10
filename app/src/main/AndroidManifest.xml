@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeToolBar">
-        <activity android:name=".Delete"></activity>
         <activity android:name=".TaskHome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
