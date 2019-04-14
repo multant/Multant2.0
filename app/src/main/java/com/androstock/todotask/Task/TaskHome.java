@@ -1,4 +1,4 @@
-package com.androstock.todotask;
+package com.androstock.todotask.Task;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.androstock.todotask.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.androstock.todotask;
+package com.androstock.todotask.Task;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -9,4 +9,5 @@
     <string name="title_board">Доска задач</string>
     <string name="title_chat">Чат</string>
     <string name="title_daily_log">Ежедневник</string>
+    <string name="title_activity_home">HomeActivity</string>
 </resources>

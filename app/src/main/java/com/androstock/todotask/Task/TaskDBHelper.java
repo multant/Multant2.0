@@ -1,4 +1,4 @@
-package com.androstock.todotask;
+package com.androstock.todotask.Task;
 
 import android.content.ContentValues;
 import android.content.Context;

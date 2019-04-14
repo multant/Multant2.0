@@ -1,14 +1,15 @@
-package com.androstock.todotask;
+package com.androstock.todotask.Task;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.androstock.todotask.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

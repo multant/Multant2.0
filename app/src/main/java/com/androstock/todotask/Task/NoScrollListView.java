@@ -1,4 +1,4 @@
-package com.androstock.todotask;
+package com.androstock.todotask.Task;
 
 import android.content.Context;
 import android.util.AttributeSet;

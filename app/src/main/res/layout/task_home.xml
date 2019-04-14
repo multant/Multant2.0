@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E1D25">
+    android:background="#1E1D25"
+    tools:context=".Task.TaskHome">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_task"
         android:layout_alignParentTop="true"
@@ -86,7 +87,7 @@
                 android:layout_marginRight="12dp"
                 android:layout_marginLeft="12dp">
 
-                <com.androstock.todotask.NoScrollListView
+                <com.androstock.todotask.Task.NoScrollListView
                     android:id="@+id/taskListToday"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -114,7 +115,7 @@
                 android:layout_marginRight="12dp"
                 android:layout_marginLeft="12dp">
 
-                <com.androstock.todotask.NoScrollListView
+                <com.androstock.todotask.Task.NoScrollListView
                     android:id="@+id/taskListTomorrow"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -143,7 +144,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginBottom="10dp">
 
-                <com.androstock.todotask.NoScrollListView
+                <com.androstock.todotask.Task.NoScrollListView
                     android:id="@+id/taskListUpcoming"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

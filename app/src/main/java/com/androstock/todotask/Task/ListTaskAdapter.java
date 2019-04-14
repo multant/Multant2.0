@@ -1,4 +1,4 @@
-package com.androstock.todotask;
+package com.androstock.todotask.Task;
 
 import android.app.Activity;
 import android.text.Html;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.androstock.todotask.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
