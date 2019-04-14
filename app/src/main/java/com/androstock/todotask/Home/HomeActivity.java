@@ -7,6 +7,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.androstock.todotask.R;
@@ -56,4 +59,36 @@ public class HomeActivity extends AppCompatActivity {
         menuItem.setChecked(true);
     }
 
+    public void onClick(View v)
+    {
+        final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        switch (v.getId())
+        {
+            case R.id.linearLayout_main:
+                v.startAnimation(animAlpha);
+                break;
+            case R.id.linearLayout_chat:
+                v.startAnimation(animAlpha);
+                Intent intent1 = new Intent(HomeActivity.this, Chat_test.class);
+                startActivity(intent1);
+                break;
+            case R.id.linearLayout_Calendar:
+                v.startAnimation(animAlpha);
+                break;
+            case R.id.linearLayout_trello:
+                v.startAnimation(animAlpha);
+                break;
+            case R.id.linearLayout_notes:
+                Intent intent = new Intent(HomeActivity.this, TaskHome.class);
+                startActivity(intent);
+                v.startAnimation(animAlpha);
+                break;
+            case R.id.linearLayout_planning:
+                v.startAnimation(animAlpha);
+                break;
+            case R.id.linearLayout_diary:
+                v.startAnimation(animAlpha);
+                break;
+        }
+    }
 }

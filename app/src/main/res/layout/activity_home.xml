@@ -74,11 +74,13 @@
         tools:layout_editor_absoluteX="8dp">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linearLayout_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?attr/colorPrimary"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_chat"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -118,14 +120,204 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout_chat"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:background="?attr/colorPrimary"
+            android:onClick="onClick"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_Calendar"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_main"
+            tools:layout_editor_absoluteX="0dp">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/chat" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:text="Сообщения"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_Calendar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/colorPrimary"
+            android:onClick="onClick"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/linearLayout_trello"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_chat">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/calendar_m" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:text="Календарь"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_trello"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/colorPrimary"
+            android:onClick="onClick"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/linearLayout_notes"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_Calendar">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/trello" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:text="Доска задач"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_notes"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/colorPrimary"
+            android:onClick="onClick"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/linearLayout_planning"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_trello">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/zametki" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:text="Заметки"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_planning"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/colorPrimary"
+            android:onClick="onClick"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/linearLayout_diary"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_notes">
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/planning" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:text="Планы"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_diary"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/colorPrimary"
+            android:onClick="onClick"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"></LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_planning">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/ezednevnik" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:text="Ежедневник"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
