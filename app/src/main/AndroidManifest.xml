@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.androstock.todotask.Task.TaskHome"></activity> /activity>
+        <activity android:name="com.androstock.todotask.Task.AddTask"></activity> /activity>
         <activity android:name="com.androstock.todotask.chat.Chat_test"></activity> /activity>
 
     </application>
