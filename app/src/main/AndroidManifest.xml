@@ -10,19 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeToolBar">
         <activity
+            android:name=".ActiveDesk.ActiveDesk"
+            android:label="@string/title_activity_active_desk"></activity>
+        <activity
             android:name=".Home.HomeActivity"
             android:label="@string/title_activity_home">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.androstock.todotask.Task.TaskHome"></activity> /activity>
-        <activity android:name="com.androstock.todotask.Task.AddTask"></activity> /activity>
-        <activity android:name="com.androstock.todotask.chat.Chat_test"></activity> /activity>
-
+        <activity android:name=".Task.TaskHome" />
+        <activity android:name=".Task.AddTask" />
+        <activity android:name=".chat.Chat_test" />
     </application>
 
 </manifest>
