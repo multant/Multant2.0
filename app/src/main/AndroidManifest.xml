@@ -22,6 +22,7 @@
         <activity android:name="com.androstock.todotask.Task.TaskHome"></activity>
         <activity android:name="com.androstock.todotask.Task.AddTask"></activity>
         <activity android:name="com.androstock.todotask.chat.Chat_test"></activity>
+        <activity android:name="com.androstock.todotask.ActiveDesk.ActiveDesk"></activity>
 
     </application>
 
