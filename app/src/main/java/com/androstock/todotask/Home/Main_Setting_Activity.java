@@ -1,20 +1,22 @@
-package com.androstock.todotask.ActiveDesk;
+package com.androstock.todotask.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.androstock.todotask.Home.HomeActivity;
+import com.androstock.todotask.ActiveDesk.ActiveDesk;
 import com.androstock.todotask.R;
 import com.androstock.todotask.Task.TaskHome;
 import com.androstock.todotask.chat.Chat_test;
 
-public class ActiveDesk extends AppCompatActivity {
+public class Main_Setting_Activity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
@@ -25,20 +27,22 @@ public class ActiveDesk extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_main:
-                    Intent intent0 = new Intent(ActiveDesk.this, HomeActivity.class);
+                    Intent intent0 = new Intent(Main_Setting_Activity.this, HomeActivity.class);
                     startActivity(intent0);
                     return true;
                 case R.id.navigation_daily_log:
                     //открывает ежедневник
-                    Intent intent = new Intent(ActiveDesk.this, TaskHome.class);
+                    Intent intent = new Intent(Main_Setting_Activity.this, TaskHome.class);
                     startActivity(intent);
                     break;
                 case R.id.navigation_chat:
-                    Intent intent1 = new Intent(ActiveDesk.this, Chat_test.class);
+                    Intent intent1 = new Intent(Main_Setting_Activity.this, Chat_test.class);
                     startActivity(intent1);
                     break;
                 case R.id.navigation_task_board:
                     //открывает доску задач
+                    Intent intent2 = new Intent(Main_Setting_Activity.this, ActiveDesk.class);
+                    startActivity(intent2);
                     return true;
             }
             return false;
@@ -48,15 +52,34 @@ public class ActiveDesk extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_active_desk);
+        setContentView(R.layout.activity_main__setting_);
 
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
 
-        Menu menu = navigation.getMenu();
-        MenuItem menuItem = menu.getItem(3);
-        menuItem.setChecked(true);
+    public void onClickS(View v)
+    {
+        final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        switch (v.getId())
+        {
+            case R.id.about_app_btn:
+                v.startAnimation(animAlpha);
+                Intent intent0 = new Intent(Main_Setting_Activity.this, About_app_scrolling_activity.class);
+                startActivity(intent0);
+                break;
+            case R.id.developers_btn:
+                v.startAnimation(animAlpha);
+                Intent intent1 = new Intent(Main_Setting_Activity.this, Developers_Activity.class);
+                startActivity(intent1);
+                break;
+            case R.id.questions_btn:
+                v.startAnimation(animAlpha);
+                Intent intent2 = new Intent(Main_Setting_Activity.this, Setting_Activity.class);
+                startActivity(intent2);
+                break;
+        }
     }
 
 }

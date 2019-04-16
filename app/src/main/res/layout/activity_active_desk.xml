@@ -36,12 +36,13 @@
                 android:textSize="18dp"
                 android:textStyle="bold"
                 />
+
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:padding="5dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
+                android:padding="5dp"
                 android:src="@drawable/ic_action_add" />
         </LinearLayout>
 

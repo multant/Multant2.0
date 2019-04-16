@@ -41,12 +41,14 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/setting_btn"
                 android:layout_width="60dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:padding="5dp"
-                android:src="@drawable/setting" />
+                android:src="@drawable/setting"
+                android:onClick="onClick"/>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>

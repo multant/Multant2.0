@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.androstock.todotask.ActiveDesk.ActiveDesk;
 import com.androstock.todotask.R;
 import com.androstock.todotask.Task.TaskHome;
 import com.androstock.todotask.chat.Chat_test;
@@ -27,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_main:
-
+                    //открывает меню
                     return true;
                 case R.id.navigation_daily_log:
                     //открывает ежедневник
@@ -35,11 +36,14 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_chat:
+                    //открывает чат
                     Intent intent1 = new Intent(HomeActivity.this, Chat_test.class);
                     startActivity(intent1);
                     break;
                 case R.id.navigation_task_board:
                     //открывает доску задач
+                    Intent intent2 = new Intent(HomeActivity.this, ActiveDesk.class);
+                    startActivity(intent2);
                     return true;
             }
             return false;
@@ -77,17 +81,24 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.linearLayout_trello:
                 v.startAnimation(animAlpha);
+                Intent intent2 = new Intent(HomeActivity.this, ActiveDesk.class);
+                startActivity(intent2);
                 break;
             case R.id.linearLayout_notes:
+                v.startAnimation(animAlpha);
                 Intent intent = new Intent(HomeActivity.this, TaskHome.class);
                 startActivity(intent);
-                v.startAnimation(animAlpha);
                 break;
             case R.id.linearLayout_planning:
                 v.startAnimation(animAlpha);
                 break;
             case R.id.linearLayout_diary:
                 v.startAnimation(animAlpha);
+                break;
+            case R.id.setting_btn:
+                v.startAnimation(animAlpha);
+                Intent intent4 = new Intent(HomeActivity.this, Main_Setting_Activity.class);
+                startActivity(intent4);
                 break;
         }
     }

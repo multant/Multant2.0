@@ -11,4 +11,42 @@
     <string name="title_daily_log">Ежедневник</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_active_desk">ActiveDesk</string>
+    <string name="title_activity_setting_">Setting_Activity</string>
+    <string name="title_activity_main__setting_">Main_Setting_Activity</string>
+    <string name="title_activity_about_app_scrolling_activity">About_app_scrolling_activity</string>
+    <string name="developers_text">
+        " ИКБО-03-17\n"
+        "Башкин Антон\n"
+        "Большаков Сергей\n"
+        "Карчевский Дмитрий\n"
+        "Судариков Кирилл\n"
+        "Чекановкин Андрей\n"
+        "Шачнов Никита\n"
+        "Шведков Иван\n"
+    </string>
+    <string name="large_text">
+        "Данный органайзер содержит все необходимые элементы, которые могут пригодиться в "
+        "повседневной жизни человека. Так же данное приложение удобно использовать для командной"
+        "работы над чем-либо или же просто общения.\n"
+        "Так, данное приложение содержит:"
+        "Заметки, разделённые на несколько категорий (ежедневник, планирование, и заметки).\n"
+        "Календарь с отображением ваших планов по датам.\n"
+        "Доска задач с доступом для команды. Чтобы можно было легко ставить задачи на команду и их"
+        "распределять.\n"
+        "Чат.\n"
+        "\n Это краткое описание, которое нужно дополнить. Далее текст для примера: \n\n"
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
+        "technologically advanced and open to imagination and magic.\n"
+        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
+        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
+        "flexibility of the material creates new affordances that supercede those in the physical "
+        "world, without breaking the rules of physics.\n"
+        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
+        "interact, and exist in space and in relation to each other. Realistic lighting shows "
+        "seams, divides space, and indicates moving parts.\n\n"
+    </string>
+    <string name="action_settings">Settings</string>
 </resources>
