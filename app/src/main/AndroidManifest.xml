@@ -19,9 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.androstock.todotask.Task.TaskHome"></activity> /activity>
-        <activity android:name="com.androstock.todotask.Task.AddTask"></activity> /activity>
-        <activity android:name="com.androstock.todotask.chat.Chat_test"></activity> /activity>
+        <activity android:name="com.androstock.todotask.Task.TaskHome"></activity>
+        <activity android:name="com.androstock.todotask.Task.AddTask"></activity>
+        <activity android:name="com.androstock.todotask.chat.Chat_test"></activity>
 
     </application>
 
