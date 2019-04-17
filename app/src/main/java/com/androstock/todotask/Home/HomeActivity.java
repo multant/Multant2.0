@@ -13,6 +13,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.androstock.todotask.ActiveDesk.ActiveDesk;
+import com.androstock.todotask.Calendar.Calendar;
+import com.androstock.todotask.Notes.Notes;
 import com.androstock.todotask.R;
 import com.androstock.todotask.Task.TaskHome;
 import com.androstock.todotask.chat.Chat_test;
@@ -78,6 +80,8 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.linearLayout_Calendar:
                 v.startAnimation(animAlpha);
+                Intent intent5 = new Intent(HomeActivity.this, Calendar.class);
+                startActivity(intent5);
                 break;
             case R.id.linearLayout_trello:
                 v.startAnimation(animAlpha);
@@ -86,11 +90,13 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.linearLayout_notes:
                 v.startAnimation(animAlpha);
-                Intent intent = new Intent(HomeActivity.this, TaskHome.class);
+                Intent intent = new Intent(HomeActivity.this, Notes.class);
                 startActivity(intent);
                 break;
             case R.id.linearLayout_planning:
                 v.startAnimation(animAlpha);
+                Intent intent6 = new Intent(HomeActivity.this, TaskHome.class);
+                startActivity(intent6);
                 break;
             case R.id.linearLayout_diary:
                 v.startAnimation(animAlpha);
