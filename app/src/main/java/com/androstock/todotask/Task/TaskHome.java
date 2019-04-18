@@ -92,7 +92,6 @@ public class TaskHome extends AppCompatActivity {
         todayText = (TextView) findViewById(R.id.todayText);
         tomorrowText = (TextView) findViewById(R.id.tomorrowText);
         upcomingText = (TextView) findViewById(R.id.upcomingText);
-
     }
 
 
