@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.androstock.todotask.ActiveDesk.ActiveDesk;
-import com.androstock.todotask.Calendar.Calendar;
 import com.androstock.todotask.Home.HomeActivity;
 import com.androstock.todotask.R;
 import com.androstock.todotask.Task.TaskHome;

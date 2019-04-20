@@ -5,32 +5,32 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.CalendarView;
 
 import com.androstock.todotask.ActiveDesk.ActiveDesk;
 import com.androstock.todotask.Home.HomeActivity;
 import com.androstock.todotask.R;
-import com.androstock.todotask.Task.AddTask;
 import com.androstock.todotask.Task.TaskDBHelper;
 import com.androstock.todotask.Task.TaskHome;
 import com.androstock.todotask.chat.Chat_test;
+import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 
-public class Calendar extends AppCompatActivity
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class CalendarActivity extends AppCompatActivity
 {
 
-    static final int DATE_DIALOG_ID = 0;
-    static final int PICK_DATE_REQUEST = 1;
-    TaskDBHelper database;
+    public static final String RESULT = "result";
+    public static final String EVENT = "event";
+    private static final int ADD_NOTE = 44;
 
-    CalendarView calendarView;
+    private com.applandeo.materialcalendarview.CalendarView calendarview;
+    private List<EventDay> mEventDays = new ArrayList<>();
+    TaskDBHelper database;
     TextView dateDisplay;
 
     @Override
@@ -39,24 +39,18 @@ public class Calendar extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        Menu menu = navigation.getMenu();
-        MenuItem menuItem = menu.getItem(0);
-        menuItem.setChecked(true);
+        navigation.getMenu().getItem(0).setChecked(true);
 
-        calendarView = (CalendarView) findViewById(R.id.calendarView);
-        dateDisplay = (TextView) findViewById(R.id.date_display);
-        dateDisplay.setText("Date: ");
+        calendarview = findViewById(R.id.calendarView);
+        Calendar calendar = Calendar.getInstance();
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
-                dateDisplay.setText("Date: " + i2 + " / " + i1 + " / " + i);
-
-                Toast.makeText(getApplicationContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_LONG).show();
-            }
-        });
+        try {
+            calendarview.setDate(calendar);
+        } catch (OutOfDateRangeException e) {
+            e.printStackTrace();
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -67,23 +61,23 @@ public class Calendar extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.navigation_main:
                     //открывает меню
-                    Intent intent3 = new Intent(Calendar.this, HomeActivity.class);
+                    Intent intent3 = new Intent(CalendarActivity.this, HomeActivity.class);
                     startActivity(intent3);
                     break;
 
                 case R.id.navigation_daily_log:
                     //открывает ежедневник
-                    Intent intent = new Intent(Calendar.this, TaskHome.class);
+                    Intent intent = new Intent(CalendarActivity.this, TaskHome.class);
                     startActivity(intent);
                     break;
                 case R.id.navigation_chat:
                     //открывает чат
-                    Intent intent1 = new Intent(Calendar.this, Chat_test.class);
+                    Intent intent1 = new Intent(CalendarActivity.this, Chat_test.class);
                     startActivity(intent1);
                     break;
                 case R.id.navigation_task_board:
                     //открывает доску задач
-                    Intent intent2 = new Intent(Calendar.this, ActiveDesk.class);
+                    Intent intent2 = new Intent(CalendarActivity.this, ActiveDesk.class);
                     startActivity(intent2);
                     return true;
             }

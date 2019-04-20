@@ -13,7 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.androstock.todotask.ActiveDesk.ActiveDesk;
-import com.androstock.todotask.Calendar.Calendar;
+import com.androstock.todotask.Calendar.CalendarActivity;
 import com.androstock.todotask.Notes.Notes;
 import com.androstock.todotask.R;
 import com.androstock.todotask.Task.TaskHome;
@@ -80,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.linearLayout_Calendar:
                 v.startAnimation(animAlpha);
-                Intent intent5 = new Intent(HomeActivity.this, Calendar.class);
+                Intent intent5 = new Intent(HomeActivity.this, CalendarActivity.class);
                 startActivity(intent5);
                 break;
             case R.id.linearLayout_trello:

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.androstock.todotask">
 
     <application
@@ -8,10 +9,11 @@
         android:label="@string/title_home"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeToolBar">
+        android:theme="@style/AppThemeToolBar"
+        tools:replace="android:label">
         <activity android:name=".Notes.NoteEditorActivity"></activity>
         <activity android:name=".Notes.Notes" />
-        <activity android:name=".Calendar.Calendar" />
+        <activity android:name=".Calendar.CalendarActivity" />
         <activity android:name=".Home.Developers_Activity" />
         <activity
             android:name=".Home.About_app_scrolling_activity"
