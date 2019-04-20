@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androstock.todotask.ActiveDesk.ActiveDesk;
 import com.androstock.todotask.Home.HomeActivity;
@@ -14,8 +15,12 @@ import com.androstock.todotask.R;
 import com.androstock.todotask.Task.TaskDBHelper;
 import com.androstock.todotask.Task.TaskHome;
 import com.androstock.todotask.chat.Chat_test;
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
+import com.applandeo.materialcalendarview.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,6 +32,7 @@ public class CalendarActivity extends AppCompatActivity
     public static final String RESULT = "result";
     public static final String EVENT = "event";
     private static final int ADD_NOTE = 44;
+
 
     private com.applandeo.materialcalendarview.CalendarView calendarview;
     private List<EventDay> mEventDays = new ArrayList<>();
@@ -51,7 +57,10 @@ public class CalendarActivity extends AppCompatActivity
         } catch (OutOfDateRangeException e) {
             e.printStackTrace();
         }
+
     }
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -84,4 +93,5 @@ public class CalendarActivity extends AppCompatActivity
             return false;
         }
     };
+
 }
