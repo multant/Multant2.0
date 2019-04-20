@@ -24,37 +24,26 @@ import com.androstock.todotask.R;
 import com.androstock.todotask.Task.TaskHome;
 import com.androstock.todotask.chat.Chat_test;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 
 public class Notes extends AppCompatActivity {
 
     static ArrayList<String> notes = new ArrayList<>();
+    static ArrayList<String> creates = new ArrayList<>();
+    static ArrayList<String> changes = new ArrayList<>();
+
+
     static ArrayAdapter arrayAdapter;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_note_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    protected void onCreate(Bundle savedInstanceState)
     {
-        super.onOptionsItemSelected(item);
-        if (item.getItemId() == R.id.add_note)
-        {
-            Intent intent5 = new Intent(getApplicationContext(), NoteEditorActivity.class);
-            startActivity(intent5);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
 
@@ -66,16 +55,32 @@ public class Notes extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.listView);
         Button buttonAdd = (Button) findViewById(R.id.buttonAddNote);
+
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
         HashSet<String> set = (HashSet<String>) sharedPreferences.getStringSet("notes", null);
+        SharedPreferences sharedPreferences1 = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
+        HashSet<String> set1 = (HashSet<String>) sharedPreferences1.getStringSet("creates", null);
+        SharedPreferences sharedPreferences2 = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
+        HashSet<String> set2 = (HashSet<String>) sharedPreferences2.getStringSet("changes", null);
 
-        if (set == null)
+        Date currentDate = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        String dateText = dateFormat.format(currentDate);
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        String timeText = timeFormat.format(currentDate);
+        String finalDateAndTime = dateText + ", " + timeText;
+
+        if (set == null || set1 == null || set2 == null)
         {
             notes.add("Example note");
+            creates.add(finalDateAndTime);
+            changes.add("");
         }
         else
         {
             notes = new ArrayList(set);
+            creates = new ArrayList(set1);
+            changes = new ArrayList(set2);
         }
 
 
@@ -118,11 +123,22 @@ public class Notes extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which)
                             {
                                 notes.remove(position);
+                                creates.remove(position);
+                                changes.remove(position);
+
                                 arrayAdapter.notifyDataSetChanged();
 
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
                                 HashSet<String> set = new HashSet(Notes.notes);
                                 sharedPreferences.edit().putStringSet("notes", set).apply();
+
+                                SharedPreferences sharedPreferences1 = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
+                                HashSet<String> set1 = new HashSet(Notes.creates);
+                                sharedPreferences1.edit().putStringSet("creates", set1).apply();
+
+                                SharedPreferences sharedPreferences2 = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
+                                HashSet<String> set2 = new HashSet(Notes.changes);
+                                sharedPreferences2.edit().putStringSet("changes", set2).apply();
                             }
                         })
                         .setNegativeButton("No", null)
