@@ -199,7 +199,7 @@ public class TaskHome extends AppCompatActivity {
                 HashMap<String, String> mapToday = new HashMap<String, String>();
                 mapToday.put(KEY_ID, cursor.getString(0).toString());
                 mapToday.put(KEY_TASK, cursor.getString(1).toString());
-                mapToday.put(KEY_DATE, Function.Epoch2DateString(cursor.getString(2).toString(), "dd-MM-yyyy"));
+                mapToday.put(KEY_DATE, Function.Epoch2DateString(cursor.getString(2).toString(), "dd/MM/yyyy"));
                 dataList.add(mapToday);
                 cursor.moveToNext();
             }

@@ -73,6 +73,7 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
             startYear = cal.get(Calendar.YEAR);
             startMonth = cal.get(Calendar.MONTH);
             startDay = cal.get(Calendar.DAY_OF_MONTH);
+
             task_date.setText(Function.Epoch2DateString(task.getString(2).toString(), "dd/MM/yyyy"));
 
         }
@@ -143,14 +144,12 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
         startMonth = monthOfYear;
         startDay = dayOfMonth;
         int monthAddOne = startMonth + 1;
-        String date = (startDay < 10 ? "0" + startDay : "" + startDay) + "/" +
-                (monthAddOne < 10 ? "0" + monthAddOne : "" + monthAddOne) + "/" +
+        String date = (startDay < 10 ? "0" + startDay : startDay) + "/" +
+                (monthAddOne < 10 ? "0" + monthAddOne : monthAddOne) + "/" +
                 startYear;
         EditText task_date = (EditText) findViewById(R.id.task_date);
         task_date.setText(date);
     }
-
-
 
     public void showStartDatePicker(View v) {
         dpd = DatePickerDialog.newInstance(AddTask.this, startYear, startMonth, startDay);

@@ -3,8 +3,11 @@ package com.androstock.todotask.Task;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,10 +17,15 @@ import java.util.Locale;
  * Created by Ferdousur Rahman Sarker on 3/19/2018.
  */
 
-public class TaskDBHelper extends SQLiteOpenHelper {
+public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
 
     public static final String DATABASE_NAME = "ToDoDBHelper.db";
     public static final String CONTACTS_TABLE_NAME = "todo";
+    public static final String _ID = BaseColumns._ID;
+    public static final String TASK = "task";
+    public static final String DATESTR = "dateStr";
+    String[] selection = {DATESTR};
+
 
     public TaskDBHelper(Context context)
     {
@@ -30,7 +38,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "CREATE TABLE "+CONTACTS_TABLE_NAME +
-                        "(id INTEGER PRIMARY KEY, task TEXT, dateStr INTEGER)"
+                        "( " + _ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +  TASK + " TEXT, " + DATESTR + " INTEGER)"
         );
     }
 
@@ -57,7 +65,6 @@ public class TaskDBHelper extends SQLiteOpenHelper {
 
     public boolean insertContact  (String task, String dateStr)
     {
-        Date date;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("task", task);
@@ -125,5 +132,19 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         db.delete(CONTACTS_TABLE_NAME, "id = ?", new String[] {id});
     }
 
+    public long getNumberOfStrings(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+" order by id desc", null);
+        return c.getCount();
+    }
+
+    public long getMillis(int i){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + DATESTR + " FROM " + CONTACTS_TABLE_NAME;
+        Cursor cur = db.rawQuery(query, null);
+        cur.moveToPosition(i);
+        long date = cur.getLong(cur.getColumnIndex(DATESTR));
+        return date;
+    }
 
 }

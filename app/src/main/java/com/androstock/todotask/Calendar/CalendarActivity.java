@@ -1,13 +1,14 @@
 package com.androstock.todotask.Calendar;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androstock.todotask.ActiveDesk.ActiveDesk;
 import com.androstock.todotask.Home.HomeActivity;
@@ -18,7 +19,6 @@ import com.androstock.todotask.chat.Chat_test;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 import com.applandeo.materialcalendarview.utils.DateUtils;
 
@@ -34,10 +34,12 @@ public class CalendarActivity extends AppCompatActivity
     private static final int ADD_NOTE = 44;
 
 
-    private com.applandeo.materialcalendarview.CalendarView calendarview;
+    private CalendarView calendarview;
     private List<EventDay> mEventDays = new ArrayList<>();
     TaskDBHelper database;
     TextView dateDisplay;
+    Activity activity;
+    ArrayList<Calendar> cal = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,9 +50,18 @@ public class CalendarActivity extends AppCompatActivity
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.getMenu().getItem(0).setChecked(true);
-
-        calendarview = findViewById(R.id.calendarView);
+        activity = CalendarActivity.this;
+        database = new TaskDBHelper(activity);
+        Calendar calen = Calendar.getInstance();
+        for (int i=0; i<database.getNumberOfStrings(); i++){
+            calen.setTimeInMillis(database.getMillis(i));
+            mEventDays.add(new EventDay(calen, DrawableUtils.getThreeDots(this)));
+            cal.add(calen);
+            calen = (Calendar) calen.clone();
+        }
         Calendar calendar = Calendar.getInstance();
+        calendarview = findViewById(R.id.calendarView);
+        calendarview.setEvents(mEventDays);
 
         try {
             calendarview.setDate(calendar);
