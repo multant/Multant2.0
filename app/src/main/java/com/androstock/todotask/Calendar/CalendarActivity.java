@@ -52,6 +52,7 @@ public class CalendarActivity extends AppCompatActivity
         navigation.getMenu().getItem(0).setChecked(true);
         activity = CalendarActivity.this;
         database = new TaskDBHelper(activity);
+        database.updateTable();
         Calendar calen = Calendar.getInstance();
         for (int i=0; i<database.getNumberOfStrings(); i++){
             calen.setTimeInMillis(database.getMillis(i));

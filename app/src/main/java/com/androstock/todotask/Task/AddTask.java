@@ -152,8 +152,10 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
     }
 
     public void showStartDatePicker(View v) {
+        Calendar cal = Calendar.getInstance();
         dpd = DatePickerDialog.newInstance(AddTask.this, startYear, startMonth, startDay);
         dpd.setOnDateSetListener(this);
+        dpd.setMinDate(cal);
         dpd.show(getFragmentManager(), "startDatepickerdialog");
     }
 

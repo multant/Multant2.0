@@ -24,7 +24,7 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String _ID = BaseColumns._ID;
     public static final String TASK = "task";
     public static final String DATESTR = "dateStr";
-    String[] selection = {DATESTR};
+    Date dateToday = new Date();
 
 
     public TaskDBHelper(Context context)
@@ -66,10 +66,10 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
     public boolean insertContact  (String task, String dateStr)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("task", task);
-        contentValues.put("dateStr", getDate(dateStr));
-        db.insert(CONTACTS_TABLE_NAME, null, contentValues);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("task", task);
+            contentValues.put("dateStr", getDate(dateStr));
+            db.insert(CONTACTS_TABLE_NAME, null, contentValues);
         return true;
     }
 
@@ -145,6 +145,19 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
         cur.moveToPosition(i);
         long date = cur.getLong(cur.getColumnIndex(DATESTR));
         return date;
+    }
+
+    public void updateTable(){
+        Date date = new Date();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + DATESTR + " FROM " + CONTACTS_TABLE_NAME;
+        Cursor cur = db.rawQuery(query, null);
+        while(cur.moveToNext()){
+            long time = cur.getLong(cur.getColumnIndex(DATESTR));
+            date.setTime(time);
+            if(date.getTime()<dateToday.getTime())
+                db.delete(CONTACTS_TABLE_NAME, DATESTR + "=" + cur.getLong(cur.getColumnIndex(DATESTR)), null);
+        }
     }
 
 }
