@@ -54,7 +54,7 @@ public class Notes extends AppCompatActivity {
         menuItem.setChecked(true);
 
         ListView listView = (ListView) findViewById(R.id.listView);
-        Button buttonAdd = (Button) findViewById(R.id.buttonAddNote);
+
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
         HashSet<String> set = (HashSet<String>) sharedPreferences.getStringSet("notes", null);
@@ -87,16 +87,6 @@ public class Notes extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, notes);
         listView.setAdapter(arrayAdapter);
 
-        buttonAdd.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent5 = new Intent(getApplicationContext(), NoteEditorActivity.class);
-                startActivity(intent5);
-            }
-        });
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -115,9 +105,9 @@ public class Notes extends AppCompatActivity {
             {
                 new AlertDialog.Builder(Notes.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Are you sure?")
-                        .setMessage("Do you want to delete this note?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        .setTitle("Вы уверены?")
+                        .setMessage("Вы хотите удалить эту заметку?")
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener()
                         {
                             @Override
                             public void onClick(DialogInterface dialog, int which)
@@ -141,7 +131,7 @@ public class Notes extends AppCompatActivity {
                                 sharedPreferences2.edit().putStringSet("changes", set2).apply();
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton("Нет", null)
                         .show();
 
                 return true;
@@ -180,4 +170,10 @@ public class Notes extends AppCompatActivity {
             return false;
         }
     };
+
+    void addNewNote(View v)
+    {
+        Intent intent5 = new Intent(getApplicationContext(), NoteEditorActivity.class);
+        startActivity(intent5);
+    }
 }
