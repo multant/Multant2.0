@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androstock.todotask.ActiveDesk.ActiveDesk;
@@ -18,11 +20,13 @@ import com.androstock.todotask.Notes.Notes;
 import com.androstock.todotask.R;
 import com.androstock.todotask.Task.TaskHome;
 import com.androstock.todotask.chat.Chat_test;
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
-
+    RelativeLayout activity_main;
     private TextView mTextMessage;
-
+    private static int SIGN_IN_REQUEST_CODE = 1;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -56,6 +60,11 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivityForResult(AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .build(), SIGN_IN_REQUEST_CODE);
+        }
 
         //mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -64,7 +73,20 @@ public class HomeActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SIGN_IN_REQUEST_CODE)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                Snackbar.make(activity_main, "Вход выполнен", Snackbar.LENGTH_SHORT).show();
+            } else {
+                Snackbar.make(activity_main, "Вход не выполнен", Snackbar.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
     public void onClick(View v)
     {
         final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
