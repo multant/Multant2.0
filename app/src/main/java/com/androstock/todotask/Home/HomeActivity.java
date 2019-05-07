@@ -23,6 +23,8 @@ import com.androstock.todotask.chat.Chat_test;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Arrays;
+
 public class HomeActivity extends AppCompatActivity {
     RelativeLayout activity_main;
     private TextView mTextMessage;
@@ -61,9 +63,15 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            startActivityForResult(AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .build(), SIGN_IN_REQUEST_CODE);
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(Arrays.asList(
+                                    new AuthUI.IdpConfig.GoogleBuilder().build(),
+                                    new AuthUI.IdpConfig.EmailBuilder().build(),
+                                    new AuthUI.IdpConfig.AnonymousBuilder().build()))
+                            .build(),SIGN_IN_REQUEST_CODE
+                    );
         }
 
         //mTextMessage = (TextView) findViewById(R.id.message);
