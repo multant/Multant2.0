@@ -1,5 +1,6 @@
 package com.androstock.todotask.Notes;
 
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,7 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -31,6 +35,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.editText);
         TextView textViewCreate = (TextView) findViewById(R.id.textViewCreate);
         final TextView textViewChange = (TextView) findViewById(R.id.textViewChange);
+
         Date currentDate = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         String dateText = dateFormat.format(currentDate);
@@ -57,6 +62,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             textViewChange.setText("");
             Notes.arrayAdapter.notifyDataSetChanged();
         }
+
 
         editText.addTextChangedListener(new TextWatcher()
         {
@@ -93,5 +99,10 @@ public class NoteEditorActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    void returnToNotes(View v)
+    {
+        finish();
     }
 }
