@@ -21,7 +21,7 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
 
     public static final String DATABASE_NAME = "ToDoDBHelper.db";
     public static final String CONTACTS_TABLE_NAME = "todo";
-    public static final String _ID = BaseColumns._ID;
+    public static final String _ID = "id";
     public static final String TASK = "task";
     public static final String DATESTR = "dateStr";
     Date dateToday = new Date();
@@ -37,8 +37,8 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
         // TODO Auto-generated method stub
 
         db.execSQL(
-                "CREATE TABLE "+CONTACTS_TABLE_NAME +
-                        "( " + _ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +  TASK + " TEXT, " + DATESTR + " INTEGER)"
+                "CREATE TABLE " + CONTACTS_TABLE_NAME+
+                        "( " + _ID + " INTEGER PRIMARY KEY, " +  TASK + " TEXT, " + DATESTR + " INTEGER)"
         );
     }
 
@@ -89,14 +89,14 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
 
     public Cursor getData(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+" order by id desc", null);
+        Cursor res =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+" order by dateStr desc", null);
         return res;
 
     }
 
     public Cursor getDataSpecific(String id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+" WHERE id = '"+id+"' order by id desc", null);
+        Cursor res =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+" WHERE id = '"+id+"' order by dateStr desc", null);
         return res;
 
     }
@@ -104,7 +104,7 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
     public Cursor getDataToday(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+
-                " WHERE date(datetime(dateStr / 1000 , 'unixepoch', 'localtime')) = date('now', 'localtime') order by id desc", null);
+                " WHERE date(datetime(dateStr / 1000 , 'unixepoch', 'localtime')) = date('now', 'localtime') order by dateStr desc", null);
         return res;
 
     }
@@ -113,7 +113,7 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
     public Cursor getDataTomorrow(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+
-                " WHERE date(datetime(dateStr / 1000 , 'unixepoch', 'localtime')) = date('now', '+1 day', 'localtime')  order by id desc", null);
+                " WHERE date(datetime(dateStr / 1000 , 'unixepoch', 'localtime')) = date('now', '+1 day', 'localtime')  order by dateStr desc", null);
         return res;
 
     }
@@ -122,7 +122,7 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
     public Cursor getDataUpcoming(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+
-                " WHERE date(datetime(dateStr / 1000 , 'unixepoch', 'localtime')) > date('now', '+1 day', 'localtime') order by id desc", null);
+                " WHERE date(datetime(dateStr / 1000 , 'unixepoch', 'localtime')) > date('now', '+1 day', 'localtime') order by dateStr desc", null);
         return res;
 
     }
@@ -134,7 +134,7 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
 
     public long getNumberOfStrings(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+" order by id desc", null);
+        Cursor c =  db.rawQuery("select * from "+CONTACTS_TABLE_NAME+" order by dateStr desc", null);
         return c.getCount();
     }
 
