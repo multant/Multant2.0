@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeToolBar"
         tools:replace="android:label">
-        <activity android:name=".Notes.NoteEditorActivity"></activity>
+        <activity android:name=".Notes.NoteEditorActivity" />
         <activity android:name=".Notes.Notes" />
         <activity android:name=".Calendar.CalendarActivity" />
         <activity android:name=".Home.Developers_Activity" />
@@ -28,7 +28,9 @@
             android:theme="@style/AppThemeToolBar.NoActionBar" />
         <activity
             android:name=".Home.HomeActivity"
-            android:label="@string/title_activity_home">
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +39,9 @@
         </activity>
         <activity android:name=".Task.TaskHome" />
         <activity android:name=".Task.AddTask" />
-        <activity android:name=".chat.Chat_test" />
+        <activity android:name=".chat.Chat_test"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ActiveDesk.ActiveDesk" />
     </application>
 

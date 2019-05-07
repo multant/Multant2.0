@@ -8,59 +8,21 @@
     tools:context=".Notes.Notes">
 
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_task"
-        android:layout_alignParentTop="true"
+    <Button
+        android:id="@+id/buttonAddNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
-
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="0dp"
-                android:gravity="center_vertical|start"
-                android:paddingLeft="16dp"
-                android:paddingRight="4dp"
-                android:textColor="#ffffff"
-                android:text="Заметки"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                />
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_action_add"
-                android:onClick="addNewNote"/>
-        </LinearLayout>
-
-    </android.support.v7.widget.Toolbar>
-
-
+        android:text="Добавить заметку" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="434dp"
+        android:layout_below="@+id/buttonAddNote"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="70dp"
-
-        android:background="@drawable/mountainvector"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorWhite"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
