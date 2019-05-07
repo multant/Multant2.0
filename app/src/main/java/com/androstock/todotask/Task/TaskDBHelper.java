@@ -10,6 +10,7 @@ import android.provider.BaseColumns;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -24,7 +25,6 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String _ID = "id";
     public static final String TASK = "task";
     public static final String DATESTR = "dateStr";
-    Date dateToday = new Date();
 
 
     public TaskDBHelper(Context context)
@@ -147,6 +147,12 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
         return date;
     }
 
+    private long yesterday() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        return cal.getTimeInMillis();
+    }
+
     public void updateTable(){
         Date date = new Date();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -155,7 +161,7 @@ public class TaskDBHelper extends SQLiteOpenHelper implements BaseColumns {
         while(cur.moveToNext()){
             long time = cur.getLong(cur.getColumnIndex(DATESTR));
             date.setTime(time);
-            if(date.getTime()<dateToday.getTime())
+            if(date.getTime()<yesterday())
                 db.delete(CONTACTS_TABLE_NAME, DATESTR + "=" + cur.getLong(cur.getColumnIndex(DATESTR)), null);
         }
     }

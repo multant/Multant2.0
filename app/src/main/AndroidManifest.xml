@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeToolBar"
         tools:replace="android:label">
-        <activity android:name=".Notes.NoteEditorActivity"></activity>
+        <activity android:name=".Notes.NoteEditorActivity" />
         <activity android:name=".Notes.Notes" />
         <activity android:name=".Calendar.CalendarActivity" />
         <activity android:name=".Home.Developers_Activity" />

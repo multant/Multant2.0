@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="434dp"
         android:layout_below="@+id/buttonAddNote"
+        android:layout_above="@+id/container"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="24dp"
@@ -29,8 +30,9 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/container"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="58dp">
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
