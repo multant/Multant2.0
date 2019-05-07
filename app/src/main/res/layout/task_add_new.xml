@@ -97,7 +97,7 @@
         <Button
             android:layout_width="90dp"
             android:layout_height="35dp"
-            android:layout_marginLeft="130dp"
+            android:layout_marginLeft="85dp"
             android:layout_marginTop="150dp"
             android:background="@color/colorAccent"
             android:onClick="onDeleteTask"
@@ -106,7 +106,7 @@
         <Button
             android:layout_width="90dp"
             android:layout_height="35dp"
-            android:layout_marginLeft="130dp"
+            android:layout_marginLeft="85dp"
             android:layout_marginTop="-100dp"
             android:background="@color/colorAccent"
             android:onClick="doneAddTask"
