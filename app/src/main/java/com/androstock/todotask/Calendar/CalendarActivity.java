@@ -2,7 +2,6 @@ package com.androstock.todotask.Calendar;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +10,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.androstock.todotask.ActiveDesk.ActiveDesk;
+import com.androstock.todotask.DB.MultantDBHelper;
 import com.androstock.todotask.Home.HomeActivity;
 import com.androstock.todotask.R;
-import com.androstock.todotask.Task.TaskDBHelper;
 import com.androstock.todotask.Task.TaskHome;
 import com.androstock.todotask.chat.Chat_test;
 import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
-import com.applandeo.materialcalendarview.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,10 +30,9 @@ public class CalendarActivity extends AppCompatActivity
     public static final String EVENT = "event";
     private static final int ADD_NOTE = 44;
 
-
     private CalendarView calendarview;
     private List<EventDay> mEventDays = new ArrayList<>();
-    TaskDBHelper database;
+    MultantDBHelper database;
     TextView dateDisplay;
     Activity activity;
     ArrayList<Calendar> cal = new ArrayList<>();
@@ -51,11 +47,11 @@ public class CalendarActivity extends AppCompatActivity
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.getMenu().getItem(0).setChecked(true);
         activity = CalendarActivity.this;
-        database = new TaskDBHelper(activity);
-        database.updateTable();
+        database = new MultantDBHelper(activity);
+        database.updateTable(0);
         Calendar calen = Calendar.getInstance();
-        for (int i=0; i<database.getNumberOfStrings(); i++){
-            calen.setTimeInMillis(database.getMillis(i));
+        for (int i=0; i<database.getNumberOfStrings(0); i++){
+            calen.setTimeInMillis(database.getMillis(i,0));
             mEventDays.add(new EventDay(calen, DrawableUtils.getThreeDots(this)));
             cal.add(calen);
             calen = (Calendar) calen.clone();

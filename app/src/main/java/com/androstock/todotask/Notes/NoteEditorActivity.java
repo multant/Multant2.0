@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.androstock.todotask.R;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.HashSet;
 
@@ -29,6 +30,7 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_editor);
 

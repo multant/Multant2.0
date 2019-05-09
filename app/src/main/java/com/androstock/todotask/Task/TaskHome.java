@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.androstock.todotask.DB.MultantDBHelper;
 import com.androstock.todotask.Home.HomeActivity;
 import com.androstock.todotask.R;
 import com.androstock.todotask.chat.Chat_test;
@@ -32,7 +33,7 @@ import java.util.HashMap;
 public class TaskHome extends AppCompatActivity {
 
     Activity activity;
-    TaskDBHelper mydb;
+    MultantDBHelper mydb;
     NoScrollListView taskListToday, taskListTomorrow, taskListUpcoming;
     NestedScrollView scrollView;
     ProgressBar loader;
@@ -72,6 +73,7 @@ public class TaskHome extends AppCompatActivity {
             return false;
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +84,7 @@ public class TaskHome extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(1);
         menuItem.setChecked(true);
         activity = TaskHome.this;
-        mydb = new TaskDBHelper(activity);
+        mydb = new MultantDBHelper(activity);
         scrollView = (NestedScrollView) findViewById(R.id.scrollView);
         loader = (ProgressBar) findViewById(R.id.loader);
         taskListToday = (NoScrollListView) findViewById(R.id.taskListToday);
@@ -103,7 +105,7 @@ public class TaskHome extends AppCompatActivity {
 
     public void populateData()
     {
-        mydb = new TaskDBHelper(activity);
+        mydb = new MultantDBHelper(activity);
         scrollView.setVisibility(View.GONE);
         loader.setVisibility(View.VISIBLE);
 
@@ -119,8 +121,6 @@ public class TaskHome extends AppCompatActivity {
 
     }
 
-
-
     class LoadTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
@@ -135,17 +135,17 @@ public class TaskHome extends AppCompatActivity {
             String xml = "";
 
             /* ===== TODAY ========*/
-            Cursor today = mydb.getDataToday();
+            Cursor today = mydb.getDataToday(0);
             loadDataList(today, todayList);
             /* ===== TODAY ========*/
 
             /* ===== TOMORROW ========*/
-            Cursor tomorrow = mydb.getDataTomorrow();
+            Cursor tomorrow = mydb.getDataTomorrow(0);
             loadDataList(tomorrow, tomorrowList);
             /* ===== TOMORROW ========*/
 
             /* ===== UPCOMING ========*/
-            Cursor upcoming = mydb.getDataUpcoming();
+            Cursor upcoming = mydb.getDataUpcoming(0);
             loadDataList(upcoming, upcomingList);
             /* ===== UPCOMING ========*/
 
@@ -188,8 +188,6 @@ public class TaskHome extends AppCompatActivity {
         }
     }
 
-
-
     public void loadDataList(Cursor cursor, ArrayList<HashMap<String, String>> dataList)
     {
         if(cursor!=null ) {
@@ -205,7 +203,6 @@ public class TaskHome extends AppCompatActivity {
             }
         }
     }
-
 
     public void loadListView(ListView listView, final ArrayList<HashMap<String, String>> dataList)
     {

@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androstock.todotask.DB.MultantDBHelper;
 import com.androstock.todotask.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.text.SimpleDateFormat;
@@ -23,7 +24,7 @@ import java.util.Locale;
 public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
 
-    TaskDBHelper mydb;
+    MultantDBHelper mydb;
     DatePickerDialog dpd;
     int startYear = 0, startMonth = 0, startDay = 0;
     String dateFinal;
@@ -38,11 +39,9 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_add_new);
 
-        mydb = new TaskDBHelper(getApplicationContext());
+        mydb = new MultantDBHelper(getApplicationContext());
         intent = getIntent();
         isUpdate = intent.getBooleanExtra("isUpdate", false);
-
-
 
         dateFinal = todayDateString();
         Date your_date = new Date();
@@ -64,7 +63,7 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
         EditText task_name = (EditText) findViewById(R.id.task_name);
         EditText task_date = (EditText) findViewById(R.id.task_date);
         toolbar_task_add_title.setText("Update");
-        Cursor task = mydb.getDataSpecific(id);
+        Cursor task = mydb.getDataSpecific(id,0);
         if (task != null) {
             task.moveToFirst();
 
@@ -75,9 +74,7 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
             startDay = cal.get(Calendar.DAY_OF_MONTH);
 
             task_date.setText(Function.Epoch2DateString(task.getString(2).toString(), "dd/MM/yyyy"));
-
         }
-
     }
 
     public String todayDateString() {
@@ -117,10 +114,10 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
 
         if (errorStep == 0) {
             if (isUpdate) {
-                mydb.updateContact(id, nameFinal, dateFinal);
+                mydb.update(id, nameFinal, dateFinal,0);
                 Toast.makeText(getApplicationContext(), "Task Updated.", Toast.LENGTH_SHORT).show();
             } else {
-                mydb.insertContact(nameFinal, dateFinal);
+                mydb.insert(nameFinal, dateFinal, 0);
                 Toast.makeText(getApplicationContext(), "Task Added.", Toast.LENGTH_SHORT).show();
             }
 
@@ -160,7 +157,7 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
     }
 
     public void onDeleteTask(View v) {
-        mydb.deleteTask(id);
+        mydb.deleteData(id,0);
         finish();
     }
 

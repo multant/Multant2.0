@@ -27,6 +27,7 @@ import java.util.Arrays;
 
 public class HomeActivity extends AppCompatActivity {
     RelativeLayout activity_main;
+    private TextView mTextMessage;
     private static int SIGN_IN_REQUEST_CODE = 1;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -61,7 +62,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivityForResult(
                     AuthUI.getInstance()
@@ -72,17 +72,14 @@ public class HomeActivity extends AppCompatActivity {
                                     new AuthUI.IdpConfig.AnonymousBuilder().build()))
                             .build(),SIGN_IN_REQUEST_CODE
                     );
-
         }
-        TextView name = (TextView) findViewById(R.id.Name_Text);
-        name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
         //mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
