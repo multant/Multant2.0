@@ -26,4 +26,8 @@
 
     <style name="AppThemeToolBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="NoteCircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">#1E1D25</item>
+    </style>
+
 </resources>

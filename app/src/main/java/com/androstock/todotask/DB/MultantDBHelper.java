@@ -18,6 +18,7 @@ import java.util.Locale;
  */
 
 //TODO: Создать абстрактный интерфейс для БД
+//TODO: Определить, почему записи добавляются не с нулевой позиции
 
 public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
 
@@ -32,6 +33,7 @@ public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String TASK = "task";
     public static final String NOTE = "note";
     public static final String ENTRY = "entry";
+    public static final String ENTRY_TITLE = "entrytitle";
     public static final String TASK_CREATEDATESTR = "createdateStr";
     public static final String NOTE_CREATEDATESTR = "createdateStr";
     public static final String NOTE_CHANGEDATESTR = "changedateStr";
@@ -54,7 +56,7 @@ public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
         );
         db.execSQL(
                 "CREATE TABLE " + ENTRIES_TABLE_NAME +
-                        "( " + ENTRIES_TABLE__ID + " INTEGER PRIMARY KEY, " +  ENTRY + " TEXT, " + ENTRY_CREATEDATESTR + " INTEGER)"
+                        "( " + ENTRIES_TABLE__ID + " INTEGER PRIMARY KEY, " +  ENTRY + " TEXT, " + ENTRY_CREATEDATESTR + " INTEGER, "+ENTRY_TITLE+" TEXT)"
         );
     }
 
@@ -76,23 +78,24 @@ public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
         return date.getTime();
     }
 
-    public boolean insert(String data, String dateStr, Integer tableindex)
+    public boolean insert(String data, String createdateStr)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        switch (tableindex)
-        {
-            case 0:
-                contentValues.put(TASK, data);
-                contentValues.put(TASK_CREATEDATESTR, getDate(dateStr));
-                db.insert(TASKS_TABLE_NAME, null, contentValues);
-                break;
-            case 1:
-                contentValues.put(ENTRY, data);
-                contentValues.put(ENTRY_CREATEDATESTR, getDate(dateStr));
-                db.insert(ENTRIES_TABLE_NAME, null, contentValues);
-                break;
-        }
+        contentValues.put(TASK, data);
+        contentValues.put(TASK_CREATEDATESTR, getDate(createdateStr));
+        db.insert(TASKS_TABLE_NAME, null, contentValues);
+        return true;
+    }
+
+    public boolean entryinsert(String entry, String createdateStr, String title)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ENTRY, entry);
+        contentValues.put(ENTRY_CREATEDATESTR, getDate(createdateStr));
+        contentValues.put(ENTRY_TITLE, getDate(title));
+        db.insert(ENTRIES_TABLE_NAME, null, contentValues);
         return true;
     }
 
@@ -107,40 +110,35 @@ public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
         return true;
     }
 
-    public boolean update(String id, String data, String dateStr, Integer tableindex)
-    {
+    public boolean update(String id, String data, String createdateStr) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        switch (tableindex)
-        {
-            case 0:
-                contentValues.put(TASK, data);
-                contentValues.put(TASK_CREATEDATESTR, getDate(dateStr));
-                db.update(TASKS_TABLE_NAME, contentValues, TASKS_TABLE__ID + " = ? ", new String[]{id});
-                break;
-            case 1:
-                contentValues.put(ENTRY, data);
-                contentValues.put(ENTRY_CREATEDATESTR, getDate(dateStr));
-                db.update(ENTRIES_TABLE_NAME,contentValues, ENTRIES_TABLE__ID+" = ? ", new String[]{id});
-                break;
-        }
+        contentValues.put(TASK, data);
+        contentValues.put(TASK_CREATEDATESTR, getDate(createdateStr));
+        db.update(TASKS_TABLE_NAME, contentValues, TASKS_TABLE__ID + " = ? ", new String[]{id});
         return true;
     }
 
-    public boolean update(String id, String note, String createdateStr, String changedatestr)
-    {
+    public boolean entryupdate(String id, String data, String createdateStr, Integer tableindex) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ENTRY, data);
+        contentValues.put(ENTRY_CREATEDATESTR, getDate(createdateStr));
+        db.update(ENTRIES_TABLE_NAME, contentValues, ENTRIES_TABLE__ID + " = ? ", new String[]{id});
+        return true;
+    }
+
+    public boolean update(String id, String note, String createdateStr, String changedatestr) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NOTE, note);
         contentValues.put(NOTE_CREATEDATESTR, getDate(createdateStr));
         contentValues.put(NOTE_CHANGEDATESTR, getDate(changedatestr));
-        db.update(NOTES_TABLE_NAME, contentValues, NOTES_TABLE__ID+" = ? ", new String[]{id});
+        db.update(NOTES_TABLE_NAME, contentValues, NOTES_TABLE__ID + " = ? ", new String[]{id});
         return true;
     }
 
-    //Для изменения порядка заменить asc на desc
-
-    public Cursor getData(Integer tableindex){
+    public Cursor getcreatedatesortedData(Integer tableindex) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res;
         switch (tableindex)
@@ -156,6 +154,11 @@ public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
                 break;
         }
         return res;
+    }
+
+    public Cursor getNotes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("select * from " + NOTES_TABLE_NAME, null);
     }
 
     public Cursor getDataSpecific(String id, Integer tableindex){
@@ -335,6 +338,22 @@ public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
                     if(date.getTime()<yesterday())
                         db.delete(TASKS_TABLE_NAME, TASK_CREATEDATESTR + "=" + cur.getLong(cur.getColumnIndex(TASK_CREATEDATESTR)), null);
                 }
+                break;
+        }
+    }
+
+    public void deleteEmptyRows(Integer tableindex)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        switch (tableindex) {
+            case 1:
+                db.execSQL("DELETE FROM "+NOTES_TABLE_NAME+" WHERE "+NOTE+" IS NULL OR trim("+NOTE+") = '';");
+                break;
+            case 2:
+                db.execSQL("DELETE FROM "+ENTRIES_TABLE_NAME+" WHERE "+ENTRY+" IS NULL OR trim("+ENTRY+") = '';");
+                break;
+            default:
+                db.execSQL("DELETE FROM "+TASKS_TABLE_NAME+" WHERE "+TASK+" IS NULL OR trim("+TASK+") = '';");
                 break;
         }
     }

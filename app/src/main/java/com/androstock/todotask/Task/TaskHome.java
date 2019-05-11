@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.androstock.todotask.DB.Function;
 import com.androstock.todotask.DB.MultantDBHelper;
 import com.androstock.todotask.Home.HomeActivity;
 import com.androstock.todotask.R;
@@ -46,34 +47,6 @@ public class TaskHome extends AppCompatActivity {
     public static String KEY_TASK = "task";
     public static String KEY_DATE = "date";
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_main:
-                    //ничего не делает
-                    Intent intent0 = new Intent(TaskHome.this, HomeActivity.class);
-                    startActivity(intent0);
-                    break;
-                case R.id.navigation_daily_log:
-                    //открывает ежедневник
-                    Intent intent = new Intent(TaskHome.this, TaskHome.class);
-                    startActivity(intent);
-                    break;
-                case R.id.navigation_chat:
-                    Intent intent1 = new Intent(TaskHome.this, Chat_test.class);
-                    startActivity(intent1);
-                    break;
-                case R.id.navigation_task_board:
-                    //открывает доску задач
-                    return true;
-            }
-            return false;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +69,6 @@ public class TaskHome extends AppCompatActivity {
         upcomingText = (TextView) findViewById(R.id.upcomingText);
     }
 
-
     public void openAddTask(View v)
     {
         Intent i = new Intent(this, AddTask.class);
@@ -116,9 +88,7 @@ public class TaskHome extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
         populateData();
-
     }
 
     class LoadTask extends AsyncTask<String, Void, String> {
@@ -155,11 +125,9 @@ public class TaskHome extends AppCompatActivity {
         @Override
         protected void onPostExecute(String xml) {
 
-
             loadListView(taskListToday,todayList);
             loadListView(taskListTomorrow,tomorrowList);
             loadListView(taskListUpcoming,upcomingList);
-
 
             if(todayList.size()>0)
             {
@@ -182,7 +150,6 @@ public class TaskHome extends AppCompatActivity {
                 upcomingText.setVisibility(View.GONE);
             }
 
-
             loader.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
         }
@@ -192,8 +159,7 @@ public class TaskHome extends AppCompatActivity {
     {
         if(cursor!=null ) {
             cursor.moveToFirst();
-            while (cursor.isAfterLast() == false) {
-
+            while (!cursor.isAfterLast()) {
                 HashMap<String, String> mapToday = new HashMap<String, String>();
                 mapToday.put(KEY_ID, cursor.getString(0).toString());
                 mapToday.put(KEY_TASK, cursor.getString(1).toString());
@@ -218,4 +184,32 @@ public class TaskHome extends AppCompatActivity {
             }
         });
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_main:
+                    //ничего не делает
+                    Intent intent0 = new Intent(TaskHome.this, HomeActivity.class);
+                    startActivity(intent0);
+                    break;
+                case R.id.navigation_daily_log:
+                    //открывает ежедневник
+                    Intent intent = new Intent(TaskHome.this, TaskHome.class);
+                    startActivity(intent);
+                    break;
+                case R.id.navigation_chat:
+                    Intent intent1 = new Intent(TaskHome.this, Chat_test.class);
+                    startActivity(intent1);
+                    break;
+                case R.id.navigation_task_board:
+                    //открывает доску задач
+                    return true;
+            }
+            return false;
+        }
+    };
 }
