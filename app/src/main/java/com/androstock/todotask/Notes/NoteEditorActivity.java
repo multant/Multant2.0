@@ -4,6 +4,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.androstock.todotask.DB.Function;
 import com.androstock.todotask.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -39,30 +41,32 @@ public class NoteEditorActivity extends AppCompatActivity {
         final TextView textViewChange = (TextView) findViewById(R.id.textViewChange);
 
         Date currentDate = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        String dateText = dateFormat.format(currentDate);
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-        String timeText = timeFormat.format(currentDate);
-        final String finalDateAndTime = dateText + ", " + timeText;
+        DateFormat finalDateAndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
 
         Intent intent = getIntent();
         noteId = intent.getIntExtra("noteId", -1);
 
         if (noteId != -1)
         {
-            editText.setText(Notes.notes.get(noteId));
-            textViewCreate.setText(Notes.creates.get(noteId));
-            textViewChange.setText(Notes.changes.get(noteId));
+            Cursor res = Notes.mydb.getDataSpecific(Integer.toString(noteId),1);
+            if (res!=null)
+            {
+                if (res.moveToFirst())
+                {
+                    editText.setText(res.getString(1));
+                    textViewCreate.setText(Function.Epoch2DateString(res.getString(2), "dd.MM.yyyy HH:mm:ss"));
+                    textViewChange.setText(Function.Epoch2DateString(res.getString(3), "dd.MM.yyyy HH:mm:ss"));
+                }
+                res.close();
+            }
         }
         else
         {
-            Notes.notes.add("");
-            Notes.creates.add(finalDateAndTime);
-            Notes.changes.add("");
-            noteId = Notes.notes.size() - 1;
-            textViewCreate.setText(finalDateAndTime);
+            textViewCreate.setText(finalDateAndTime.format(currentDate));
             textViewChange.setText("");
-            Notes.arrayAdapter.notifyDataSetChanged();
+            Notes.mydb.insert("",finalDateAndTime.format(currentDate),"");
+            //Номер заметки устанавливается как следующий за последним ключом
+            noteId = Integer.parseInt(Notes.keys.get(Notes.keys.size()-1))+1;
         }
 
 
@@ -77,22 +81,8 @@ public class NoteEditorActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
-                Notes.notes.set(noteId, String.valueOf(s));
-                Notes.changes.set(noteId, finalDateAndTime);
-                textViewChange.setText(finalDateAndTime);
-                Notes.arrayAdapter.notifyDataSetChanged();
-
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
-                HashSet<String> set = new HashSet(Notes.notes);
-                sharedPreferences.edit().putStringSet("notes", set).apply();
-
-                SharedPreferences sharedPreferences1 = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
-                HashSet<String> set1 = new HashSet(Notes.creates);
-                sharedPreferences1.edit().putStringSet("creates", set1).apply();
-
-                SharedPreferences sharedPreferences2 = getApplicationContext().getSharedPreferences("com.androstock.todotask", Context.MODE_PRIVATE);
-                HashSet<String> set2 = new HashSet(Notes.changes);
-                sharedPreferences2.edit().putStringSet("changes", set2).apply();
+                textViewChange.setText(finalDateAndTime.format(currentDate));
+                Notes.mydb.update(Integer.toString(noteId),String.valueOf(s),finalDateAndTime.format(currentDate),finalDateAndTime.format(currentDate));
             }
 
             @Override

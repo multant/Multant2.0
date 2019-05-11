@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androstock.todotask.DB.Function;
 import com.androstock.todotask.DB.MultantDBHelper;
 import com.androstock.todotask.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -98,7 +99,6 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
         nameFinal = task_name.getText().toString();
         dateFinal = task_date.getText().toString();
 
-
   /* Checking */
         if (nameFinal.trim().length() < 1) {
             errorStep++;
@@ -110,14 +110,12 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
             task_date.setError("Provide a specific date");
         }
 
-
-
         if (errorStep == 0) {
             if (isUpdate) {
-                mydb.update(id, nameFinal, dateFinal,0);
+                mydb.update(id, nameFinal, dateFinal);
                 Toast.makeText(getApplicationContext(), "Task Updated.", Toast.LENGTH_SHORT).show();
             } else {
-                mydb.insert(nameFinal, dateFinal, 0);
+                mydb.insert(nameFinal, dateFinal);
                 Toast.makeText(getApplicationContext(), "Task Added.", Toast.LENGTH_SHORT).show();
             }
 
@@ -125,7 +123,6 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
         } else {
             Toast.makeText(getApplicationContext(), "Try again", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override

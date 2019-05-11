@@ -58,6 +58,8 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
 
+
+    //TODO: Исправить условие
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
