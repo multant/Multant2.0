@@ -1,4 +1,4 @@
-package com.androstock.todotask.Task;
+package com.androstock.multant.Task;
 
 import android.app.Activity;
 import android.text.Html;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.androstock.todotask.R;
+import com.androstock.multant.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

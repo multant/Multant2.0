@@ -1,9 +1,9 @@
-package com.androstock.todotask.Home;
+package com.androstock.multant.Home;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.androstock.todotask.R;
+import com.androstock.multant.R;
 
 public class Developers_Activity extends AppCompatActivity {
 

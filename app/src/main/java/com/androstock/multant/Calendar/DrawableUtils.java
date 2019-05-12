@@ -1,12 +1,11 @@
-package com.androstock.todotask.Calendar;
+package com.androstock.multant.Calendar;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.support.v4.content.ContextCompat;
 
-import com.androstock.todotask.R;
+import com.androstock.multant.R;
 
 /**
  * Created by Mateusz Kornakiewicz on 02.08.2018.

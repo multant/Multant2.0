@@ -1,4 +1,4 @@
-package com.androstock.todotask.Home;
+package com.androstock.multant.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.androstock.todotask.ActiveDesk.ActiveDesk;
-import com.androstock.todotask.R;
-import com.androstock.todotask.Task.TaskHome;
-import com.androstock.todotask.chat.Chat_test;
+import com.androstock.multant.ActiveDesk.ActiveDesk;
+import com.androstock.multant.R;
+import com.androstock.multant.Task.TaskHome;
+import com.androstock.multant.chat.Chat_test;
 
 public class Main_Setting_Activity extends AppCompatActivity {
 

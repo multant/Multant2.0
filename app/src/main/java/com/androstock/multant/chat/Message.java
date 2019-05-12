@@ -1,4 +1,4 @@
-package com.androstock.todotask.chat;
+package com.androstock.multant.chat;
 
 import java.util.Date;
 

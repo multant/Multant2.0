@@ -1,4 +1,4 @@
-package com.androstock.todotask.Notes;
+package com.androstock.multant.Diary;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,55 +6,63 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
-import com.androstock.todotask.ActiveDesk.ActiveDesk;
-import com.androstock.todotask.DB.MultantDBHelper;
-import com.androstock.todotask.Home.HomeActivity;
-import com.androstock.todotask.R;
-import com.androstock.todotask.Task.TaskHome;
-import com.androstock.todotask.chat.Chat_test;
+import com.androstock.multant.ActiveDesk.ActiveDesk;
+import com.androstock.multant.DB.Function;
+import com.androstock.multant.DB.MultantDBHelper;
+import com.androstock.multant.Home.HomeActivity;
+import com.androstock.multant.R;
+import com.androstock.multant.Task.TaskHome;
+import com.androstock.multant.chat.Chat_test;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
-public class Notes extends AppCompatActivity {
+public class Entries extends AppCompatActivity {
 
     static MultantDBHelper mydb;
     Activity activity;
     ProgressBar loader;
     ListView listView;
+    DatePickerDialog dpd;
 
-    static ArrayList<String> notes = new ArrayList<>();
-    //При удалении записи из таблицы ключи оставшихся не изменяются
-    static ArrayList<String> keys = new ArrayList<>();
+    public static final String KEY = "key";
+    private static final String TITLE = "title";
+    private static final String ENTRY = "entry";
+    private static final String CREATEDATE = "createdate";
 
-    static ArrayAdapter arrayAdapter;
+   static ArrayList<HashMap<String, String>> datalist = new ArrayList<>();
+
+    SimpleAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes);
+        setContentView(R.layout.activity_entries);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(1);
         menuItem.setChecked(true);
-        activity = Notes.this;
+        activity = Entries.this;
         mydb = new MultantDBHelper(activity);
         loader = (ProgressBar) findViewById(R.id.loader);
         listView = (ListView) findViewById(R.id.listView);
@@ -71,7 +79,7 @@ public class Notes extends AppCompatActivity {
         mydb = new MultantDBHelper(activity);
         loader.setVisibility(View.VISIBLE);
 
-        Notes.LoadTask loadTask = new Notes.LoadTask();
+        Entries.LoadTask loadTask = new Entries.LoadTask();
         loadTask.execute();
     }
 
@@ -79,12 +87,11 @@ public class Notes extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            notes.clear();
-            keys.clear();
+            datalist.clear();
         }
 
         protected String doInBackground(String... args) {
-            loadDataList(mydb.getNotes());
+            loadDataList(mydb.getcreateddatesortedData(2));
             return "";
         }
 
@@ -98,11 +105,16 @@ public class Notes extends AppCompatActivity {
 
     public void loadDataList(Cursor cursor)
     {
+        HashMap<String, String> hashMap;
         if(cursor!=null ) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                keys.add(cursor.getString(0));
-                notes.add(cursor.getString(1));
+                hashMap = new HashMap<>();
+                hashMap.put(KEY, cursor.getString(0));
+                hashMap.put(ENTRY, cursor.getString(1));
+                hashMap.put(CREATEDATE, Function.Epoch2DateString(cursor.getString(2),"dd.MM.yyyy HH:mm:ss"));
+                hashMap.put(TITLE, cursor.getString(3));
+                datalist.add(hashMap);
                 cursor.moveToNext();
             }
         }
@@ -111,18 +123,24 @@ public class Notes extends AppCompatActivity {
     public void loadListView(ListView listView) {
         Date currentDate = new Date();
         DateFormat finalDateAndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
-        if (notes.size() == 0) {
-            notes.add("Example note");
-            mydb.insert(notes.get(0),finalDateAndTime.format(currentDate),"");
+        if (datalist.size() == 0) {
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put(ENTRY, "Example entry");
+            hashMap.put(CREATEDATE, finalDateAndTime.format(currentDate));
+            hashMap.put(TITLE, "Example Title");
+            hashMap.put(KEY,"1");
+            datalist.add(hashMap);
+            mydb.entryinsert(hashMap.get(ENTRY),hashMap.get(CREATEDATE),hashMap.get(TITLE));
         }
-        arrayAdapter = new ArrayAdapter(this, R.layout.notes_list_item, notes);
-        listView.setAdapter(arrayAdapter);
+        adapter = new SimpleAdapter(this, datalist,
+                R.layout.entries_list_item, new String[]{TITLE, ENTRY, CREATEDATE},
+                new int[]{R.id.titletextView, R.id.entrytextView, R.id.datetextView});
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Intent i = new Intent(activity, NoteEditorActivity.class);
-                /*i.putExtra("isUpdate", true);*/
-                i.putExtra("noteId", Integer.parseInt(keys.get(position)));
+                Intent i = new Intent(activity, EntryEditorActivity.class);
+                i.putExtra("noteId", Integer.parseInt(datalist.get(position).get(KEY)));
                 startActivity(i);
             }
         });
@@ -130,17 +148,16 @@ public class Notes extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                new AlertDialog.Builder(Notes.this)
+                new AlertDialog.Builder(Entries.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Вы уверены?")
                         .setMessage("Вы хотите удалить эту заметку?")
                         .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                notes.remove(position);
-                                arrayAdapter.notifyDataSetChanged();
-                                mydb.deleteData(keys.get(position), 1);
-                                keys.remove(position);
+                                mydb.deleteData(datalist.get(position).get(KEY), 2);
+                                datalist.remove(position);
+                                adapter.notifyDataSetChanged();
                             }
                         })
                         .setNegativeButton("Нет", null)
@@ -151,10 +168,16 @@ public class Notes extends AppCompatActivity {
         });
     }
 
-    void addNewNote(View v)
+    void addNewEntry(View v)
     {
-        Intent intent5 = new Intent(getApplicationContext(), NoteEditorActivity.class);
-        startActivity(intent5);
+        Intent intent7 = new Intent(getApplicationContext(), EntryEditorActivity.class);
+        startActivity(intent7);
+    }
+
+    public void showStartDatePicker(View v) {
+        //
+        Toast.makeText(getApplicationContext(),"Вызов datepicker",Toast.LENGTH_SHORT).show();
+        //
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -165,23 +188,23 @@ public class Notes extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_main:
                     //открывает меню
-                    Intent intent3 = new Intent(Notes.this, HomeActivity.class);
+                    Intent intent3 = new Intent(Entries.this, HomeActivity.class);
                     startActivity(intent3);
                     break;
 
                 case R.id.navigation_daily_log:
                     //открывает ежедневник
-                    Intent intent = new Intent(Notes.this, TaskHome.class);
+                    Intent intent = new Intent(Entries.this, TaskHome.class);
                     startActivity(intent);
                     break;
                 case R.id.navigation_chat:
                     //открывает чат
-                    Intent intent1 = new Intent(Notes.this, Chat_test.class);
+                    Intent intent1 = new Intent(Entries.this, Chat_test.class);
                     startActivity(intent1);
                     break;
                 case R.id.navigation_task_board:
                     //открывает доску задач
-                    Intent intent2 = new Intent(Notes.this, ActiveDesk.class);
+                    Intent intent2 = new Intent(Entries.this, ActiveDesk.class);
                     startActivity(intent2);
                     return true;
             }

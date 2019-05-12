@@ -1,4 +1,4 @@
-package com.androstock.todotask.Home;
+package com.androstock.multant.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.androstock.todotask.R;
+import com.androstock.multant.R;
 
 public class Setting_Activity extends AppCompatActivity {
 

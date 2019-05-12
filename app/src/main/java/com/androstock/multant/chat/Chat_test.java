@@ -1,10 +1,8 @@
-package com.androstock.todotask.chat;
+package com.androstock.multant.chat;
 
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,26 +12,19 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.androstock.todotask.Home.HomeActivity;
-import com.androstock.todotask.R;
-import com.androstock.todotask.Task.TaskHome;
+import com.androstock.multant.Home.HomeActivity;
+import com.androstock.multant.R;
+import com.androstock.multant.Task.TaskHome;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-
 
 
 public class Chat_test extends AppCompatActivity {

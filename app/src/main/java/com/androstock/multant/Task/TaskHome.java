@@ -1,4 +1,4 @@
-package com.androstock.todotask.Task;
+package com.androstock.multant.Task;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,11 +17,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.androstock.todotask.DB.Function;
-import com.androstock.todotask.DB.MultantDBHelper;
-import com.androstock.todotask.Home.HomeActivity;
-import com.androstock.todotask.R;
-import com.androstock.todotask.chat.Chat_test;
+import com.androstock.multant.DB.Function;
+import com.androstock.multant.DB.MultantDBHelper;
+import com.androstock.multant.Home.HomeActivity;
+import com.androstock.multant.R;
+import com.androstock.multant.chat.Chat_test;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.androstock.todotask.Calendar;
+package com.androstock.multant.Calendar;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,12 +9,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.androstock.todotask.ActiveDesk.ActiveDesk;
-import com.androstock.todotask.DB.MultantDBHelper;
-import com.androstock.todotask.Home.HomeActivity;
-import com.androstock.todotask.R;
-import com.androstock.todotask.Task.TaskHome;
-import com.androstock.todotask.chat.Chat_test;
+import com.androstock.multant.ActiveDesk.ActiveDesk;
+import com.androstock.multant.DB.MultantDBHelper;
+import com.androstock.multant.Home.HomeActivity;
+import com.androstock.multant.R;
+import com.androstock.multant.Task.TaskHome;
+import com.androstock.multant.chat.Chat_test;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;

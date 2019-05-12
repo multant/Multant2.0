@@ -1,4 +1,4 @@
-package com.androstock.todotask.Task;
+package com.androstock.multant.Task;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,9 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androstock.todotask.DB.Function;
-import com.androstock.todotask.DB.MultantDBHelper;
-import com.androstock.todotask.R;
+import com.androstock.multant.DB.Function;
+import com.androstock.multant.DB.MultantDBHelper;
+import com.androstock.multant.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

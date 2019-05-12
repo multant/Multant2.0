@@ -56,7 +56,6 @@
         android:layout_width="match_parent"
         android:layout_height="434dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="0dp"
         android:layout_marginTop="70dp"
         android:background="@drawable/mountainvector"
         app:layout_constraintTop_toTopOf="parent"

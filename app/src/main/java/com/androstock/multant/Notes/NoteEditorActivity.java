@@ -1,18 +1,13 @@
-package com.androstock.todotask.Notes;
+package com.androstock.multant.Notes;
 
-import android.app.Instrumentation;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -20,15 +15,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.androstock.todotask.DB.Function;
-import com.androstock.todotask.R;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
-import java.util.HashSet;
+import com.androstock.multant.DB.Function;
+import com.androstock.multant.R;
 
 public class NoteEditorActivity extends AppCompatActivity {
 
     int noteId;
+    String notecreatedate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +47,8 @@ public class NoteEditorActivity extends AppCompatActivity {
                 if (res.moveToFirst())
                 {
                     editText.setText(res.getString(1));
-                    textViewCreate.setText(Function.Epoch2DateString(res.getString(2), "dd.MM.yyyy HH:mm:ss"));
+                    notecreatedate = Function.Epoch2DateString(res.getString(2), "dd.MM.yyyy HH:mm:ss");
+                    textViewCreate.setText(notecreatedate);
                     textViewChange.setText(Function.Epoch2DateString(res.getString(3), "dd.MM.yyyy HH:mm:ss"));
                 }
                 res.close();
@@ -62,7 +56,8 @@ public class NoteEditorActivity extends AppCompatActivity {
         }
         else
         {
-            textViewCreate.setText(finalDateAndTime.format(currentDate));
+            notecreatedate = finalDateAndTime.format(currentDate);
+            textViewCreate.setText(notecreatedate);
             textViewChange.setText("");
             Notes.mydb.insert("",finalDateAndTime.format(currentDate),"");
             //Номер заметки устанавливается как следующий за последним ключом
@@ -82,7 +77,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
                 textViewChange.setText(finalDateAndTime.format(currentDate));
-                Notes.mydb.update(Integer.toString(noteId),String.valueOf(s),finalDateAndTime.format(currentDate),finalDateAndTime.format(currentDate));
+                Notes.mydb.update(Integer.toString(noteId),String.valueOf(s),notecreatedate,finalDateAndTime.format(currentDate));
             }
 
             @Override

@@ -1,4 +1,4 @@
-package com.androstock.todotask;
+package com.androstock.multant;
 
 import org.junit.Test;
 

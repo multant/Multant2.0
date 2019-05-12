@@ -1,4 +1,4 @@
-package com.androstock.todotask.Home;
+package com.androstock.multant.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +14,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.androstock.todotask.ActiveDesk.ActiveDesk;
-import com.androstock.todotask.Calendar.CalendarActivity;
-import com.androstock.todotask.Notes.Notes;
-import com.androstock.todotask.R;
-import com.androstock.todotask.Task.TaskHome;
-import com.androstock.todotask.chat.Chat_test;
+import com.androstock.multant.ActiveDesk.ActiveDesk;
+import com.androstock.multant.Calendar.CalendarActivity;
+import com.androstock.multant.Diary.Entries;
+import com.androstock.multant.Notes.Notes;
+import com.androstock.multant.R;
+import com.androstock.multant.Task.TaskHome;
+import com.androstock.multant.chat.Chat_test;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -58,13 +59,11 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
 
-
-    //TODO: Исправить условие
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
@@ -132,6 +131,8 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.linearLayout_diary:
                 v.startAnimation(animAlpha);
+                Intent intent7 = new Intent(HomeActivity.this, Entries.class);
+                startActivity(intent7);
                 break;
             case R.id.setting_btn:
                 v.startAnimation(animAlpha);
