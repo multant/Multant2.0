@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.androstock.todotask.Home.About_app_scrolling_activity">
+    tools:context="com.androstock.multant.Home.About_app_scrolling_activity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
