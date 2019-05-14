@@ -52,8 +52,8 @@ public class Chat_Groups extends AppCompatActivity {
             return new Group[size];
         }
     };
-    String[] groupArr = new String[10];
-    Group[] Arr2 =new Group [10];
+    String[] groupArr = new String[3];
+    Group[] Arr2 =new Group [3];
     Group gr1 = new Group("Default");
     Group gr2 = new Group("Room 1");
     Group gr3 = new Group("Room 2");
@@ -75,7 +75,7 @@ public class Chat_Groups extends AppCompatActivity {
         ListView list= (ListView) findViewById(R.id.groupView);
         TextView text = (TextView) findViewById(R.id.group_name);
         list.setAdapter(adapter);
-        for (int i = 0; i<2; i++) {
+        for (int i = 0; i<3; i++) {
             groupArr[i] = Arr2[i].getName();
             list.setAdapter(adapter);
         }
@@ -83,7 +83,7 @@ public class Chat_Groups extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String temp;
-                for(int i = 0;i<2; i++){
+                for(int i = 0;i<3; i++){
                     temp = (String) parent.getItemAtPosition(position);
                     if (temp.equals(Arr2[i].getName())) {
                         Arr2[i].isSelected = 1;

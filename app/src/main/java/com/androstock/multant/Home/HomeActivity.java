@@ -80,6 +80,7 @@ public class HomeActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
         TextView name = (TextView) findViewById(R.id.Name_Text);
+        if (FirebaseAuth.getInstance().getCurrentUser()!= null)
         name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
     }
     @Override
