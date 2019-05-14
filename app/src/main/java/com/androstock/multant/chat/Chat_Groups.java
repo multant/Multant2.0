@@ -63,7 +63,7 @@ public class Chat_Groups extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat__groups);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        // navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
@@ -96,30 +96,30 @@ public class Chat_Groups extends AppCompatActivity {
             }
         });
     }
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
         // Навигация которая должна быть в каждом из основных активити
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_main:
-                    Intent intent0 = new Intent(Chat_Groups.this, HomeActivity.class);
-                    startActivity(intent0);
-                    break;
-                case R.id.navigation_daily_log:
-                    //открывает ежедневник
-                    Intent intent = new Intent(Chat_Groups.this, TaskHome.class);
-                    startActivity(intent);
-                    break;
-                case R.id.navigation_chat:
-                    return true;
-                case R.id.navigation_task_board:
-                    //открывает доску задач
-                    Intent intent2 = new Intent(Chat_Groups.this, ActiveDesk.class);
-                    startActivity(intent2);
-                    return true;
+        private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+                = new BottomNavigationView.OnNavigationItemSelectedListener() {
+            // Навигация которая должна быть в каждом из основных активити
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_main:
+                        Intent intent0 = new Intent(Chat_Groups.this, HomeActivity.class);
+                        startActivity(intent0);
+                        break;
+                    case R.id.navigation_daily_log:
+                        //открывает ежедневник
+                        Intent intent = new Intent(Chat_Groups.this, TaskHome.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.navigation_chat:
+                        return true;
+                    case R.id.navigation_task_board:
+                        Intent intent2 = new Intent(Chat_Groups.this, ActiveDesk.class);
+                        startActivity(intent2);
+                        return true;
+                }
+                return false;
             }
-            return false;
-        }
-    };
+        };
 }
