@@ -11,25 +11,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeToolBar"
         tools:replace="android:label">
-        <activity android:name="com.androstock.multant.Notes.NoteEditorActivity" />
-        <activity android:name="com.androstock.multant.Notes.Notes" />
-        <activity android:name="com.androstock.multant.Diary.Entries" />
-        <activity android:name="com.androstock.multant.Diary.EntryEditorActivity" />
-        <activity android:name="com.androstock.multant.Calendar.CalendarActivity" />
-        <activity android:name="com.androstock.multant.Home.Developers_Activity" />
         <activity
-            android:name="com.androstock.multant.Home.About_app_scrolling_activity"
+            android:name=".chat.Chat_Groups"
+            android:theme="@style/AppThemeToolBar.NoActionBar"></activity>
+        <activity android:name=".Notes.NoteEditorActivity" />
+        <activity android:name=".Notes.Notes" />
+        <activity android:name=".Diary.Entries" />
+        <activity android:name=".Diary.EntryEditorActivity" />
+        <activity android:name=".Calendar.CalendarActivity" />
+        <activity android:name=".Home.Developers_Activity" />
+        <activity
+            android:name=".Home.About_app_scrolling_activity"
             android:label="@string/title_activity_about_app_scrolling_activity"
             android:theme="@style/AppThemeToolBar.NoActionBar" />
         <activity
-            android:name="com.androstock.multant.Home.Main_Setting_Activity"
+            android:name=".Home.Main_Setting_Activity"
             android:label="@string/title_activity_main__setting_" />
         <activity
-            android:name="com.androstock.multant.Home.Setting_Activity"
+            android:name=".Home.Setting_Activity"
             android:label="@string/title_activity_setting_"
             android:theme="@style/AppThemeToolBar.NoActionBar" />
         <activity
-            android:name="com.androstock.multant.Home.HomeActivity"
+            android:name=".Home.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -39,12 +42,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.androstock.multant.Task.TaskHome" />
-        <activity android:name="com.androstock.multant.Task.AddTask" />
-        <activity android:name="com.androstock.multant.chat.Chat_test"
+        <activity android:name=".Task.TaskHome" />
+        <activity android:name=".Task.AddTask" />
+        <activity
+            android:name=".chat.Chat_test"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name="com.androstock.multant.ActiveDesk.ActiveDesk" />
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ActiveDesk.ActiveDesk" />
     </application>
 
 </manifest>

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.androstock.multant.ActiveDesk.ActiveDesk;
 import com.androstock.multant.Home.HomeActivity;
 import com.androstock.multant.R;
 import com.androstock.multant.Task.TaskHome;
@@ -28,7 +29,7 @@ import com.google.firebase.database.Query;
 
 
 public class Chat_test extends AppCompatActivity {
-
+String name ="Default";
     Activity activity;
     NestedScrollView scrollView;
     Button button;
@@ -47,6 +48,16 @@ public class Chat_test extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_test);
+        name = getIntent().getStringExtra("group");
+        TextView tool = (TextView) findViewById(R.id.chat_tool);
+        tool.setText(name);
+       /* Group[] Arr = (Group[])getIntent().getParcelableArrayExtra("parcel_data");
+        Group temp = new Group();
+        for (int i = 0; i<10; i++) {
+            if (Arr[i].isSelected == 1)
+                temp = Arr[i];
+        }*/
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //Подсвечивание выбранного пункта
@@ -59,7 +70,7 @@ public class Chat_test extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText input = (EditText) findViewById(R.id.editText);
-                FirebaseDatabase.getInstance().getReference().push()
+                FirebaseDatabase.getInstance().getReference().child(name).push()
                         .setValue(new Message(input.getText().toString(),
                                 FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
                 input.setText("");
@@ -70,7 +81,8 @@ public class Chat_test extends AppCompatActivity {
         }
     }
     private void displayChat() {
-        Query query = FirebaseDatabase.getInstance().getReference();
+        String name = getIntent().getStringExtra("group");
+        Query query = FirebaseDatabase.getInstance().getReference().child(name);
         ListView listMessages = (ListView)findViewById(R.id.listView);
         FirebaseListOptions<Message> options = new FirebaseListOptions.Builder<Message>()
                 .setLayout(R.layout.item)
@@ -107,11 +119,10 @@ public class Chat_test extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_chat:
-                    Intent intent1 = new Intent(Chat_test.this, Chat_test.class);
-                    startActivity(intent1);
-                    break;
+                 return true;
                 case R.id.navigation_task_board:
-                    //открывает доску задач
+                    Intent intent2 = new Intent(Chat_test.this, ActiveDesk.class);
+                    startActivity(intent2);
                     return true;
             }
             return false;

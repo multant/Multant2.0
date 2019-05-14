@@ -20,7 +20,9 @@ import com.androstock.multant.Diary.Entries;
 import com.androstock.multant.Notes.Notes;
 import com.androstock.multant.R;
 import com.androstock.multant.Task.TaskHome;
+import com.androstock.multant.chat.Chat_Groups;
 import com.androstock.multant.chat.Chat_test;
+import com.androstock.multant.chat.Group;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -46,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_chat:
                     //открывает чат
-                    Intent intent1 = new Intent(HomeActivity.this, Chat_test.class);
+                    Intent intent1 = new Intent(HomeActivity.this, Chat_Groups.class);
                     startActivity(intent1);
                     break;
                 case R.id.navigation_task_board:
@@ -63,14 +65,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
-                            .setAvailableProviders(Arrays.asList(
-                                    new AuthUI.IdpConfig.GoogleBuilder().build(),
-                                    new AuthUI.IdpConfig.EmailBuilder().build(),
-                                    new AuthUI.IdpConfig.AnonymousBuilder().build()))
                             .build(),SIGN_IN_REQUEST_CODE
                     );
         }
@@ -81,11 +79,13 @@ public class HomeActivity extends AppCompatActivity {
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
+        TextView name = (TextView) findViewById(R.id.Name_Text);
+        name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SIGN_IN_REQUEST_CODE)
+       /* if (requestCode == SIGN_IN_REQUEST_CODE)
         {
             if (resultCode == RESULT_OK)
             {
@@ -94,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
                 Snackbar.make(activity_main, "Вход не выполнен", Snackbar.LENGTH_SHORT).show();
                 finish();
             }
-        }
+        }*/
     }
     public void onClick(View v)
     {
@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.linearLayout_chat:
                 v.startAnimation(animAlpha);
-                Intent intent1 = new Intent(HomeActivity.this, Chat_test.class);
+                Intent intent1 = new Intent(HomeActivity.this, Chat_Groups.class);
                 startActivity(intent1);
                 break;
             case R.id.linearLayout_Calendar:
