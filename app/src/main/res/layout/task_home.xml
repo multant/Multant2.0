@@ -92,7 +92,7 @@
                 android:background="?attr/colorPrimary"
                 android:descendantFocusability="blocksDescendants">
 
-                <com.androstock.todotask.Task.NoScrollListView
+                <com.androstock.multant.Task.NoScrollListView
                     android:id="@+id/taskListToday"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -119,7 +119,7 @@
                 android:background="?attr/colorPrimary"
                 android:descendantFocusability="blocksDescendants">
 
-                <com.androstock.todotask.Task.NoScrollListView
+                <com.androstock.multant.Task.NoScrollListView
                     android:id="@+id/taskListTomorrow"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -147,7 +147,7 @@
                 android:background="?attr/colorPrimary"
                 android:descendantFocusability="blocksDescendants">
 
-                <com.androstock.todotask.Task.NoScrollListView
+                <com.androstock.multant.Task.NoScrollListView
                     android:id="@+id/taskListUpcoming"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

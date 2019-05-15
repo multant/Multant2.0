@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.androstock.todotask">
+    package="com.androstock.multant">
 
     <application
         android:allowBackup="true"
@@ -11,8 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeToolBar"
         tools:replace="android:label">
+        <activity
+            android:name=".chat.Chat_Groups"
+            android:theme="@style/AppThemeToolBar.NoActionBar"></activity>
         <activity android:name=".Notes.NoteEditorActivity" />
         <activity android:name=".Notes.Notes" />
+        <activity android:name=".Diary.Entries" />
+        <activity android:name=".Diary.EntryEditorActivity" />
         <activity android:name=".Calendar.CalendarActivity" />
         <activity android:name=".Home.Developers_Activity" />
         <activity
@@ -39,9 +44,10 @@
         </activity>
         <activity android:name=".Task.TaskHome" />
         <activity android:name=".Task.AddTask" />
-        <activity android:name=".chat.Chat_test"
+        <activity
+            android:name=".chat.Chat_test"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ActiveDesk.ActiveDesk" />
     </application>
 

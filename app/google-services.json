@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "278417343951",
-    "firebase_url": "https://multant.firebaseio.com",
-    "project_id": "multant",
-    "storage_bucket": "multant.appspot.com"
+    "project_number": "728220414835",
+    "firebase_url": "https://multant20.firebaseio.com",
+    "project_id": "multant20",
+    "storage_bucket": "multant20.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:278417343951:android:3b4c58dbf82e1c2d",
+        "mobilesdk_app_id": "1:728220414835:android:3b4c58dbf82e1c2d",
         "android_client_info": {
           "package_name": "com.androstock.todotask"
         }
       },
       "oauth_client": [
         {
-          "client_id": "278417343951-vq93sq629q1ccctpasrcob45llda2qtu.apps.googleusercontent.com",
+          "client_id": "728220414835-a3n2k7stajimoo3351oa9q56lhoprr9s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.androstock.todotask",
+            "certificate_hash": "7d1a87df38670437b247a87f25aca1fbd2a46b42"
+          }
+        },
+        {
+          "client_id": "728220414835-j0rdcs18jt992so2a2gknf2r9i9ls7m2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCnYqGrIp95aidTCvljaGOvv-VvphBLP38"
+          "current_key": "AIzaSyApElehgArgvswgUIdIDuSSbDnihjluFIw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "278417343951-vq93sq629q1ccctpasrcob45llda2qtu.apps.googleusercontent.com",
+              "client_id": "728220414835-j0rdcs18jt992so2a2gknf2r9i9ls7m2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
