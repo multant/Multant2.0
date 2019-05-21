@@ -12,8 +12,12 @@
         android:theme="@style/AppThemeToolBar"
         tools:replace="android:label">
         <activity
-            android:name=".chat.Chat_Groups"
+            android:name=".chat.Chat_add"
+            android:label="@string/title_activity_chat_add"
             android:theme="@style/AppThemeToolBar.NoActionBar"></activity>
+        <activity
+            android:name=".chat.Chat_Groups"
+            android:theme="@style/AppThemeToolBar.NoActionBar" />
         <activity android:name=".Notes.NoteEditorActivity" />
         <activity android:name=".Notes.Notes" />
         <activity android:name=".Diary.Entries" />
