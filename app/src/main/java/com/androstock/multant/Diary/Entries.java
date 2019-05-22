@@ -168,7 +168,7 @@ public class Entries extends AppCompatActivity {
         });
     }
 
-    void addNewEntry(View v)
+    public void addNewEntry(View v)
     {
         Intent intent7 = new Intent(getApplicationContext(), EntryEditorActivity.class);
         startActivity(intent7);
