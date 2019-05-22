@@ -17,10 +17,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.androstock.multant.ActiveDesk.ActiveDesk;
 import com.androstock.multant.DB.Function;
 import com.androstock.multant.DB.MultantDBHelper;
 import com.androstock.multant.Home.HomeActivity;
 import com.androstock.multant.R;
+import com.androstock.multant.chat.Chat_Groups;
 import com.androstock.multant.chat.Chat_test;
 
 import java.util.ArrayList;
@@ -192,7 +194,6 @@ public class TaskHome extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_main:
-                    //ничего не делает
                     Intent intent0 = new Intent(TaskHome.this, HomeActivity.class);
                     startActivity(intent0);
                     break;
@@ -202,11 +203,13 @@ public class TaskHome extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_chat:
-                    Intent intent1 = new Intent(TaskHome.this, Chat_test.class);
+                    Intent intent1 = new Intent(TaskHome.this, Chat_Groups.class);
                     startActivity(intent1);
                     break;
                 case R.id.navigation_task_board:
                     //открывает доску задач
+                    Intent intent2 = new Intent(TaskHome.this, ActiveDesk.class);
+                    startActivity(intent2);
                     return true;
             }
             return false;
