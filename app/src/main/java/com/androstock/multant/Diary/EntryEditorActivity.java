@@ -33,7 +33,7 @@ public class EntryEditorActivity extends AppCompatActivity {
         final TextView datetextView = (TextView) findViewById(R.id.datetextView);
 
         Date currentDate = new Date();
-        DateFormat finalDateAndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        DateFormat finalDateAndTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 
         Intent intent = getIntent();
         noteId = intent.getIntExtra("noteId", -1);
@@ -46,7 +46,7 @@ public class EntryEditorActivity extends AppCompatActivity {
                 if (res.moveToFirst())
                 {
                     editText.setText(res.getString(1));
-                    entrycreatedate =Function.Epoch2DateString(res.getString(2), "dd.MM.yyyy HH:mm:ss");
+                    entrycreatedate =Function.Epoch2DateString(res.getString(2), "dd/MM/yyyy HH:mm:ss");
                     datetextView.setText(entrycreatedate);
                     TitleeditText.setText(res.getString(3));
             }
@@ -107,7 +107,7 @@ public class EntryEditorActivity extends AppCompatActivity {
         });
     }
 
-    void returnToEntries(View v)
+    public void returnToEntries(View v)
     {
         finish();
     }

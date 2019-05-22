@@ -34,7 +34,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         final TextView textViewChange = (TextView) findViewById(R.id.textViewChange);
 
         Date currentDate = new Date();
-        DateFormat finalDateAndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        DateFormat finalDateAndTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 
         Intent intent = getIntent();
         noteId = intent.getIntExtra("noteId", -1);
@@ -47,9 +47,9 @@ public class NoteEditorActivity extends AppCompatActivity {
                 if (res.moveToFirst())
                 {
                     editText.setText(res.getString(1));
-                    notecreatedate = Function.Epoch2DateString(res.getString(2), "dd.MM.yyyy HH:mm:ss");
+                    notecreatedate = Function.Epoch2DateString(res.getString(2), "dd/MM/yyyy HH:mm:ss");
                     textViewCreate.setText(notecreatedate);
-                    textViewChange.setText(Function.Epoch2DateString(res.getString(3), "dd.MM.yyyy HH:mm:ss"));
+                    textViewChange.setText(Function.Epoch2DateString(res.getString(3), "dd/MM/yyyy HH:mm:ss"));
                 }
                 res.close();
             }

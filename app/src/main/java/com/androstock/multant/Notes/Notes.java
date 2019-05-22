@@ -110,7 +110,7 @@ public class Notes extends AppCompatActivity {
 
     public void loadListView(ListView listView) {
         Date currentDate = new Date();
-        DateFormat finalDateAndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        DateFormat finalDateAndTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
         if (notes.size() == 0) {
             notes.add("Example note");
             mydb.insert(notes.get(0),finalDateAndTime.format(currentDate),"");

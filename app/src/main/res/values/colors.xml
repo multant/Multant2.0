@@ -8,4 +8,5 @@
     <color name="colorGray">#353E4f</color>
     <color name="colorBackground">#1c1c27</color>
     <color name="colorDarkerBackground">#030303</color>
+    <color name="entrydatepickerheadercolour">#ffa000</color>
 </resources>
