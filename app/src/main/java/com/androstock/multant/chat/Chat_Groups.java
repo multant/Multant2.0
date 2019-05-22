@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,10 +36,19 @@ import com.androstock.multant.Task.TaskHome;
 import com.androstock.multant.chat.Chat_Groups;
 import com.androstock.multant.chat.Chat_test;
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import com.androstock.multant.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class Chat_Groups extends AppCompatActivity {
@@ -53,7 +63,8 @@ public class Chat_Groups extends AppCompatActivity {
         }
     };
     String[] groupArr = new String[3];
-    Group[] Arr2 =new Group [3];
+    final List<String> groups = new ArrayList<String>();
+    Group[] Arr2 =new Group [10];
     Group gr1 = new Group("Default");
     Group gr2 = new Group("Room 1");
     Group gr3 = new Group("Room 2");
@@ -63,32 +74,57 @@ public class Chat_Groups extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat__groups);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
+        FirebaseDatabase bd = FirebaseDatabase.getInstance();
+        DatabaseReference ref = bd.getReference();
+        DatabaseReference ref2 = ref.child("Rooms");
+        ref.child("Rooms").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    String gr = postSnapshot.getKey();
+                    int n = 0;
+                    for (int i = 0;i<groups.size();i++){
+                        if (groups.get(i).equals(gr))
+                            n++;
+                    }
+                    if (n==0)
+                    groups.add(gr);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Arr2[0] = gr1;
         Arr2[1] = gr2;
         Arr2[2] = gr3;
         int n = 2;
-        ListAdapter adapter = new ArrayAdapter<String>(this,R.layout.shit , groupArr);
-        ListView list= (ListView) findViewById(R.id.groupView);
+        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.shit, groups);
+        ListView list = (ListView) findViewById(R.id.groupView);
         TextView text = (TextView) findViewById(R.id.group_name);
         list.setAdapter(adapter);
-        for (int i = 0; i<3; i++) {
+       /* for (int i = 0; i < 3; i++) {
             groupArr[i] = Arr2[i].getName();
             list.setAdapter(adapter);
-        }
+        }*/
+        ref.child("Rooms").child("Room 4").child("Password").setValue(" ");
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String temp;
-                for(int i = 0;i<3; i++){
+                for (int i = 0; i < groups.size(); i++) {
                     temp = (String) parent.getItemAtPosition(position);
-                    if (temp.equals(Arr2[i].getName())) {
-                        Arr2[i].isSelected = 1;
+                    if (temp.equals(groups.get(i))) {
                         Intent intent1 = new Intent(Chat_Groups.this, Chat_test.class);
-                        intent1.putExtra("group",temp);
+                        intent1.putExtra("group", temp);
                         startActivity(intent1);
                         break;
                     }
@@ -97,7 +133,7 @@ public class Chat_Groups extends AppCompatActivity {
         });
     }
         // Навигация которая должна быть в каждом из основных активити
-        private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+     private   BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
                 = new BottomNavigationView.OnNavigationItemSelectedListener() {
             // Навигация которая должна быть в каждом из основных активити
             @Override
@@ -122,4 +158,9 @@ public class Chat_Groups extends AppCompatActivity {
                 return false;
             }
         };
+
+    public void addNew(View view) {
+        Intent i = new Intent(Chat_Groups.this, Chat_add.class);
+        startActivity(i);
+    }
 }

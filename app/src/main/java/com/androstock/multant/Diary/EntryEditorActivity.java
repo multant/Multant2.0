@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androstock.multant.DB.Function;
 import com.androstock.multant.R;
@@ -109,6 +110,10 @@ public class EntryEditorActivity extends AppCompatActivity {
 
     public void returnToEntries(View v)
     {
-        finish();
+        EditText editText = findViewById(R.id.editText);
+        String noteText = editText.getText().toString();
+        if(noteText.trim().length() < 1){
+            Toast.makeText(getApplicationContext(), "Запись в ежедневнике не может быть пустой", Toast.LENGTH_SHORT).show();
+        } else{finish();}
     }
 }

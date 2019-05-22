@@ -152,7 +152,7 @@ public class Notes extends AppCompatActivity {
         });
     }
 
-    void addNewNote(View v)
+    public void addNewNote(View v)
     {
         Intent intent5 = new Intent(getApplicationContext(), NoteEditorActivity.class);
         startActivity(intent5);

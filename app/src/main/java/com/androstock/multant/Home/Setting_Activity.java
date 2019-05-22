@@ -18,6 +18,8 @@ public class Setting_Activity extends AppCompatActivity {
     private EditText receiver_Email;
     private EditText message_theme;
     private EditText message_text;
+    EditText address, subject, emailtext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +28,30 @@ public class Setting_Activity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        address = (EditText) findViewById(R.id.receiver_Email);
+        subject = (EditText) findViewById(R.id.message_theme);
+        emailtext = (EditText) findViewById(R.id.message_text);
+
+        address.setText("dima.game2010@yandex.ru");
+        subject.setText("Multant");
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        //.setAction("Action", null).show();
+                final Intent emailIntent_2 = new Intent(android.content.Intent.ACTION_SEND);
+                emailIntent_2.setType("plain/text");
+                emailIntent_2.putExtra(android.content.Intent.EXTRA_EMAIL,
+                        new String[] { address.getText().toString() });
+                emailIntent_2.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                        subject.getText().toString());
+                emailIntent_2.putExtra(android.content.Intent.EXTRA_TEXT,
+                        emailtext.getText().toString());
+                emailIntent_2.setType("text/video");
+                Setting_Activity.this.startActivity(Intent.createChooser(emailIntent_2,
+                        "Отправка письма..."));
             }
         });
 
@@ -41,6 +61,8 @@ public class Setting_Activity extends AppCompatActivity {
         receiver_Email = (EditText) findViewById(R.id.receiver_Email);
         message_theme = (EditText) findViewById(R.id.message_theme);
         message_text = (EditText) findViewById(R.id.message_text);
+
+
     }
 
     //Стандартный метод для реализации меню приложения:
@@ -53,6 +75,7 @@ public class Setting_Activity extends AppCompatActivity {
     //Описываем функционал кнопок меню:
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
 
             //В случае кнопки "Очистить", для всех элементов EditText настраиваем пустые строки для ввода,
@@ -65,7 +88,20 @@ public class Setting_Activity extends AppCompatActivity {
 
             //Для кнопки "Отправить" создаем 3 строковых объекта для контакта, темы и текста сообщения
             case R.id.menu_send:
-                String contact = receiver_Email.getText().toString();
+
+                final Intent emailIntent_2 = new Intent(android.content.Intent.ACTION_SEND);
+                emailIntent_2.setType("plain/text");
+                emailIntent_2.putExtra(android.content.Intent.EXTRA_EMAIL,
+                        new String[] { address.getText().toString() });
+                emailIntent_2.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                        subject.getText().toString());
+                emailIntent_2.putExtra(android.content.Intent.EXTRA_TEXT,
+                        emailtext.getText().toString());
+                emailIntent_2.setType("text/video");
+                Setting_Activity.this.startActivity(Intent.createChooser(emailIntent_2,
+                        "Отправка письма..."));
+
+                /*String contact = receiver_Email.getText().toString();
                 String subject = message_theme.getText().toString();
                 String message = message_text.getText().toString();
 
@@ -77,7 +113,7 @@ public class Setting_Activity extends AppCompatActivity {
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { contact });
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
                 emailIntent.putExtra(Intent.EXTRA_TEXT, message);
-                startActivity(emailIntent);
+                startActivity(emailIntent);*/
                 break;
         }
         return true;
