@@ -49,4 +49,5 @@
         "seams, divides space, and indicates moving parts.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_chat_add">Chat_add</string>
 </resources>
