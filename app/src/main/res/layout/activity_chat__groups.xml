@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1E1D25"
-    tools:context=".chat.Chat_test">
+    tools:context=".chat.Chat_Groups">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_task"
         android:layout_alignParentTop="true"
@@ -37,6 +37,15 @@
                 android:textSize="18dp"
                 android:textStyle="bold"
                 />
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_action_add"
+                android:onClick="addNew">
+            </ImageView>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>

@@ -5,15 +5,14 @@ import android.os.Parcelable;
 
 public class Group implements Parcelable {
     String name;
-    int isSelected;
-
+    String pass;
     public Group(String name) {
         this.name = name;
-        this.isSelected = 0;
+        this.pass = "";
     }
     public Group(){
         this.name = " ";
-        this.isSelected = 0;
+      this.pass = " ";
     }
     public static final Creator<Group> CREATOR = new Creator<Group>() {
         @Override
@@ -32,7 +31,7 @@ public class Group implements Parcelable {
     }
     public Group(Parcel in){
         name = in.readString();
-        isSelected = in.readInt();
+        pass = in.readString();
     }
     @Override
     public int describeContents() {
@@ -42,7 +41,7 @@ public class Group implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeInt(isSelected);
+        dest.writeString(pass);
     }
 
 }

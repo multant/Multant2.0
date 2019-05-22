@@ -81,9 +81,7 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
     public String todayDateString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "dd/MM/yyyy", Locale.getDefault());
-
         return dateFormat.toString();
-
     }
 
 
@@ -145,7 +143,7 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
         task_date.setText(date);
     }
 
-    public void showStartDatePicker(View v) {
+    public void showDatePicker(View v) {
         Calendar cal = Calendar.getInstance();
         dpd = DatePickerDialog.newInstance(AddTask.this, startYear, startMonth, startDay);
         dpd.setOnDateSetListener(this);

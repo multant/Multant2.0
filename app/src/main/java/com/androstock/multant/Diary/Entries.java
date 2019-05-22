@@ -14,9 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androstock.multant.ActiveDesk.ActiveDesk;
@@ -31,17 +33,25 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class Entries extends AppCompatActivity {
+import static com.androstock.multant.DB.Function.Epoch2DateString;
+
+public class Entries extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     static MultantDBHelper mydb;
     Activity activity;
     ProgressBar loader;
     ListView listView;
+    EditText start_date_text,end_date_text;
+    TextView starttextView, endtextView;
     DatePickerDialog dpd;
+    String startdate, enddate;
+    int edittextpick = -1,startYear = 0, startMonth = 0, startDay = 0;
+    boolean setdate =false;
 
     public static final String KEY = "key";
     private static final String TITLE = "title";
@@ -64,8 +74,12 @@ public class Entries extends AppCompatActivity {
         menuItem.setChecked(true);
         activity = Entries.this;
         mydb = new MultantDBHelper(activity);
-        loader = (ProgressBar) findViewById(R.id.loader);
-        listView = (ListView) findViewById(R.id.listView);
+        loader = findViewById(R.id.loader);
+        listView = findViewById(R.id.listView);
+        start_date_text = findViewById(R.id.start_date_text);
+        end_date_text = findViewById(R.id.end_date_text);
+        starttextView= findViewById(R.id.starttextView);
+        endtextView = findViewById(R.id.endtextView);
     }
 
     @Override
@@ -78,7 +92,10 @@ public class Entries extends AppCompatActivity {
     {
         mydb = new MultantDBHelper(activity);
         loader.setVisibility(View.VISIBLE);
-
+        start_date_text.setVisibility(View.GONE);
+        end_date_text.setVisibility(View.GONE);
+        starttextView.setVisibility(View.GONE);
+        endtextView.setVisibility(View.GONE);
         Entries.LoadTask loadTask = new Entries.LoadTask();
         loadTask.execute();
     }
@@ -88,18 +105,34 @@ public class Entries extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             datalist.clear();
+            if (!setdate)
+            {
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+                try {
+                    Date firstdate = format.parse(Epoch2DateString(mydb.getminEntryDate(),"dd/MM/yyyy HH:mm:ss"));
+                    Date lastdate = format.parse(Epoch2DateString(mydb.getmaxEntryDate(),"dd/MM/yyyy HH:mm:ss"));
+                    format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    startdate = format.format(firstdate);
+                    enddate = format.format(lastdate);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         protected String doInBackground(String... args) {
-            loadDataList(mydb.getcreateddatesortedData(2));
+            loadDataList(mydb.getDatefilteredentries(startdate + " 00:00:00",enddate+ " 00:00:00"));
             return "";
         }
 
         @Override
         protected void onPostExecute(String string) {
-
             loadListView(listView);
             loader.setVisibility(View.GONE);
+            start_date_text.setVisibility(View.VISIBLE);
+            end_date_text.setVisibility(View.VISIBLE);
+            starttextView.setVisibility(View.VISIBLE);
+            endtextView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -112,25 +145,29 @@ public class Entries extends AppCompatActivity {
                 hashMap = new HashMap<>();
                 hashMap.put(KEY, cursor.getString(0));
                 hashMap.put(ENTRY, cursor.getString(1));
-                hashMap.put(CREATEDATE, Function.Epoch2DateString(cursor.getString(2),"dd.MM.yyyy HH:mm:ss"));
+                hashMap.put(CREATEDATE, Epoch2DateString(cursor.getString(2),"dd/MM/yyyy HH:mm:ss"));
                 hashMap.put(TITLE, cursor.getString(3));
                 datalist.add(hashMap);
                 cursor.moveToNext();
             }
         }
+
     }
 
     public void loadListView(ListView listView) {
-        Date currentDate = new Date();
-        DateFormat finalDateAndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
         if (datalist.size() == 0) {
+            Date currentDate = new Date();
+            DateFormat finalDateAndTime = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            startdate = finalDateAndTime.format(currentDate);
+            enddate = finalDateAndTime.format(currentDate);
+            finalDateAndTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put(ENTRY, "Example entry");
             hashMap.put(CREATEDATE, finalDateAndTime.format(currentDate));
             hashMap.put(TITLE, "Example Title");
-            hashMap.put(KEY,"1");
+            hashMap.put(KEY, "1");
             datalist.add(hashMap);
-            mydb.entryinsert(hashMap.get(ENTRY),hashMap.get(CREATEDATE),hashMap.get(TITLE));
+            mydb.entryinsert(hashMap.get(ENTRY), hashMap.get(CREATEDATE), hashMap.get(TITLE));
         }
         adapter = new SimpleAdapter(this, datalist,
                 R.layout.entries_list_item, new String[]{TITLE, ENTRY, CREATEDATE},
@@ -168,16 +205,70 @@ public class Entries extends AppCompatActivity {
         });
     }
 
-    void addNewEntry(View v)
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        startYear = year;
+        startMonth = monthOfYear;
+        startDay = dayOfMonth;
+        String date = dateinttoText(startYear, startMonth, startDay);
+        if (edittextpick==0)
+        {
+            EditText task_date = findViewById(R.id.start_date_text);
+            task_date.setText(date);
+            startdate = date;
+        }
+        else if (edittextpick==1)
+        {
+            EditText task_date = findViewById(R.id.end_date_text);
+            task_date.setText(date);
+            enddate = date;
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Неизвестная ошибка",Toast.LENGTH_SHORT).show();
+        }
+        setdate = true;
+        populateData();
+        edittextpick = -1;
+    }
+
+    public String dateinttoText (int year, int monthOfYear, int dayOfMonth)
+    {
+        int monthAddOne = monthOfYear + 1;
+        return (dayOfMonth < 10 ? "0" + dayOfMonth : dayOfMonth) + "/" +
+                (monthAddOne < 10 ? "0" + monthAddOne : monthAddOne) + "/" +
+                year;
+    }
+
+    public void addNewEntry(View v)
     {
         Intent intent7 = new Intent(getApplicationContext(), EntryEditorActivity.class);
         startActivity(intent7);
     }
 
-    public void showStartDatePicker(View v) {
-        //
-        Toast.makeText(getApplicationContext(),"Вызов datepicker",Toast.LENGTH_SHORT).show();
-        //
+    public void showStartEntryDatePicker(View v) {
+        edittextpick = 0;
+        showDateDialog();
+    }
+
+    public void showEndEntryDatePicker(View v) {
+        edittextpick = 1;
+        showDateDialog();
+    }
+
+    public void showDateDialog()
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        startYear = cal.get(Calendar.YEAR);
+        startMonth = cal.get(Calendar.MONTH);
+        startDay = cal.get(Calendar.DAY_OF_MONTH);
+        dpd = DatePickerDialog.newInstance(Entries.this, startYear, startMonth, startDay);
+        dpd.setOnDateSetListener(this);
+        dpd.setAccentColor(getResources().getColor(R.color.entrydatepickerheadercolour));
+        dpd.setMinDate(Function.Epoch2Calender(mydb.getminEntryDate()));
+        dpd.setMaxDate(Function.Epoch2Calender(mydb.getmaxEntryDate()));
+        dpd.show(getFragmentManager(), "startDatepickerdialog");
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

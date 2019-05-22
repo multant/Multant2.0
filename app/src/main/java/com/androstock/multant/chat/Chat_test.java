@@ -70,7 +70,7 @@ String name ="Default";
             @Override
             public void onClick(View view) {
                 EditText input = (EditText) findViewById(R.id.editText);
-                FirebaseDatabase.getInstance().getReference().child(name).push()
+                FirebaseDatabase.getInstance().getReference().child("Rooms").child(name).child("Messages").push()
                         .setValue(new Message(input.getText().toString(),
                                 FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
                 input.setText("");
@@ -82,7 +82,7 @@ String name ="Default";
     }
     private void displayChat() {
         String name = getIntent().getStringExtra("group");
-        Query query = FirebaseDatabase.getInstance().getReference().child(name);
+        Query query = FirebaseDatabase.getInstance().getReference().child("Rooms").child(name).child("Messages");
         ListView listMessages = (ListView)findViewById(R.id.listView);
         FirebaseListOptions<Message> options = new FirebaseListOptions.Builder<Message>()
                 .setLayout(R.layout.item)
@@ -101,6 +101,7 @@ String name ="Default";
             }
         };
         listMessages.setAdapter(adapter);
+
         adapter.startListening();
     }
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -128,4 +129,6 @@ String name ="Default";
             return false;
         }
     };
+
+
 }

@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import java.lang.reflect.Array;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -83,12 +85,47 @@ public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
 
     private long getTextcreateDate(String day) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+                "dd/MM/yyyy HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         try {
             date = dateFormat.parse(day);
         } catch (ParseException e) {}
         return date.getTime();
+    }
+
+    public String getminEntryDate ()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select min("+ENTRY_CREATEDATESTR+") from " + ENTRIES_TABLE_NAME, null);
+        res.moveToFirst();
+        return  res.getString(0);
+    }
+
+    public String getmaxEntryDate ()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select max("+ENTRY_CREATEDATESTR+") from " + ENTRIES_TABLE_NAME, null);
+        res.moveToFirst();
+        return  res.getString(0);
+    }
+
+    public Cursor getDatefilteredentries(String startdate, String enddate)
+    {
+        if (startdate.equals(enddate))
+        {
+            startdate = Function.Epoch2DateString(String.valueOf(yesterday()), "dd/MM/yyyy")+ " 00:00:00";
+            enddate = Function.Epoch2DateString(String.valueOf(tomorrow()), "dd/MM/yyyy") + " 00:00:00";
+        }
+        else
+        {
+            if (startdate.equals(millisToDateString(String.valueOf(getminEntryDate()))+ " 00:00:00"));
+            startdate = Function.Epoch2DateString(String.valueOf(getPreviousday(startdate)), "dd/MM/yyyy HH:mm:ss");
+            if (enddate.equals(millisToDateString(String.valueOf(getmaxEntryDate()))+ " 00:00:00"));
+            enddate = Function.Epoch2DateString(String.valueOf(getNextday(enddate)),"dd/MM/yyyy HH:mm:ss");
+        }
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res;
+       return res = db.rawQuery("select * from "+ ENTRIES_TABLE_NAME + " where " + ENTRY_CREATEDATESTR + " <= "+getTextcreateDate(enddate) +" and "+ ENTRY_CREATEDATESTR + " >= "+getTextcreateDate(startdate)+ " order by "+ENTRY_CREATEDATESTR, null);
     }
 
     public boolean insert(String data, String createdateStr)
@@ -205,6 +242,7 @@ public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
         }
         return res;
     }
+
 
     public Cursor getDataToday(Integer tableindex) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -325,8 +363,55 @@ public class MultantDBHelper extends SQLiteOpenHelper implements BaseColumns {
         return date;
     }
 
+    private String millisToDateString (String millis)
+    {
+        return Function.Epoch2DateString(millis, "dd/MM/yyyy HH:mm:ss").split(" ")[0];
+    }
+
     private long yesterday() {
         final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        return cal.getTimeInMillis();
+    }
+
+    private long tomorrow(){
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 1);
+        return cal.getTimeInMillis();
+    }
+
+    private long getNextday(String day)
+    {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        try {
+            date = format.parse(day);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        final Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 1);
+        return cal.getTimeInMillis();
+    }
+
+    private long getPreviousday(String day)
+    {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        try {
+            date = format.parse(day);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        final Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
         cal.add(Calendar.DATE, -1);
         return cal.getTimeInMillis();
     }

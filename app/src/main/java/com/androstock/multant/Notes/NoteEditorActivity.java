@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,7 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     int noteId;
     String notecreatedate;
+    String textFinal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,11 @@ public class NoteEditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note_editor);
 
         EditText editText = (EditText) findViewById(R.id.editText);
-        TextView textViewCreate = (TextView) findViewById(R.id.textViewCreate);
         final TextView textViewChange = (TextView) findViewById(R.id.textViewChange);
+        TextView textViewCreate = (TextView) findViewById(R.id.textViewCreate);
 
         Date currentDate = new Date();
-        DateFormat finalDateAndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        DateFormat finalDateAndTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 
         Intent intent = getIntent();
         noteId = intent.getIntExtra("noteId", -1);
@@ -47,21 +49,20 @@ public class NoteEditorActivity extends AppCompatActivity {
                 if (res.moveToFirst())
                 {
                     editText.setText(res.getString(1));
-                    notecreatedate = Function.Epoch2DateString(res.getString(2), "dd.MM.yyyy HH:mm:ss");
+                    notecreatedate = Function.Epoch2DateString(res.getString(2), "dd/MM/yyyy HH:mm:ss");
                     textViewCreate.setText(notecreatedate);
-                    textViewChange.setText(Function.Epoch2DateString(res.getString(3), "dd.MM.yyyy HH:mm:ss"));
+                    textViewChange.setText(Function.Epoch2DateString(res.getString(3), "dd/MM/yyyy HH:mm:ss"));
                 }
                 res.close();
             }
         }
-        else
-        {
+        else {
             notecreatedate = finalDateAndTime.format(currentDate);
             textViewCreate.setText(notecreatedate);
             textViewChange.setText("");
-            Notes.mydb.insert("",finalDateAndTime.format(currentDate),"");
-            //Номер заметки устанавливается как следующий за последним ключом
-            noteId = Integer.parseInt(Notes.keys.get(Notes.keys.size()-1))+1;
+                Notes.mydb.insert("", finalDateAndTime.format(currentDate), "");
+                //Номер заметки устанавливается как следующий за последним ключом
+                noteId = Integer.parseInt(Notes.keys.get(Notes.keys.size() - 1)) + 1;
         }
 
 
@@ -88,8 +89,12 @@ public class NoteEditorActivity extends AppCompatActivity {
         });
     }
 
-    void returnToNotes(View v)
+    public void returnToNotes(View v)
     {
-        finish();
+        EditText editText = findViewById(R.id.editText);
+        String noteText = editText.getText().toString();
+        if(noteText.trim().length() < 1){
+            Toast.makeText(getApplicationContext(), "Заметка не может быть пустой", Toast.LENGTH_SHORT).show();
+        } else{finish();}
     }
 }

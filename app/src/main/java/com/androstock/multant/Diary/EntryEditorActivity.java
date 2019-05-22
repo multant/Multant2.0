@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androstock.multant.DB.Function;
 import com.androstock.multant.R;
@@ -33,7 +34,7 @@ public class EntryEditorActivity extends AppCompatActivity {
         final TextView datetextView = (TextView) findViewById(R.id.datetextView);
 
         Date currentDate = new Date();
-        DateFormat finalDateAndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        DateFormat finalDateAndTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 
         Intent intent = getIntent();
         noteId = intent.getIntExtra("noteId", -1);
@@ -46,7 +47,7 @@ public class EntryEditorActivity extends AppCompatActivity {
                 if (res.moveToFirst())
                 {
                     editText.setText(res.getString(1));
-                    entrycreatedate =Function.Epoch2DateString(res.getString(2), "dd.MM.yyyy HH:mm:ss");
+                    entrycreatedate =Function.Epoch2DateString(res.getString(2), "dd/MM/yyyy HH:mm:ss");
                     datetextView.setText(entrycreatedate);
                     TitleeditText.setText(res.getString(3));
             }
@@ -107,8 +108,12 @@ public class EntryEditorActivity extends AppCompatActivity {
         });
     }
 
-    void returnToEntries(View v)
+    public void returnToEntries(View v)
     {
-        finish();
+        EditText editText = findViewById(R.id.editText);
+        String noteText = editText.getText().toString();
+        if(noteText.trim().length() < 1){
+            Toast.makeText(getApplicationContext(), "Запись в ежедневнике не может быть пустой", Toast.LENGTH_SHORT).show();
+        } else{finish();}
     }
 }
