@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E1D25"
+    tools:context=".ActiveDesk.ActiveDeskPage">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_active_desk_page"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_action_close"/>
+                <!--android:onClick="closeActiveDeskPage"-->
+            <TextView
+                android:id="@+id/toolbar_active_desk_page_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="0dp"
+                android:gravity="center_vertical|start"
+                android:paddingLeft="16dp"
+                android:paddingRight="4dp"
+                android:textColor="#ffffff"
+                android:text="Название доски"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/activeDesk_page"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            tools:context=".ActiveDesk.ActiveDeskPage">
+
+            <android.support.v4.view.PagerTabStrip
+                android:id="@+id/tab_strip"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#1E1D25"
+                android:focusableInTouchMode="false"
+                android:textColor="#fff"
+                android:textSize="20sp">
+
+            </android.support.v4.view.PagerTabStrip>
+
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+</RelativeLayout>

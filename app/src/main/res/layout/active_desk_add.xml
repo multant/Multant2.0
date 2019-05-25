@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="#1E1D25">
+android:background="#1E1D25"
+    tools:context=".ActiveDesk.ActiveDeskAdd">
 
 <android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar_task_add"
+    android:id="@+id/toolbar_active_desk_add"
     android:layout_alignParentTop="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -28,9 +30,9 @@ android:background="#1E1D25">
             android:layout_margin="5dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_action_close"
-            android:onClick="closeAddTask"/>
+            android:onClick="closeAddActiveDesk"/>
         <TextView
-            android:id="@+id/toolbar_task_add_title"
+            android:id="@+id/toolbar_active_desk_add_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -50,9 +52,9 @@ android:background="#1E1D25">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/toolbar_task_add"
+    android:layout_below="@+id/toolbar_active_desk_add"
     android:layout_centerInParent="true"
-    android:layout_marginTop="50dp"
+    android:layout_marginTop="15dp"
     android:background="#1E1D23"
     android:gravity="center"
     android:orientation="vertical"
@@ -60,7 +62,7 @@ android:background="#1E1D25">
     android:paddingRight="30dp">
 
     <EditText
-        android:id="@+id/task_name"
+        android:id="@+id/active_desk_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
@@ -68,14 +70,14 @@ android:background="#1E1D25">
         android:background="@android:color/white"
         android:ems="10"
         android:hint="Название доски"
-        android:padding="12dp"
+        android:padding="3dp"
         android:singleLine="true"
         android:textColor="#666666"
         android:textColorHint="#CCCCCC" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="12dp"
+        android:layout_height="5dp"
         android:background="#D2D2D2" />
 
     <Button

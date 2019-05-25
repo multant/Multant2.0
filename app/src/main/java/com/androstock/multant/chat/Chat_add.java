@@ -25,9 +25,9 @@ public class Chat_add extends AppCompatActivity {
             public void onClick(View view) {
                 EditText chat_name = (EditText) findViewById(R.id.chat_name);
                 EditText chat_pass = (EditText) findViewById(R.id.chat_pass);
-               Group temp = new Group();
-               temp.name = chat_name.getText().toString();
-               temp.pass = chat_pass.getText().toString();
+                Group temp = new Group();
+                temp.name = chat_name.getText().toString();
+                temp.pass = chat_pass.getText().toString();
                 FirebaseDatabase.getInstance().getReference().child("Rooms").child(temp.name).child("Password").setValue(temp.pass);
                 finish();
             }

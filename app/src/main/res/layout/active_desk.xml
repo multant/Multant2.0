@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1E1D25"
-    tools:context=".Task.TaskHome">
-
-
+    tools:context=".ActiveDesk.ActiveDesk">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_task"
         android:layout_alignParentTop="true"
@@ -16,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,135 +32,100 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="4dp"
                 android:textColor="#ffffff"
-                android:text="Task"
+                android:text="Доски"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 />
-            <ImageView
+
+            <Button
+                android:id="@+id/addButton"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_action_add"
-                android:onClick="openAddTask"/>
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:background="@drawable/ic_action_add"
+                android:onClick="onAddActiveDeskClick"/>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 
-    <ProgressBar
-        android:id="@+id/loader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scrollView"
+    <ListView
+        android:id="@+id/deskView"
         android:layout_width="match_parent"
-        android:layout_height="620dp"
-        android:layout_above="@+id/container"
-        android:layout_below="@+id/toolbar_task"
-        android:layout_gravity="fill_vertical"
+        android:layout_height="match_parent"
+        android:layout_above="@id/container"
+        android:layout_below="@id/toolbar_task"
         android:layout_marginTop="2dp"
-        android:background="#1E1D25"
-        android:clipToPadding="false"
+        android:clipToPadding="false" />
+
+<!--    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollViewActiveDesk"
+        android:layout_below="@+id/toolbar_task"
         android:isScrollContainer="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        android:clipToPadding="false"
         android:visibility="visible"
+        android:layout_marginTop="60dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:divider="#FFFFFF"
+            >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_Active_Desk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="2dp"
+            android:paddingTop="1dp"
+            android:descendantFocusability="blocksDescendants">
 
             <TextView
-                android:id="@+id/todayText"
+                android:id="@+id/text_Active_desk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="Today"
+                android:background="?attr/colorPrimary"
                 android:textColor="#CCCCCC"
                 android:textSize="16sp" />
 
+        </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
+                android:id="@+id/card_Active_Desk2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:background="?attr/colorPrimary"
+                android:layout_marginTop="2dp"
+                android:paddingTop="1dp"
                 android:descendantFocusability="blocksDescendants">
 
-                <com.androstock.multant.Task.NoScrollListView
-                    android:id="@+id/taskListToday"
+                <TextView
+                    android:id="@+id/text_Active_desk2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Today"
                     android:background="?attr/colorPrimary"
-                    android:divider="#333232"
-                    android:dividerHeight="1dp"
-                    android:visibility="visible" />
-            </android.support.v7.widget.CardView>
+                    android:textColor="#CCCCCC"
+                    android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tomorrowText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Tomorrow"
-                android:textColor="#CCCCCC"
-                android:textSize="16sp" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="?attr/colorPrimary"
-                android:descendantFocusability="blocksDescendants">
-
-                <com.androstock.multant.Task.NoScrollListView
-                    android:id="@+id/taskListTomorrow"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/colorPrimary"
-                    android:divider="#333232"
-                    android:dividerHeight="1dp"
-                    android:visibility="visible" />
-            </android.support.v7.widget.CardView>
-
-            <TextView
-                android:id="@+id/upcomingText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Upcoming Next"
-                android:textColor="#CCCCCC"
-                android:textSize="16sp" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="10dp"
-                android:background="?attr/colorPrimary"
-                android:descendantFocusability="blocksDescendants">
-
-                <com.androstock.multant.Task.NoScrollListView
-                    android:id="@+id/taskListUpcoming"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/colorPrimary"
-                    android:divider="#333232"
-                    android:dividerHeight="1dp"
-                    android:visibility="visible" />
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
-
-
     </android.support.v4.widget.NestedScrollView>
 
+    -->
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -180,9 +143,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/navigation" />
+            app:menu="@menu/navigation"/>
 
     </android.support.constraint.ConstraintLayout>
+
 
 
 </RelativeLayout>

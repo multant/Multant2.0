@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    android:gravity="center_vertical"
+    android:textColor="@color/abc_primary_text_material_dark"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+<!--
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants">
-
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
         android:orientation="horizontal"
         android:padding="15dip"
         android:weightSum="4">
 
-
-        <!--  ListRow Left sied Thumbnail image -->
+        ListRow Left sied Thumbnail image
         <LinearLayout
             android:id="@+id/circle"
             android:layout_width="wrap_content"
@@ -47,10 +51,9 @@
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
-                android:text="Active Desk Name here"
                 android:textColor="#8D8D8D"
                 android:textSize="18sp"
                 android:visibility="visible" />
         </LinearLayout>
-    </LinearLayout>
 </LinearLayout>
+-->
