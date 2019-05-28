@@ -1,11 +1,12 @@
 package com.androstock.multant.ActiveDesk;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 import com.androstock.multant.ActiveDesk.Card;
 
 public class Column {
     private String name_column;
-    private Vector cards = new Vector();
+    final List<Card> cards = new ArrayList<Card>();
 
     public Column(String name_column) {
         this.name_column = name_column;

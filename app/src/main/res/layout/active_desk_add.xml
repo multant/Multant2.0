@@ -85,7 +85,7 @@ android:background="#1E1D25"
         android:layout_height="35dp"
         android:layout_marginLeft="85dp"
         android:background="@color/colorAccent"
-        android:onClick="doneAddActiveDesk"
+        android:id="@+id/addActiveDesk"
         android:text="Добавить" />
 
 </LinearLayout>

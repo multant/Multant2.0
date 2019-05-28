@@ -68,7 +68,6 @@ public class Chat_Groups extends AppCompatActivity {
     Group gr1 = new Group("Default");
     Group gr2 = new Group("Room 1");
     Group gr3 = new Group("Room 2");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

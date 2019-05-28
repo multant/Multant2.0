@@ -1,19 +1,20 @@
 package com.androstock.multant.ActiveDesk;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 import com.androstock.multant.ActiveDesk.Column;
 
 public class Desk {
     String name_desk;
     String autor;
     long time_create_desk;
-    Vector columns = new Vector();
+    final List<Column> columns = new ArrayList<Column>();
 
     public Desk(String name_desk, String autor) {
         this.name_desk = name_desk;
         this.autor = autor;
-        time_create_desk = new Date().getTime();
+        this.time_create_desk = new Date().getTime();
     }
 
     public Desk() {
@@ -27,9 +28,7 @@ public class Desk {
         this.name_desk = name_desk;
     }
 
-    public String getAutor() {
-        return autor;
-    }
+    public String getAutor() { return autor;  }
 
     public void setAutor(String autor) {
         this.autor = autor;
@@ -44,6 +43,6 @@ public class Desk {
     }
 
     public void addToColumns(Column column){
-        this.columns.addElement(column);
+        this.columns.add(column);
     }
 }

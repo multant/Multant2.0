@@ -6,24 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import com.androstock.multant.Home.HomeActivity;
 import com.androstock.multant.R;
-//import com.androstock.multant.ActiveDesk.ListActiveDeskAdapter;
 import com.androstock.multant.Task.TaskHome;
-import com.androstock.multant.chat.Chat_test;
+import com.androstock.multant.chat.Chat_Groups;
 import com.androstock.multant.ActiveDesk.ActiveDeskAdd;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,7 +50,7 @@ public class ActiveDesk extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_chat:
-                    Intent intent1 = new Intent(ActiveDesk.this, Chat_test.class);
+                    Intent intent1 = new Intent(ActiveDesk.this, Chat_Groups.class);
                     startActivity(intent1);
                     break;
                 case R.id.navigation_task_board:
@@ -117,7 +111,7 @@ public class ActiveDesk extends AppCompatActivity {
                     temp = (String) parent.getItemAtPosition(position);
                     if (temp.equals(desks.get(i))) {
                         Intent intent1 = new Intent(ActiveDesk.this, ActiveDeskPage.class);
-                        intent1.putExtra("desk", temp);
+                        intent1.putExtra("desk_name", temp);
                         startActivity(intent1);
                         break;
                     }
