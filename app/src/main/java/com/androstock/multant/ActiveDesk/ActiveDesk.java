@@ -75,16 +75,6 @@ public class ActiveDesk extends AppCompatActivity {
         adapter.stopListening();
     }
 
-    /*private  static class DeskViewHolder extends RecyclerView.ViewHolder{
-
-        TextView mTitleDesk;
-
-        public DeskViewHolder(View itemView) {
-            super(itemView);
-            mTitleDesk = (TextView) itemView.findViewById(R.id.tv_title_desk);
-        }
-    }*/
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -131,105 +121,6 @@ public class ActiveDesk extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             displayDesk();
         }
-        /*RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_list_desks);
-
-        FirebaseRecyclerAdapter adapter;
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);*/
-        /*adapter = new FirebaseRecyclerAdapter<String, DeskViewHolder>(
-                String.class,
-                R.layout.active_desk_list_row,
-                DeskViewHolder.class,
-                myRef.child(user.getUid()).child("Desks")
-        ) {
-            @Override
-            protected void populateViewHolder(DeskViewHolder viewHolder, String title) {
-                viewHolder.mTitleDesk.setText(title);
-            }
-        };*/
-
-
-        /*ListUserDesks = (ListView) findViewById(R.id.deskView);
-
-        myRef = FirebaseDatabase.getInstance().getReference();
-
-        mAdapter = new FirebaseListAdapter <String>(
-                this, String.class, android.R.layout.simple_list_item_1, myRef.child(user.getUid()).child("Desks"))
-        {
-            @Override
-            protected void populateView(View v, String s, int position) {
-                TextView text = (TextView) v.findViewById(android.R.id.text1);
-                text.setText(s);
-            }
-        };
-        ListUserDesks.setAdapter(mAdapter);*/
-
-
-        /*ListUserDesks = (ListView) findViewById(R.id.deskView);
-
-        myRef = FirebaseDatabase.getInstance().getReference();
-
-        myRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
-                desks = dataSnapshot.child("Desks").getValue(t);
-                updateUI();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-      /*  FirebaseDatabase bd = FirebaseDatabase.getInstance();
-        DatabaseReference ref = bd.getReference();
-        ref.child(user.getUid()).child("Desks").child().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Log.e("Count " ,""+snapshot.getChildrenCount());
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    String desk_key = postSnapshot.getKey();
-                    int n = 0;
-                    for (int i = 0;i<desks.size();i++){
-                        if (desks.get(i).equals(desk_key))
-                            n++;
-                    }
-                    if (n==0)
-                        desks.add(desk_key);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.active_desk_list_row, desks);
-        ListView list = (ListView) findViewById(R.id.deskView);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String temp;
-                for (int i = 0; i < desks.size(); i++) {
-                    temp = (String) parent.getItemAtPosition(position);
-                    if (temp.equals(desks.get(i))) {
-                        Intent intent1 = new Intent(ActiveDesk.this, ActiveDeskPage.class);
-                        intent1.putExtra("desk_name", temp);
-                        startActivity(intent1);
-                        break;
-                    }
-                }
-            }
-        });
-
-*/
-
-
 
     }
 
@@ -255,13 +146,6 @@ public class ActiveDesk extends AppCompatActivity {
         adapter.startListening();
     }
 
-
-
-    /*private void updateUI(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1);
-
-        ListUserDesks.setAdapter(adapter);
-    }*/
 
     public void onAddActiveDeskClick(View view)
     {
