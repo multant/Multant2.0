@@ -6,9 +6,9 @@ import java.util.List;
 import com.androstock.multant.ActiveDesk.Column;
 
 public class Desk {
-    String name_desk;
-    String autor;
-    long time_create_desk;
+    private String name_desk = "";
+    private String autor = "";
+    private long time_create_desk = 0;
     final List<Column> columns = new ArrayList<Column>();
 
     public Desk(String name_desk, String autor) {

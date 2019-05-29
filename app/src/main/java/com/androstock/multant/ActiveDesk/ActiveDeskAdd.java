@@ -14,9 +14,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.androstock.multant.ActiveDesk.Desk;
 
 public class ActiveDeskAdd extends AppCompatActivity{
-    
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
@@ -43,7 +44,9 @@ public class ActiveDeskAdd extends AppCompatActivity{
                 if (name_desk.getText().toString().trim().length() < 1) {
                     Toast.makeText(ActiveDeskAdd.this, "Введите название доски!", Toast.LENGTH_SHORT).show();
                 } else {
-                    myRef.child(user.getUid()).child("Tasks").push().setValue(name_desk.getText().toString());
+                    Toast.makeText(ActiveDeskAdd.this, "Успешно!", Toast.LENGTH_SHORT).show();
+                    myRef.child(user.getUid()).child("Desks").push().setValue(new Desk(name_desk.getText().toString(), user.getUid()));
+                    finish();
                 }
             }
         });
@@ -53,19 +56,4 @@ public class ActiveDeskAdd extends AppCompatActivity{
         finish();
     }
 
-
-   /* public void doneAddActiveDesk(View v) {
-        EditText active_desk_name = (EditText) findViewById(R.id.active_desk_name);
-        nameFinal = active_desk_name.getText().toString();
-        Desk desk = new Desk();
-        desk.setNameDesk(nameFinal);
-
-        *//* Checking *//*
-        if (nameFinal.trim().length() < 1) {
-            active_desk_name.setError("Введите название доски.");
-        } else {
-            FirebaseDatabase.getInstance().getReference().child("Desks").child(nameFinal).setValue("");
-            finish();
-        }
-    }*/
 }

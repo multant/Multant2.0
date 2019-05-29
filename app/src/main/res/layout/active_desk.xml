@@ -48,16 +48,25 @@
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
+    <!--
+             <android.support.v7.widget.RecyclerView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:id="@+id/rv_list_desks"
+               android:layout_marginTop="55dp"
+               android:layout_marginBottom="57dp">
+           </android.support.v7.widget.RecyclerView>
+     -->
+         <ListView
+               android:id="@+id/deskView"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_above="@id/container"
+               android:layout_below="@id/toolbar_task"
+               android:layout_marginTop="2dp"
+               android:paddingLeft="10dp"
+               android:paddingRight="10dp" />
 
-    <ListView
-        android:id="@+id/deskView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/container"
-        android:layout_below="@id/toolbar_task"
-        android:layout_marginTop="2dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
 
 <!--    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollViewActiveDesk"
