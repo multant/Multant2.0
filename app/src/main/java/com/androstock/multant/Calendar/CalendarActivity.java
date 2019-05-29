@@ -14,6 +14,7 @@ import com.androstock.multant.DB.MultantDBHelper;
 import com.androstock.multant.Home.HomeActivity;
 import com.androstock.multant.R;
 import com.androstock.multant.Task.TaskHome;
+import com.androstock.multant.chat.Chat_Groups;
 import com.androstock.multant.chat.Chat_test;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -33,7 +34,6 @@ public class CalendarActivity extends AppCompatActivity
     private CalendarView calendarview;
     private List<EventDay> mEventDays = new ArrayList<>();
     MultantDBHelper database;
-    TextView dateDisplay;
     Activity activity;
     ArrayList<Calendar> cal = new ArrayList<>();
 
@@ -89,7 +89,7 @@ public class CalendarActivity extends AppCompatActivity
                     break;
                 case R.id.navigation_chat:
                     //открывает чат
-                    Intent intent1 = new Intent(CalendarActivity.this, Chat_test.class);
+                    Intent intent1 = new Intent(CalendarActivity.this, Chat_Groups.class);
                     startActivity(intent1);
                     break;
                 case R.id.navigation_task_board:

@@ -152,4 +152,10 @@ public class ActiveDesk extends AppCompatActivity {
         Intent i = new Intent(ActiveDesk.this, ActiveDeskAdd.class);
         startActivity(i);
     }
+
+    public void testFunc(View v){
+        Intent i2 = new Intent(ActiveDesk.this, addCardActivity.class);
+        startActivity(i2);
+    }
+
 }

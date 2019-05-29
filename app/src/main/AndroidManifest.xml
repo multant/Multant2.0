@@ -11,10 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeToolBar"
         tools:replace="android:label">
+        <activity android:name=".ActiveDesk.addCardActivity"></activity>
         <activity
             android:name=".chat.Chat_add"
             android:label="@string/title_activity_chat_add"
-            android:theme="@style/AppThemeToolBar.NoActionBar"></activity>
+            android:theme="@style/AppThemeToolBar.NoActionBar" />
         <activity
             android:name=".chat.Chat_Groups"
             android:theme="@style/AppThemeToolBar.NoActionBar" />

@@ -27,6 +27,7 @@ import com.androstock.multant.DB.MultantDBHelper;
 import com.androstock.multant.Home.HomeActivity;
 import com.androstock.multant.R;
 import com.androstock.multant.Task.TaskHome;
+import com.androstock.multant.chat.Chat_Groups;
 import com.androstock.multant.chat.Chat_test;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -282,7 +283,6 @@ public class Entries extends AppCompatActivity implements DatePickerDialog.OnDat
                     Intent intent3 = new Intent(Entries.this, HomeActivity.class);
                     startActivity(intent3);
                     break;
-
                 case R.id.navigation_daily_log:
                     //открывает ежедневник
                     Intent intent = new Intent(Entries.this, TaskHome.class);
@@ -290,7 +290,7 @@ public class Entries extends AppCompatActivity implements DatePickerDialog.OnDat
                     break;
                 case R.id.navigation_chat:
                     //открывает чат
-                    Intent intent1 = new Intent(Entries.this, Chat_test.class);
+                    Intent intent1 = new Intent(Entries.this, Chat_Groups.class);
                     startActivity(intent1);
                     break;
                 case R.id.navigation_task_board:
