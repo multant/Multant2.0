@@ -1,11 +1,14 @@
 package com.androstock.multant.ActiveDesk;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.androstock.multant.ActiveDesk.Column;
 
-public class Desk {
+public class Desk implements Parcelable {
     private String name_desk = "";
     private String autor = "";
     private long time_create_desk = 0;
@@ -16,6 +19,19 @@ public class Desk {
         this.autor = autor;
         this.time_create_desk = new Date().getTime();
     }
+
+
+    public static final Creator<Desk> CREATOR = new Creator<Desk>() {
+        @Override
+        public Desk createFromParcel(Parcel in) {
+            return new Desk();
+        }
+
+        @Override
+        public Desk[] newArray(int size) {
+            return new Desk[size];
+        }
+    };
 
     public Desk() {
     }
@@ -44,5 +60,18 @@ public class Desk {
 
     public void addToColumns(Column column){
         this.columns.add(column);
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name_desk);
+        dest.writeString(autor);
+        dest.writeLong(time_create_desk);
     }
 }

@@ -123,10 +123,16 @@ public class ActiveDesk extends AppCompatActivity {
         listDesks.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView name_desk = (TextView) findViewById(R.id.text1);
-                Intent intent1 = new Intent(ActiveDesk.this, ActiveDeskPage.class);
-                intent1.putExtra("desk_name", name_desk.toString());
-                startActivity(intent1);
+                    String temp;
+                    for (int i = 0; i < desks.size(); i++) {
+                        temp = (String) parent.getItemAtPosition(position);
+                        if (temp.equals(desks.get(i))) {
+                            Intent intent1 = new Intent(ActiveDesk.this, ActiveDeskPage.class);
+                            intent1.putExtra("desk_name", temp);
+                            startActivity(intent1);
+                            break;
+                        }
+                    }
             }
         });
 
@@ -148,8 +154,26 @@ public class ActiveDesk extends AppCompatActivity {
                 TextView nameDesk;
                 nameDesk = (TextView)v.findViewById(R.id.text1);
                 nameDesk.setText(model.getNameDesk());
+                desks.add(model.getNameDesk());
             }
+
+
         };
+
+        /*@Override
+        public void onDataChange(DataSnapshot snapshot) {
+            super.onDataChanged();
+            for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                String gr = postSnapshot.getKey();
+                int n = 0;
+                for (int i = 0;i<desks.size();i++){
+                    if (desks.get(i).equals(gr))
+                        n++;
+                }
+                if (n==0)
+                    desks.add(gr);
+            }
+        }*/
         listDesks.setAdapter(adapter);
 
         adapter.startListening();
