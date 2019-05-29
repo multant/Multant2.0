@@ -55,14 +55,9 @@ public class ActiveDesk extends AppCompatActivity {
 
     FirebaseUser user = mAuth.getInstance().getCurrentUser();
 
-    FirebaseListAdapter mAdapter;
 
-    ListView ListUserDesks;
-
-    Activity activity;
     private List<String> desks = new ArrayList<String>();
     private FirebaseListAdapter<Desk> adapter;
-
 
     @Override
     protected void onStart() {
@@ -118,17 +113,31 @@ public class ActiveDesk extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
 
+        ListView listDesks = (ListView)findViewById(R.id.deskView);
+
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            displayDesk();
+            displayDesk(listDesks);
+
         }
+
+        listDesks.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView name_desk = (TextView) findViewById(R.id.text1);
+                Intent intent1 = new Intent(ActiveDesk.this, ActiveDeskPage.class);
+                intent1.putExtra("desk_name", name_desk.toString());
+                startActivity(intent1);
+            }
+        });
+
 
     }
 
 
 
-    private void displayDesk() {
+    private void displayDesk(ListView listDesks) {
         Query query = FirebaseDatabase.getInstance().getReference().child(this.user.getUid()).child("Desks");
-        ListView listDesks = (ListView)findViewById(R.id.deskView);
+
         FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
                 .setLayout(R.layout.active_desk_list_row)
                 .setQuery(query, Desk.class)
