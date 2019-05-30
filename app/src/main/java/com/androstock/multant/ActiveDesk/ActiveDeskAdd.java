@@ -45,7 +45,9 @@ public class ActiveDeskAdd extends AppCompatActivity{
                     Toast.makeText(ActiveDeskAdd.this, "Введите название доски!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(ActiveDeskAdd.this, "Успешно!", Toast.LENGTH_SHORT).show();
-                    myRef.child(user.getUid()).child("Desks").push().setValue(new Desk(name_desk.getText().toString(), user.getUid()));
+                    String key = myRef.child(user.getUid()).child("Desks").push().getKey();
+                    myRef.child(user.getUid()).child("Desks").child(key).setValue(new Desk(name_desk.getText().toString(), user.getUid(), key));
+
                     finish();
                 }
             }
