@@ -25,7 +25,6 @@ public class addCardActivity extends AppCompatActivity {
     private List<View> allEds;
     //счетчик чисто декоративный для визуального отображения edittext'ov
     int count = 0;
-    EditText cardName = (EditText) findViewById(R.id.editText);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +38,23 @@ public class addCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 count++;
-                myRef.child(user.getUid()).child("Tasks").child("Columns").child("Cards").push().setValue(cardName.getText().toString());
+                //myRef.child(user.getUid()).child("Desks").child("Columns").child("Cards").push().setValue(new Desk(name_desk.getText().toString(), user.getUid()));
                 //берем наш кастомный лейаут находим через него все наши кнопки и едит тексты, задаем нужные данные
                 final View view = getLayoutInflater().inflate(R.layout.custom_edittext_layout, null);
                 Button deleteField = (Button) view.findViewById(R.id.button2);
+                deleteField.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            //получаем родительский view и удаляем его
+                            ((LinearLayout) view.getParent()).removeView(view);
+                            //удаляем эту же запись из массива что бы не оставалось мертвых записей
+                            allEds.remove(view);
+                        } catch(IndexOutOfBoundsException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                });
                 EditText text = (EditText) view.findViewById(R.id.editText);
                 //добавляем все что создаем в массив
                 allEds.add(view);
@@ -51,21 +63,6 @@ public class addCardActivity extends AppCompatActivity {
             }
         });
 
-        final View view = getLayoutInflater().inflate(R.layout.custom_edittext_layout, null);
-        Button deleteField = (Button) view.findViewById(R.id.button2);
-        deleteField.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    //получаем родительский view и удаляем его
-                    ((LinearLayout) view.getParent()).removeView(view);
-                    //удаляем эту же запись из массива что бы не оставалось мертвых записей
-                    allEds.remove(view);
-                } catch(IndexOutOfBoundsException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
     }
 
     public void onBackPressed(View v){

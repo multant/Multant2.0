@@ -120,15 +120,38 @@ public class ActiveDesk extends AppCompatActivity {
 
         }
 
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        myRef = db.getReference();
+
+        myRef.child("Desks").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    String gr = postSnapshot.getKey();
+                    int n = 0;
+                    for (int i = 0;i<desks.size();i++){
+                        if (desks.get(i).equals(gr))
+                            n++;
+                    }
+                    if (n==0)
+                        desks.add(gr);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         listDesks.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String temp;
                     for (int i = 0; i < desks.size(); i++) {
-                        temp = (String) parent.getItemAtPosition(position);
-                        if (temp.equals(desks.get(i))) {
+                        Desk d = (Desk) (listDesks.getItemAtPosition(position));
+                        if (d.getNameDesk().equals(desks.get(i))) {
                             Intent intent1 = new Intent(ActiveDesk.this, ActiveDeskPage.class);
-                            intent1.putExtra("desk_name", temp);
+                            intent1.putExtra("desk_name", d.getNameDesk());
                             startActivity(intent1);
                             break;
                         }
@@ -160,22 +183,7 @@ public class ActiveDesk extends AppCompatActivity {
 
         };
 
-        /*@Override
-        public void onDataChange(DataSnapshot snapshot) {
-            super.onDataChanged();
-            for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                String gr = postSnapshot.getKey();
-                int n = 0;
-                for (int i = 0;i<desks.size();i++){
-                    if (desks.get(i).equals(gr))
-                        n++;
-                }
-                if (n==0)
-                    desks.add(gr);
-            }
-        }*/
         listDesks.setAdapter(adapter);
-
         adapter.startListening();
     }
 
