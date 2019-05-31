@@ -9,11 +9,12 @@ import java.util.List;
 import com.androstock.multant.ActiveDesk.Column;
 
 public class Desk implements Parcelable {
+
     private String name_desk = "";
     private String autor = "";
     private String id = "";
     private long time_create_desk = 0;
-    final List<Column> columns = new ArrayList<Column>();
+    //final List<Column> columns = new ArrayList<Column>();
 
 
     public Desk(String name_desk, String autor) {
@@ -28,6 +29,13 @@ public class Desk implements Parcelable {
         this.autor = autor;
         this.id = id;
         this.time_create_desk = new Date().getTime();
+    }
+
+    public Desk(String autor, String id, String name_desk, long time) {
+        this.name_desk = name_desk;
+        this.autor = autor;
+        this.id = id;
+        this.time_create_desk = time;
     }
 
     public static final Creator<Desk> CREATOR = new Creator<Desk>() {
@@ -75,9 +83,9 @@ public class Desk implements Parcelable {
         return id;
     }
 
-    public void addToColumns(Column column){
+    /*public void addToColumns(Column column){
         this.columns.add(column);
-    }
+    }*/
 
 
     @Override
