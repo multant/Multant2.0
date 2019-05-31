@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/button_add_column"
-    android:text="Добавить список"
-    android:layout_marginTop="55dp">
-</Button>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relative_layout_add_column"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp">
+
+    <Button xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_add_column"
+        android:text="Добавить список">
+    </Button>
+</RelativeLayout>

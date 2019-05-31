@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ToDo Task</string>
     <string name="title_activity_navigation">NavigationActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">MultAnt</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
@@ -9,7 +9,7 @@
     <string name="title_board">Доска задач</string>
     <string name="title_chat">Чат</string>
     <string name="title_daily_log">Ежедневник</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home">MultAnt</string>
     <string name="title_activity_active_desk">ActiveDesk</string>
     <string name="title_activity_setting_">Setting_Activity</string>
     <string name="title_activity_main__setting_">Main_Setting_Activity</string>
