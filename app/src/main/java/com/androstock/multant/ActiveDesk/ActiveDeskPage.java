@@ -81,7 +81,7 @@ public class ActiveDeskPage extends FragmentActivity {
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
             childFragments = new Fragment[] {
-                    new PageFragment(context)
+                    new PageFragment(context, id_desk)
             };
         }
 

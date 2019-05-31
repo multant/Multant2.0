@@ -18,23 +18,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androstock.multant.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class PageFragment extends Fragment {
 
     String name_column;
+    String id_desk;
     Context context;
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference myRef;
+    FirebaseUser user = mAuth.getInstance().getCurrentUser();
+
 
     public PageFragment(){
     }
 
-    public PageFragment(Context context){
+    public PageFragment(Context context, String id_desk){
         this.context = context;
+        this.id_desk = id_desk;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        myRef = FirebaseDatabase.getInstance().getReference();
         View rootView = inflater.inflate(R.layout.active_desk_add_name_column, container, false);
         Button buttonInFragment = rootView.findViewById(R.id.button_add_column);
         buttonInFragment.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +73,13 @@ public class PageFragment extends Fragment {
                                     public void onClick(DialogInterface dialog,int id) {
                                         //Вводим текст и отображаем в строке ввода на основном экране:
                                         name_column = userInput.getText().toString();
+                                        if (name_column.trim().length() < 1) {
+                                            Toast.makeText(context, "Введите название Колонны!", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(context, "Успешно!", Toast.LENGTH_SHORT).show();
+                                            String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").push().getKey();
+                                            myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(key).setValue(new Column(name_column, key));
+                                        }
                                     }
                                 })
                         .setNegativeButton("Отмена",

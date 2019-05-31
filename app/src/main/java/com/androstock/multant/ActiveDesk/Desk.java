@@ -14,7 +14,6 @@ public class Desk implements Parcelable {
     private String autor = "";
     private String id = "";
     private long time_create_desk = 0;
-    //final List<Column> columns = new ArrayList<Column>();
 
 
     public Desk(String name_desk, String autor) {
