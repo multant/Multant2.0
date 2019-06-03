@@ -61,7 +61,6 @@ public class ActiveDeskPage extends FragmentActivity {
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         this.id_desk = getIntent().getExtras().getString("id_desk");
         pager = (ViewPager) findViewById(R.id.activeDesk_column);
-        pager.setAdapter(adapter);
         myRef = FirebaseDatabase.getInstance().getReference();
         myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").addValueEventListener(new ValueEventListener() {
             @Override
@@ -90,10 +89,8 @@ public class ActiveDeskPage extends FragmentActivity {
                     }
                     frags.add(new PageFragment(context, id_desk, "", columns.size(), columns.size()));
                 }
-                Log.i("CountFrags", Integer.toString(frags.size()));
                 adapter.updateAdapter(frags);
                 pager.setAdapter(adapter);
-                Log.i("CountColumns2", Integer.toString(columns.size()));
             }
 
             @Override
@@ -101,12 +98,6 @@ public class ActiveDeskPage extends FragmentActivity {
 
             }
         });
-
-
-
-        Log.i("CountColumns", Integer.toString(columns.size()));
-
-        Log.i("CountInAdapter", Integer.toString(adapter.getCount()));
 
         //pager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
         TabLayout tabLayout = findViewById(R.id.tab_layout_page);
@@ -140,7 +131,6 @@ public class ActiveDeskPage extends FragmentActivity {
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
-            Log.i("Zaebalo", Integer.toString(columns.size()));
             if(columns.size() == 0){
                     childFragments.add(new PageFragment(context, id_desk, "", 0, columns.size()));
             } else {
@@ -154,13 +144,7 @@ public class ActiveDeskPage extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            //if (columns.size() == 0) {
-                //return new PageFragment(context, id_desk, "", position, columns.size());
-            //}else {
-                //return new PageFragment(context, id_desk, columns.get(position), position, columns.size());
                 return childFragments.get(position);
-            //}
-
         }
 
         @Override
