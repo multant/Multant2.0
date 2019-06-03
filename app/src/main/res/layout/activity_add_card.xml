@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
+    android:background="#1E1D25"
     tools:context="com.androstock.multant.ActiveDesk.addCardActivity">
 
     <android.support.v7.widget.Toolbar
@@ -46,17 +46,25 @@
                 android:textSize="18dp"
                 android:textStyle="bold"
                 />
+            <Button
+                android:id="@+id/cardAddButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_action_done"
+                android:onClick="onAddCardButtonPressed"/>
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
 
     <LinearLayout
+        android:id="@+id/mylayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar_active_desk_card_add"
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
@@ -91,7 +99,7 @@
                 />
         </LinearLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <!--<android.support.v4.widget.NestedScrollView
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="300dp">
@@ -101,11 +109,18 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>-->
 
 
 
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/mylist"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/mylayout">
+    </ListView>
 
 
 

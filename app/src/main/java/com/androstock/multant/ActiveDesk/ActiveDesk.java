@@ -56,7 +56,7 @@ public class ActiveDesk extends AppCompatActivity {
     FirebaseUser user = mAuth.getInstance().getCurrentUser();
 
 
-    private List<String> desks = new ArrayList<String>();
+    private List<String> desks = new ArrayList<>();
     private FirebaseListAdapter<Desk> adapter;
 
     @Override
@@ -117,7 +117,6 @@ public class ActiveDesk extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             displayDesk(listDesks);
-
         }
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -135,7 +134,6 @@ public class ActiveDesk extends AppCompatActivity {
                     }
                     if (n==0)
                         desks.add(gr);
-
                 }
             }
 
@@ -167,7 +165,6 @@ public class ActiveDesk extends AppCompatActivity {
 
     private void displayDesk(ListView listDesks) {
         Query query = FirebaseDatabase.getInstance().getReference().child(this.user.getUid()).child("Desks");
-
         FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
                 .setLayout(R.layout.active_desk_list_row)
                 .setQuery(query, Desk.class)
@@ -180,8 +177,6 @@ public class ActiveDesk extends AppCompatActivity {
                 nameDesk.setText(model.getNameDesk());
                 desks.add(model.getNameDesk());
             }
-
-
         };
 
         listDesks.setAdapter(adapter);

@@ -79,7 +79,6 @@ public class Chat_Groups extends AppCompatActivity {
         menuItem.setChecked(true);
         FirebaseDatabase bd = FirebaseDatabase.getInstance();
         DatabaseReference ref = bd.getReference();
-        DatabaseReference ref2 = ref.child("Rooms");
         ref.child("Rooms").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

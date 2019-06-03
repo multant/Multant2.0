@@ -71,7 +71,7 @@
                 android:id="@+id/tab_layout_page"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/colorWhite"
                 android:textSize="20sp"
                 android:focusableInTouchMode="false" />
 

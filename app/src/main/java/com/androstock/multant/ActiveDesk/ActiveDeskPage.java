@@ -46,7 +46,7 @@ public class ActiveDeskPage extends FragmentActivity {
 
     ViewPager pager;
 
-    final List<String> columns = new ArrayList<String>();
+    public List<String> columns = new ArrayList<>();
     final List<String> names_of_columns = new ArrayList<String>();
 
     final Context context = this;
@@ -58,24 +58,11 @@ public class ActiveDeskPage extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_desk_page);
+        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         this.id_desk = getIntent().getExtras().getString("id_desk");
-
-
+        pager = (ViewPager) findViewById(R.id.activeDesk_column);
+        pager.setAdapter(adapter);
         myRef = FirebaseDatabase.getInstance().getReference();
-        myRef.child(user.getUid()).child("Desks").child(id_desk).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Desk desk = dataSnapshot.getValue(Desk.class);
-                TextView title = (TextView) findViewById(R.id.toolbar_active_desk_page_title);
-                title.setText(desk.getNameDesk());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-
         myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -91,8 +78,22 @@ public class ActiveDeskPage extends FragmentActivity {
                         columns.add(cl);
                         names_of_columns.add(nm);
                     }
-
                 }
+                List<Fragment> frags = new ArrayList<>(columns.size() + 1);
+                if(columns.size() == 0){
+                    for (int i=0; i<columns.size()+1; i++){
+                        frags.add(new PageFragment(context, id_desk, "", i, columns.size()));
+                    }
+                } else {
+                    for (int i=0; i<columns.size(); i++){
+                        frags.add(new PageFragment(context, id_desk, columns.get(i), i, columns.size()));
+                    }
+                    frags.add(new PageFragment(context, id_desk, "", columns.size(), columns.size()));
+                }
+                Log.i("CountFrags", Integer.toString(frags.size()));
+                adapter.updateAdapter(frags);
+                pager.setAdapter(adapter);
+                Log.i("CountColumns2", Integer.toString(columns.size()));
             }
 
             @Override
@@ -103,10 +104,30 @@ public class ActiveDeskPage extends FragmentActivity {
 
 
 
-        pager = (ViewPager) findViewById(R.id.activeDesk_column);
-        pager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
+        Log.i("CountColumns", Integer.toString(columns.size()));
+
+        Log.i("CountInAdapter", Integer.toString(adapter.getCount()));
+
+        //pager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
         TabLayout tabLayout = findViewById(R.id.tab_layout_page);
         tabLayout.setupWithViewPager(pager);
+        tabLayout.setTabTextColors(getResources().getColor(R.color.colorWhite), getResources().getColor(R.color.colorWhite));
+        myRef.child(user.getUid()).child("Desks").child(id_desk).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Desk desk = dataSnapshot.getValue(Desk.class);
+                TextView title = (TextView) findViewById(R.id.toolbar_active_desk_page_title);
+                title.setText(desk.getNameDesk());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
+
+
 
     }
 
@@ -114,29 +135,31 @@ public class ActiveDeskPage extends FragmentActivity {
 
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        private Fragment[] childFragments = new Fragment[columns.size() + 1];
-
+        private List<Fragment> childFragments = new ArrayList<>(columns.size() + 1);
 
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
-            for (int i=0; i < columns.size() + 1; i++){
-                if (columns.size() == 0) {
-                    childFragments[i] = new PageFragment(context, id_desk, "", i, columns.size());
-                }else {
-                    childFragments[i] = new PageFragment(context, id_desk, columns.get(i), i, columns.size());
+            Log.i("Zaebalo", Integer.toString(columns.size()));
+            if(columns.size() == 0){
+                    childFragments.add(new PageFragment(context, id_desk, "", 0, columns.size()));
+            } else {
+                for (int i=0; i<columns.size(); i++){
+                    childFragments.add(new PageFragment(context, id_desk, columns.get(i), i, columns.size()));
                 }
-
+                childFragments.add(new PageFragment(context, id_desk, "", columns.size(), columns.size()));
             }
         }
 
+
         @Override
         public Fragment getItem(int position) {
-            if (columns.size() == 0) {
-                return new PageFragment(context, id_desk, "", position, columns.size());
-            }else {
-                return new PageFragment(context, id_desk, columns.get(position), position, columns.size());
-            }
+            //if (columns.size() == 0) {
+                //return new PageFragment(context, id_desk, "", position, columns.size());
+            //}else {
+                //return new PageFragment(context, id_desk, columns.get(position), position, columns.size());
+                return childFragments.get(position);
+            //}
 
         }
 
@@ -153,27 +176,19 @@ public class ActiveDeskPage extends FragmentActivity {
                     title = "Новый список";
                     return title.subSequence(title.lastIndexOf(".") + 1, title.length());
                 } else {
-                    /*myRef = FirebaseDatabase.getInstance().getReference();
-                    myRef.child(user.getUid()).child("Desks").child(id_desk)
-                            .child("Columns").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Column column = dataSnapshot.child(columns.get(position)).getValue(Column.class);
-                            title_page = column.getNameColumn();
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                    title = title_page;*/
-                    title = names_of_columns.get(position);
+                    title = columns.get(position);
                     return title.subSequence(title.lastIndexOf(".") + 1, title.length());
                 }
         }
 
-
+        public void updateAdapter(List<Fragment> frags){
+                childFragments.clear();
+                childFragments.addAll(frags);
+                this.notifyDataSetChanged();
+        }
 
     }
+
 
     public void closeActiveDeskPage(View v) {
         finish();
