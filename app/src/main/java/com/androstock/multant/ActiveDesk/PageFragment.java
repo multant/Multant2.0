@@ -68,7 +68,7 @@ public class PageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         myRef = FirebaseDatabase.getInstance().getReference();
-        if (position == max_position){
+        if (id_page == ""){
             View rootView = inflater.inflate(R.layout.active_desk_add_name_column, container, false);
             Button buttonInFragment = rootView.findViewById(R.id.button_add_column);
             buttonInFragment.setOnClickListener(new View.OnClickListener() {

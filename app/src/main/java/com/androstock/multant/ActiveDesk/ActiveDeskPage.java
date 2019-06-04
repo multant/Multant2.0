@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -46,7 +47,7 @@ public class ActiveDeskPage extends FragmentActivity {
 
     ViewPager pager;
 
-    public List<String> columns = new ArrayList<>();
+    public List<Column> columns = new ArrayList<>();
     final List<String> names_of_columns = new ArrayList<String>();
 
     final Context context = this;
@@ -66,26 +67,22 @@ public class ActiveDeskPage extends FragmentActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    String cl = postSnapshot.getKey();
-                    String nm = postSnapshot.child(cl).child("nameColumn").getValue(String.class);
+                    Column cl = postSnapshot.getValue(Column.class);
                     int n = 0;
                     for (int i = 0;i<columns.size();i++){
-                        if (columns.get(i).equals(cl))
+                        if (columns.get(i).getId().equals(cl.getId()))
                             n++;
                     }
                     if (n==0){
                         columns.add(cl);
-                        names_of_columns.add(nm);
                     }
                 }
-                List<Fragment> frags = new ArrayList<>(columns.size() + 1);
+                List<Fragment> frags = new ArrayList<>();
                 if(columns.size() == 0){
-                    for (int i=0; i<columns.size()+1; i++){
-                        frags.add(new PageFragment(context, id_desk, "", i, columns.size()));
-                    }
+                    frags.add(new PageFragment(context, id_desk, "", 0, columns.size()));
                 } else {
                     for (int i=0; i<columns.size(); i++){
-                        frags.add(new PageFragment(context, id_desk, columns.get(i), i, columns.size()));
+                        frags.add(new PageFragment(context, id_desk, columns.get(i).getId(), i, columns.size()));
                     }
                     frags.add(new PageFragment(context, id_desk, "", columns.size(), columns.size()));
                 }
@@ -100,9 +97,9 @@ public class ActiveDeskPage extends FragmentActivity {
         });
 
         //pager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
-        TabLayout tabLayout = findViewById(R.id.tab_layout_page);
-        tabLayout.setupWithViewPager(pager);
-        tabLayout.setTabTextColors(getResources().getColor(R.color.colorWhite), getResources().getColor(R.color.colorWhite));
+        /*PagerTabStrip tabLayout = findViewById(R.id.tab_layout_page);
+        tabLayout.(pager);
+        tabLayout.setTabTextColors(getResources().getColor(R.color.colorWhite), getResources().getColor(R.color.colorWhite));*/
         myRef.child(user.getUid()).child("Desks").child(id_desk).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -126,7 +123,7 @@ public class ActiveDeskPage extends FragmentActivity {
 
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        private List<Fragment> childFragments = new ArrayList<>(columns.size() + 1);
+        private List<Fragment> childFragments = new ArrayList<>();
 
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
@@ -135,7 +132,7 @@ public class ActiveDeskPage extends FragmentActivity {
                     childFragments.add(new PageFragment(context, id_desk, "", 0, columns.size()));
             } else {
                 for (int i=0; i<columns.size(); i++){
-                    childFragments.add(new PageFragment(context, id_desk, columns.get(i), i, columns.size()));
+                    childFragments.add(new PageFragment(context, id_desk, columns.get(i).getId(), i, columns.size()));
                 }
                 childFragments.add(new PageFragment(context, id_desk, "", columns.size(), columns.size()));
             }
@@ -160,7 +157,7 @@ public class ActiveDeskPage extends FragmentActivity {
                     title = "Новый список";
                     return title.subSequence(title.lastIndexOf(".") + 1, title.length());
                 } else {
-                    title = columns.get(position);
+                    title = columns.get(position).getNameColumn();
                     return title.subSequence(title.lastIndexOf(".") + 1, title.length());
                 }
         }
