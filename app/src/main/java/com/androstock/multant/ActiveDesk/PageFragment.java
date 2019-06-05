@@ -5,15 +5,19 @@ import java.util.List;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -111,6 +115,10 @@ public class PageFragment extends Fragment {
                                                 Toast.makeText(context, "Успешно!", Toast.LENGTH_SHORT).show();
                                                 String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").push().getKey();
                                                 myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(key).setValue(new Column(name_column, key));
+                                                Intent intent1 = new Intent(context, ActiveDeskPage.class);
+                                                intent1.putExtra("id_desk", id_desk);
+                                                intent1.putExtra("id_page", position);
+                                                startActivity(intent1);
                                             }
                                         }
                                     })
@@ -183,15 +191,10 @@ public class PageFragment extends Fragment {
                 }
             });
 
-
-
-
-
-
-
             return rootView;
         }
 
     }
+
 
 }
