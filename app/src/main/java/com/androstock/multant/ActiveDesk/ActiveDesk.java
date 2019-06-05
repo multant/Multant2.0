@@ -129,6 +129,7 @@ public class ActiveDesk extends AppCompatActivity {
                         if (d.getNameDesk().equals(desks.get(i))) {
                             Intent intent1 = new Intent(ActiveDesk.this, ActiveDeskPage.class);
                             intent1.putExtra("id_desk", d.getId());
+                            intent1.putExtra("id_page", 0);
                             startActivity(intent1);
                             break;
                         }
