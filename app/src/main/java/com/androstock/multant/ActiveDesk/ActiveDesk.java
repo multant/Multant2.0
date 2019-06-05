@@ -121,28 +121,6 @@ public class ActiveDesk extends AppCompatActivity {
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         myRef = db.getReference();
-
-        myRef.child("Desks").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    String gr = postSnapshot.getKey();
-                    int n = 0;
-                    for (int i = 0;i<desks.size();i++){
-                        if (desks.get(i).equals(gr))
-                            n++;
-                    }
-                    if (n==0)
-                        desks.add(gr);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         listDesks.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -1,5 +1,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/active_desk_fragment"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -9,10 +10,11 @@
     android:paddingRight="10dp"
     android:layout_marginTop="105dp">
 
-    <android.support.v4.widget.NestedScrollView
+    <!--<android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="55dp"
+        android:scrollbars="vertical">
         <LinearLayout
             android:orientation="vertical"
             android:id="@+id/leaner_fragment_column"
@@ -22,7 +24,20 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>-->
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_of_cards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="55dp"
+        android:orientation="vertical"
+        android:fadeScrollbars="true"
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
