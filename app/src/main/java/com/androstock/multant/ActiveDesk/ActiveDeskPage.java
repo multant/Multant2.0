@@ -48,7 +48,6 @@ public class ActiveDeskPage extends FragmentActivity {
     ViewPager pager;
 
     public List<Column> columns = new ArrayList<>();
-    final List<String> names_of_columns = new ArrayList<String>();
 
     final Context context = this;
 
@@ -59,13 +58,13 @@ public class ActiveDeskPage extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_desk_page);
-        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         this.id_desk = getIntent().getExtras().getString("id_desk");
-        pager = (ViewPager) findViewById(R.id.activeDesk_column);
         myRef = FirebaseDatabase.getInstance().getReference();
         myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+                pager = (ViewPager) findViewById(R.id.activeDesk_column);
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Column cl = postSnapshot.getValue(Column.class);
                     int n = 0;
@@ -96,10 +95,6 @@ public class ActiveDeskPage extends FragmentActivity {
             }
         });
 
-        //pager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
-        /*PagerTabStrip tabLayout = findViewById(R.id.tab_layout_page);
-        tabLayout.(pager);
-        tabLayout.setTabTextColors(getResources().getColor(R.color.colorWhite), getResources().getColor(R.color.colorWhite));*/
         myRef.child(user.getUid()).child("Desks").child(id_desk).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -112,11 +107,6 @@ public class ActiveDeskPage extends FragmentActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-
-
-
-
     }
 
 

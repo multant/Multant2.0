@@ -1,5 +1,7 @@
 package com.androstock.multant.ActiveDesk;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
@@ -10,12 +12,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +43,10 @@ public class PageFragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
     FirebaseUser user = mAuth.getInstance().getCurrentUser();
+
+
+    public List<Card> cards = new ArrayList<>();
+
 
 
     public PageFragment(){
@@ -119,14 +129,68 @@ public class PageFragment extends Fragment {
 
                 }
             });
+
             return rootView;
         } else {
             View rootView = inflater.inflate(R.layout.active_desk_fragment_layout, container, false);
-            CardView cardView = rootView.findViewById(R.id.card_in_active_desk_column);
+            Button buttonInFragment = rootView.findViewById(R.id.button_add_card);
+            buttonInFragment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Получаем вид с файла prompt.xml, который применим для диалогового окна:
+                    LayoutInflater li = LayoutInflater.from(context);
+                    View promptsView = li.inflate(R.layout.active_desk_prompt, null);
+
+                    //Создаем AlertDialog
+                    AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
+
+                    //Настраиваем prompt.xml для нашего AlertDialog:
+                    mDialogBuilder.setView(promptsView);
+
+                    //Настраиваем отображение поля для ввода текста в открытом диалоге:
+                    final EditText userInput = (EditText) promptsView.findViewById(R.id.input_text);
+                    userInput.setHint("Т" +
+                            "екст карточки");
+                    //Настраиваем сообщение в диалоговом окне:
+                    mDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+                                            //Вводим текст и отображаем в строке ввода на основном экране:
+                                            if (userInput.getText().toString().trim().length() < 1) {
+                                                Toast.makeText(context, "Заполните Карточку!", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(context, "Успешно!", Toast.LENGTH_SHORT).show();
+                                                String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").push().getKey();
+                                                myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").child(key).setValue(new Card(userInput.getText().toString(), key));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton("Отмена",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    //Создаем AlertDialog:
+                    AlertDialog alertDialog = mDialogBuilder.create();
+
+                    //и отображаем его:
+                    alertDialog.show();
+
+                }
+            });
+
+
+
+
+
+
+
             return rootView;
         }
-
-
 
     }
 
