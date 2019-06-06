@@ -1,23 +1,14 @@
 package com.androstock.multant.ActiveDesk;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,28 +16,16 @@ import com.androstock.multant.Home.HomeActivity;
 import com.androstock.multant.R;
 import com.androstock.multant.Task.TaskHome;
 import com.androstock.multant.chat.Chat_Groups;
-import com.androstock.multant.ActiveDesk.ActiveDeskAdd;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import com.androstock.multant.ActiveDesk.Desk;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class ActiveDesk extends AppCompatActivity {
 
@@ -169,9 +148,5 @@ public class ActiveDesk extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void testFunc(View v){
-        Intent i2 = new Intent(ActiveDesk.this, addCardActivity.class);
-        startActivity(i2);
-    }
 
 }

@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class addCardActivity extends AppCompatActivity {
+public class ActiveDeskCard extends AppCompatActivity {
 
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
@@ -50,11 +50,20 @@ public class addCardActivity extends AppCompatActivity {
     public List<Boolean> isChecked = new ArrayList<>(0);
     public List<String> subTasks = new ArrayList<>(0);
 
+    private String id_desk = "";
+    private String id_page = "";
+    private String id_card = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
+        this.id_desk = getIntent().getExtras().getString("id_desk");
+        this.id_page = getIntent().getExtras().getString("id_page");
+        this.id_card = getIntent().getExtras().getString("id_card");
+
         description = (EditText) findViewById(R.id.description);
 
         ListView listCards = (ListView)findViewById(R.id.mylist);
@@ -64,26 +73,8 @@ public class addCardActivity extends AppCompatActivity {
         }
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         myRef = db.getReference();
-        myRef.child("Desks").child("Cards").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    String gr = postSnapshot.getKey();
-                    int n = 0;
-                    for (int i = 0;i<cards.size();i++){
-                        if (cards.get(i).equals(gr))
-                            n++;
-                    }
-                    if (n==0)
-                        cards.add(gr);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        /*myRef.child(user.getUid()).child("Desks").child(id_desk)
+                .child("Columns").child(id_page).child("Cards").child(id_card).addValueEventListener(new ValueEventListener() */
         Button addButton = (Button) findViewById(R.id.button);
         //инициализировали наш массив с edittext
         allEds = new ArrayList<View>();

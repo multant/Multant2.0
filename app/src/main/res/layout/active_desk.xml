@@ -45,14 +45,6 @@
                 android:padding="0dp"
                 android:background="@drawable/ic_action_add"
                 android:onClick="onAddActiveDeskClick"/>
-            <Button
-                android:id="@+id/my_button"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_margin="0dp"
-                android:padding="0dp"
-                android:background="@drawable/ic_pomojka"
-                android:onClick="testFunc"/>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>

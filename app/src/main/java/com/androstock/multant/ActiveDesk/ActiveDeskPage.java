@@ -10,7 +10,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.androstock.multant.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -75,6 +78,7 @@ public class ActiveDeskPage extends FragmentActivity {
                 adapter.updateAdapter(frags);
                 pager.setAdapter(adapter);
                 pager.setCurrentItem(id_page);
+
             }
 
             @Override
@@ -82,6 +86,9 @@ public class ActiveDeskPage extends FragmentActivity {
 
             }
         });
+
+
+
 
         myRef.child(user.getUid()).child("Desks").child(id_desk).addValueEventListener(new ValueEventListener() {
             @Override

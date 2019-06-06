@@ -23,6 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -36,6 +37,7 @@ import com.firebase.ui.database.FirebaseListOptions;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,7 +47,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
+
+
 
 public class PageFragment extends Fragment {
 
@@ -64,7 +67,9 @@ public class PageFragment extends Fragment {
     private RecyclerView mCards;
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
 
+    private ArrayList<Card> mArrCards = new ArrayList<>();
 
+    //private ItemClickListener onItemClickListener;
 
     public PageFragment(){
     }
@@ -155,26 +160,9 @@ public class PageFragment extends Fragment {
         } else {
             View rootView = inflater.inflate(R.layout.active_desk_fragment_layout, container, false);
 
-            //myRef.keepSynced(true);
             mCards = (RecyclerView)rootView.findViewById(R.id.list_of_cards);
             mCards.setLayoutManager(new LinearLayoutManager(context));
             fetch();
-            //displayCards(mCards);
-            /*myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                        Card c = postSnapshot.getValue(Card.class);
-                        displayCards(mCards);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });*/
-
-
 
             Button buttonInFragment = rootView.findViewById(R.id.button_add_card);
             buttonInFragment.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +194,10 @@ public class PageFragment extends Fragment {
                                                 Toast.makeText(context, "Успешно!", Toast.LENGTH_SHORT).show();
                                                 String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").push().getKey();
                                                 myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").child(key).setValue(new Card(userInput.getText().toString(), key));
+                                                Intent intent1 = new Intent(context, ActiveDeskPage.class);
+                                                intent1.putExtra("id_desk", id_desk);
+                                                intent1.putExtra("id_page", position);
+                                                startActivity(intent1);
                                             }
                                         }
                                     })
@@ -228,6 +220,16 @@ public class PageFragment extends Fragment {
         }
 
     }
+
+    /*public void onOpenCardClick(View v){
+        *//*Intent intent = new Intent(context, ActiveDeskPage.class);
+        intent.putExtra("id_desk", id_desk);
+        intent.putExtra("id_page", id_page);
+        intent.putExtra("id_card", id_cards.get(v.getVerticalScrollbarPosition()));
+        startActivity(intent);*//*
+        Toast.makeText(context, "card number " + v.getVerticalScrollbarPosition(), Toast.LENGTH_SHORT).show();
+    }*/
+
 
     private void fetch() {
         Query query = FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("Desks").child(id_desk)
@@ -258,7 +260,17 @@ public class PageFragment extends Fragment {
             @Override
             protected void onBindViewHolder(CardViewHolder holder, final int position, Card model) {
                 holder.setTextCard(model.getText_card());
-
+                id_cards.add(model.getId());
+                holder.root.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, ActiveDeskCard.class);
+                        intent.putExtra("id_desk", id_desk);
+                        intent.putExtra("id_page", id_page);
+                        intent.putExtra("id_card", id_cards.get(position));
+                        startActivity(intent);
+                    }
+                });
             }
 
         };
@@ -267,15 +279,18 @@ public class PageFragment extends Fragment {
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder{
+        public LinearLayout root;
         View mView;
         public CardViewHolder(View itemView){
             super(itemView);
             mView = itemView;
+            root = itemView.findViewById(R.id.list_root);
         }
 
         public void setTextCard(String text){
             TextView text_card = (TextView)mView.findViewById(R.id.text_in_card_in_active_desk_column);
             text_card.setText(text);
         }
+
     }
 }
