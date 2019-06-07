@@ -56,7 +56,7 @@ public class PageFragment extends Fragment {
     String id_desk;
     String id_page;
     Context context;
-    int position;
+    int fposition;
     int max_position;
 
     private FirebaseAuth mAuth;
@@ -80,7 +80,7 @@ public class PageFragment extends Fragment {
         this.context = context;
         this.id_desk = id_desk;
         this.id_page = id_page;
-        this.position = position;
+        this.fposition = position;
         this.max_position = max_position;
         arguments.putString("context", context.toString());
         arguments.putString("id_desk", id_desk);
@@ -135,7 +135,7 @@ public class PageFragment extends Fragment {
                                                 myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(key).setValue(new Column(name_column, key));
                                                 Intent intent1 = new Intent(context, ActiveDeskPage.class);
                                                 intent1.putExtra("id_desk", id_desk);
-                                                intent1.putExtra("id_page", position);
+                                                intent1.putExtra("page_pos", fposition);
                                                 startActivity(intent1);
                                             }
                                         }
@@ -196,7 +196,7 @@ public class PageFragment extends Fragment {
                                                 myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").child(key).setValue(new Card(userInput.getText().toString(), key));
                                                 Intent intent1 = new Intent(context, ActiveDeskPage.class);
                                                 intent1.putExtra("id_desk", id_desk);
-                                                intent1.putExtra("id_page", position);
+                                                intent1.putExtra("page_pos", fposition);
                                                 startActivity(intent1);
                                             }
                                         }
@@ -258,6 +258,7 @@ public class PageFragment extends Fragment {
                         intent.putExtra("id_desk", id_desk);
                         intent.putExtra("id_page", id_page);
                         intent.putExtra("id_card", id_cards.get(position));
+                        intent.putExtra("position", fposition);
                         startActivity(intent);
                     }
                 });

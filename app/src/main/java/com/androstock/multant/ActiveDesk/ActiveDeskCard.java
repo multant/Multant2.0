@@ -53,6 +53,7 @@ public class ActiveDeskCard extends AppCompatActivity {
     private String id_desk = "";
     private String id_page = "";
     private String id_card = "";
+    private int position;
 
 
 
@@ -63,26 +64,11 @@ public class ActiveDeskCard extends AppCompatActivity {
         this.id_desk = getIntent().getExtras().getString("id_desk");
         this.id_page = getIntent().getExtras().getString("id_page");
         this.id_card = getIntent().getExtras().getString("id_card");
+        this.position = getIntent().getExtras().getInt("position");
 
         description = (EditText) findViewById(R.id.description);
 
-        final View view = getLayoutInflater().inflate(R.layout.custom_edittext_layout, null);
         LinearLayout linear = (LinearLayout) findViewById(R.id.mylist);
-        Button deleteField = (Button) view.findViewById(R.id.button2);
-        deleteField.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    //получаем родительский view и удаляем его
-                    //((ListView) view.getParent()).removeView(view);
-                    //удаляем эту же запись из массива что бы не оставалось мертвых записей
-                    allEds.remove(v);
-                    linear.removeView(v);
-                } catch(IndexOutOfBoundsException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         myRef = db.getReference();
         myRef.child(user.getUid()).child("Desks").child(id_desk)
@@ -101,10 +87,25 @@ public class ActiveDeskCard extends AppCompatActivity {
                 allEds = new ArrayList<View>();
                 for (DataSnapshot postSnapshot: dataSnapshot.child("CheckBoxes").getChildren()){
                     LinearLayout mLin = (LinearLayout) findViewById(R.id.mylist);
-                    final View v = getLayoutInflater().inflate(R.layout.custom_edittext_layout, null);
+                    final View view = getLayoutInflater().inflate(R.layout.custom_edittext_layout, null);
+                    Button deleteBut = (Button) view.findViewById(R.id.button2);
+                    deleteBut.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                //получаем родительский view и удаляем его
+                                //((ListView) view.getParent()).removeView(view);
+                                //удаляем эту же запись из массива что бы не оставалось мертвых записей
+                                allEds.remove(view);
+                                linear.removeView(view);
+                            } catch(IndexOutOfBoundsException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    });
                     ActiveDeskCheckBox chB = postSnapshot.getValue(ActiveDeskCheckBox.class);
-                    EditText eT = (EditText) v.findViewById(R.id.editText);
-                    CheckBox checkBox = (CheckBox)v.findViewById(R.id.checkbox);
+                    EditText eT = (EditText) view.findViewById(R.id.editText);
+                    CheckBox checkBox = (CheckBox)view.findViewById(R.id.checkbox);
                     int n = 0;
                     for (int i = 0;i<checkBoxes.size();i++){
                         if (checkBoxes.get(i).getId().equals(chB.getId()))
@@ -114,8 +115,8 @@ public class ActiveDeskCard extends AppCompatActivity {
                         checkBoxes.add(chB);
                         eT.setText(chB.getText_checkbox());
                         checkBox.setChecked(Boolean.valueOf(chB.isChecked()));
-                        allEds.add(v);
-                        mLin.addView(v);
+                        allEds.add(view);
+                        mLin.addView(view);
                     }
                 }
             }
@@ -160,6 +161,10 @@ public class ActiveDeskCard extends AppCompatActivity {
     }
 
     public void onBackPressed(View v){
+        Intent intent = new Intent(ActiveDeskCard.this, ActiveDeskPage.class);
+        intent.putExtra("id_desk", id_desk);
+        intent.putExtra("page_pos", position);
+        startActivity(intent);
         finish();
     }
 

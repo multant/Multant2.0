@@ -54,7 +54,7 @@ public class ActiveDeskPage extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_desk_page);
         this.id_desk = getIntent().getExtras().getString("id_desk");
-        this.id_page = getIntent().getExtras().getInt("id_page");
+        this.id_page = getIntent().getExtras().getInt("page_pos");
         myRef = FirebaseDatabase.getInstance().getReference();
         myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").addValueEventListener(new ValueEventListener() {
             @Override
