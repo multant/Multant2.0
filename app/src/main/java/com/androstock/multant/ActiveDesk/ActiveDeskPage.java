@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androstock.multant.R;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -98,7 +100,7 @@ public class ActiveDeskPage extends FragmentActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Desk desk = dataSnapshot.getValue(Desk.class);
                 TextView title = (TextView) findViewById(R.id.toolbar_active_desk_page_title);
-                title.setText(desk.getNameDesk());
+                    title.setText(desk.getNameDesk());
             }
 
             @Override
@@ -151,7 +153,8 @@ public class ActiveDeskPage extends FragmentActivity {
                                                         } else {
                                                             Toast.makeText(context, "Успешно!", Toast.LENGTH_SHORT).show();
                                                             String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("AllowedToUsers").push().getKey();
-                                                            myRef.child(user.getUid()).child("Desks").child(id_desk).child("AllowedToUsers").child(key).setValue(new User(userInput.getText().toString()));
+                                                            //myRef.child(user.getUid()).child("Desks").child(id_desk).child("AllowedToUsers").child(key).setValue(new User(userInput.getText().toString()));
+                                                            myRef.child("Desk").child(id_desk).child("AllowedToUsers").setValue(new User(userInput.getText().toString()));
                                                         }
                                                     }
                                                 })
@@ -167,12 +170,11 @@ public class ActiveDeskPage extends FragmentActivity {
 
                                 //и отображаем его:
                                 alertDialog.show();
-
                             }
                                 return true;
                             case R.id.menu_del_desk:
                                 Toast.makeText(getApplicationContext(),
-                                        "На этой кнопке будет удаление доски ",
+                                        "На этой кнопке не будет удаление доски ",
                                         Toast.LENGTH_SHORT).show();
                                 return true;
                             default:

@@ -1,10 +1,13 @@
 package com.androstock.multant.ActiveDesk;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.androstock.multant.Diary.Entries;
 import com.androstock.multant.Home.HomeActivity;
 import com.androstock.multant.R;
 import com.androstock.multant.Task.TaskHome;
@@ -20,9 +24,12 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +42,7 @@ public class ActiveDesk extends AppCompatActivity {
     FirebaseUser user = mAuth.getInstance().getCurrentUser();
 
 
+    private List<String> ids = new ArrayList<>();
     private List<String> desks = new ArrayList<>();
     private FirebaseListAdapter<Desk> adapter;
 
@@ -59,7 +67,7 @@ public class ActiveDesk extends AppCompatActivity {
                 case R.id.navigation_main:
                     Intent intent0 = new Intent(ActiveDesk.this, HomeActivity.class);
                     startActivity(intent0);
-                    return true;
+                    break;
                 case R.id.navigation_daily_log:
                     //открывает ежедневник
                     Intent intent = new Intent(ActiveDesk.this, TaskHome.class);
@@ -116,13 +124,33 @@ public class ActiveDesk extends AppCompatActivity {
             }
         });
 
+        listDesks.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                new AlertDialog.Builder(ActiveDesk.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Вы уверены?")
+                        .setMessage("Вы хотите удалить эту доску?")
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                myRef.child(user.getUid()).child("Desks").child(ids.get(position)).removeValue();
+                            }
+                        })
+                        .setNegativeButton("Нет", null)
+                        .show();
 
+                return true;
+            }
+        });
     }
 
 
 
     private void displayDesk(ListView listDesks) {
+
         Query query = FirebaseDatabase.getInstance().getReference().child(this.user.getUid()).child("Desks");
+        //Query query = FirebaseDatabase.getInstance().getReference().child("Desk");
         FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
                 .setLayout(R.layout.active_desk_list_row)
                 .setQuery(query, Desk.class)
@@ -134,9 +162,11 @@ public class ActiveDesk extends AppCompatActivity {
                 nameDesk = (TextView)v.findViewById(R.id.text1);
                 nameDesk.setText(model.getNameDesk());
                 desks.add(model.getNameDesk());
+                ids.add(model.getId());
             }
         };
 
+        adapter.onDataChanged();
         listDesks.setAdapter(adapter);
         adapter.startListening();
     }

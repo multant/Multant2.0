@@ -151,7 +151,7 @@ public class Chat_Groups extends AppCompatActivity {
                     case R.id.navigation_task_board:
                         Intent intent2 = new Intent(Chat_Groups.this, ActiveDesk.class);
                         startActivity(intent2);
-                        return true;
+                        break;
                 }
                 return false;
             }

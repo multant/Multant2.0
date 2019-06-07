@@ -25,6 +25,8 @@ import com.androstock.multant.chat.Chat_test;
 import com.androstock.multant.chat.Group;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 

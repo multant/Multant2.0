@@ -52,6 +52,10 @@ tools:context=".ActiveDesk.ActiveDeskCard"
                     android:hint="Изменить текст карточки..."
                     android:textColorHint="@color/colorWhite"
                     android:padding="10dp"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    />
 
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
