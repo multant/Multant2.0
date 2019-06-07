@@ -148,12 +148,11 @@ public class ActiveDesk extends AppCompatActivity {
 
 
     private void displayDesk(ListView listDesks) {
-
+        Query query = FirebaseDatabase.getInstance().getReference().child("Desks");
+        List<String> all = new ArrayList<>();
         myRef.child("Desks").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Query query = FirebaseDatabase.getInstance().getReference().child("Desks");
-                List<String> all = new ArrayList<>();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                 Desk d = postSnapshot.getValue(Desk.class);
                 all.addAll(d.getAllows());
@@ -176,6 +175,14 @@ public class ActiveDesk extends AppCompatActivity {
                             nameDesk.setText(model.getNameDesk());
                             desks.add(model.getNameDesk());
                             ids.add(model.getId());
+                        }
+                    };
+                }else{
+                    FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
+                            .build();
+                    adapter = new FirebaseListAdapter<Desk>(options) {
+                        @Override
+                        protected void populateView(View v, Desk model, int position) {
                         }
                     };
                 }
