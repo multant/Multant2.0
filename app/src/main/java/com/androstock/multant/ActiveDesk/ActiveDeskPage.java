@@ -87,9 +87,6 @@ public class ActiveDeskPage extends FragmentActivity {
             }
         });
 
-
-
-
         myRef.child(user.getUid()).child("Desks").child(id_desk).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -103,8 +100,6 @@ public class ActiveDeskPage extends FragmentActivity {
             }
         });
     }
-
-
 
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -121,7 +116,6 @@ public class ActiveDeskPage extends FragmentActivity {
                 childFragments.add(new PageFragment(context, id_desk, "", columns.size(), columns.size()));
             }
         }
-
 
         @Override
         public Fragment getItem(int position) {

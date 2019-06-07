@@ -13,17 +13,17 @@
         android:layout_toLeftOf="@+id/button2"
         android:layout_toStartOf="@+id/button2"
         android:hint="Введите текст..."
+        android:textSize="13sp"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"/>
 
     <Button
-        android:layout_width="50dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_pomojka"
         android:id="@+id/button2"
         android:layout_alignBottom="@+id/editText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentRight="true"/>
     
     <CheckBox
         android:id="@+id/checkbox"

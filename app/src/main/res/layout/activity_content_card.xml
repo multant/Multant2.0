@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ActiveDesk.ActiveDeskCard"
+    tools:showIn="@layout/activity_add_card"
+    android:background="#1E1D25">
+
+    <LinearLayout
+        android:id="@+id/mylayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#1E1D25">
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:hint="Изменить описание карточки..."
+            android:textColorHint="@color/colorWhite"
+            android:textSize="13sp"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#D2D2D2" />
+
+        <LinearLayout
+            android:id="@+id/check_list_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="13sp"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_check_box"
+                android:textColor="@color/colorWhite"
+                android:text="Чек-лист">
+            </TextView>
+
+            <Button
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_action_add"
+                android:id="@+id/button"
+                />
+
+        </LinearLayout>
+
+        <!--<ListView
+            android:id="@+id/mylist"
+            android:layout_width="match_parent"
+            android:layout_height="239dp"
+            android:focusableInTouchMode="true"
+            android:isScrollContainer="true" ></ListView>-->
+        <LinearLayout
+            android:id="@+id/mylist"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

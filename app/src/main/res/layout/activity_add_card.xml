@@ -1,116 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context=".ActiveDesk.ActiveDeskCard"
     android:background="#1E1D25"
-    tools:context="com.androstock.multant.ActiveDesk.ActiveDeskCard">
+    >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_active_desk_card_add"
-        android:layout_alignParentTop="true"
+<android.support.design.widget.AppBarLayout
+    android:id="@+id/app_bar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/app_bar_height"
+    android:fitsSystemWindows="true"
+    android:theme="@style/AppThemeToolBar.AppBarOverlay">
+
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:toolbarId="@+id/toolbar">
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_active_desk_card_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:gravity="center_vertical">
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/arrow"
-                android:onClick="onBackPressed"/>
-            <TextView
-                android:id="@+id/toolbar_active_desk_add_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="0dp"
-                android:gravity="center_vertical|start"
-                android:paddingLeft="16dp"
-                android:paddingRight="4dp"
-                android:textColor="#ffffff"
-                android:text="Добавить карточку"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                />
-            <Button
-                android:id="@+id/cardAddButton"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_action_done"
-                android:onClick="onAddCardButtonPressed"/>
-        </LinearLayout>
-    </android.support.v7.widget.Toolbar>
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppThemeToolBar.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="onBackPressed"
+                    android:padding="10dp"
+                    android:src="@drawable/arrow"
+                    android:layout_gravity="center"/>
+                <EditText
+                    android:id="@+id/textCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:hint="Изменить текст карточки..."
+                    android:textColorHint="@color/colorWhite"
+                    android:padding="10dp"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
 
 
-    <LinearLayout
-        android:id="@+id/mylayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_active_desk_card_add"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:hint="Изменить описание карточки..."
-            android:textColorHint="@color/colorWhite"/>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="#D2D2D2" />
-
-        <LinearLayout
-            android:id="@+id/check_list_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:drawableLeft="@drawable/ic_check_box"
-                android:textColor="@color/colorWhite"
-                android:text="Чек-лист">
-            </TextView>
-
-            <Button
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/ic_action_add"
-                android:id="@+id/button"
-                />
-        </LinearLayout>
+    </android.support.design.widget.CollapsingToolbarLayout>
 
 
+</android.support.design.widget.AppBarLayout>
 
+<include layout="@layout/activity_content_card" />
 
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/mylist"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@+id/mylayout">
-    </ListView>
-
-
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

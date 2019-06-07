@@ -42,13 +42,13 @@ public class ActiveDeskCard extends AppCompatActivity {
     FirebaseUser user = mAuth.getInstance().getCurrentUser();
     //Создаем список вьюх которые будут создаваться
     private List<View> allEds;
-    //счетчик чисто декоративный для визуального отображения edittext'ov
-    int count = 0;
+
     private FirebaseListAdapter<Card> adapter;
-    private List<String> cards = new ArrayList<>();
+    private List<String> id_checkbox = new ArrayList<>();
     public EditText description;
     public List<Boolean> isChecked = new ArrayList<>(0);
     public List<String> subTasks = new ArrayList<>(0);
+    public List<ActiveDeskCheckBox> checkBoxes = new ArrayList<>();
 
     private String id_desk = "";
     private String id_page = "";
@@ -66,23 +66,72 @@ public class ActiveDeskCard extends AppCompatActivity {
 
         description = (EditText) findViewById(R.id.description);
 
-        ListView listCards = (ListView)findViewById(R.id.mylist);
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            displayCards(listCards);
-
-        }
+        final View view = getLayoutInflater().inflate(R.layout.custom_edittext_layout, null);
+        LinearLayout linear = (LinearLayout) findViewById(R.id.mylist);
+        Button deleteField = (Button) view.findViewById(R.id.button2);
+        deleteField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    //получаем родительский view и удаляем его
+                    //((ListView) view.getParent()).removeView(view);
+                    //удаляем эту же запись из массива что бы не оставалось мертвых записей
+                    allEds.remove(v);
+                    linear.removeView(v);
+                } catch(IndexOutOfBoundsException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         myRef = db.getReference();
-        /*myRef.child(user.getUid()).child("Desks").child(id_desk)
-                .child("Columns").child(id_page).child("Cards").child(id_card).addValueEventListener(new ValueEventListener() */
+        myRef.child(user.getUid()).child("Desks").child(id_desk)
+                .child("Columns").child(id_page).child("Cards").child(id_card).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Card card = dataSnapshot.getValue(Card.class);
+                if(card.getText_card() != ""){
+                    EditText txtCard = (EditText) findViewById(R.id.textCard);
+                    txtCard.setText(card.getText_card());
+                }
+                if(card.getDesc() != ""){
+                    EditText desc = (EditText) findViewById(R.id.description);
+                    desc.setText(card.getDesc());
+                }
+                allEds = new ArrayList<View>();
+                for (DataSnapshot postSnapshot: dataSnapshot.child("CheckBoxes").getChildren()){
+                    LinearLayout mLin = (LinearLayout) findViewById(R.id.mylist);
+                    final View v = getLayoutInflater().inflate(R.layout.custom_edittext_layout, null);
+                    ActiveDeskCheckBox chB = postSnapshot.getValue(ActiveDeskCheckBox.class);
+                    EditText eT = (EditText) v.findViewById(R.id.editText);
+                    CheckBox checkBox = (CheckBox)v.findViewById(R.id.checkbox);
+                    int n = 0;
+                    for (int i = 0;i<checkBoxes.size();i++){
+                        if (checkBoxes.get(i).getId().equals(chB.getId()))
+                            n++;
+                    }
+                    if (n==0){
+                        checkBoxes.add(chB);
+                        eT.setText(chB.getText_checkbox());
+                        checkBox.setChecked(Boolean.valueOf(chB.isChecked()));
+                        allEds.add(v);
+                        mLin.addView(v);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
         Button addButton = (Button) findViewById(R.id.button);
         //инициализировали наш массив с edittext
         allEds = new ArrayList<View>();
-        ListView linear = (ListView) findViewById(R.id.mylist);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count++;
                 //берем наш кастомный лейаут находим через него все наши кнопки и едит тексты, задаем нужные данные
                 final View view = getLayoutInflater().inflate(R.layout.custom_edittext_layout, null);
                 Button deleteField = (Button) view.findViewById(R.id.button2);
@@ -94,17 +143,16 @@ public class ActiveDeskCard extends AppCompatActivity {
                             //((ListView) view.getParent()).removeView(view);
                             //удаляем эту же запись из массива что бы не оставалось мертвых записей
                             allEds.remove(view);
-                            linear.removeFooterView(view);
+                            linear.removeView(view);
                         } catch(IndexOutOfBoundsException ex) {
                             ex.printStackTrace();
                         }
                     }
                 });
-                EditText text = (EditText) view.findViewById(R.id.editText);
                 //добавляем все что создаем в массив
                 allEds.add(view);
                 //добавляем елементы в linearlayout
-                linear.addFooterView(view);
+                linear.addView(view);
             }
         });
 
@@ -115,36 +163,24 @@ public class ActiveDeskCard extends AppCompatActivity {
         finish();
     }
 
-    public void onAddCardButtonPressed(View v){
-        isChecked.clear();
-        subTasks.clear();
-        Log.i("size", Integer.toString(allEds.size()));
+    @Override
+    protected void onStop(){
+        super.onStop();
+        checkBoxes.clear();
+        EditText txtCard = (EditText) findViewById(R.id.textCard);
+        EditText desc = (EditText) findViewById(R.id.description);
+        myRef.child(user.getUid()).child("Desks").child(id_desk)
+                .child("Columns").child(id_page).child("Cards").child(id_card)
+                .setValue(new Card(txtCard.getText().toString(), desc.getText().toString(), id_card));
         for (int i=0; i<allEds.size(); i++){
             View view = allEds.get(i);
             CheckBox check = view.findViewById(R.id.checkbox);
-            isChecked.add(check.isChecked());
             EditText text = view.findViewById(R.id.editText);
-            subTasks.add(text.getText().toString());
+            String key = myRef.child(user.getUid()).child("Desks").child(id_desk)
+                    .child("Columns").child(id_page).child("Cards").child(id_card).child("CheckBoxes").push().getKey();
+            myRef.child(user.getUid()).child("Desks").child(id_desk)
+                    .child("Columns").child(id_page).child("Cards").child(id_card).child("CheckBoxes").child(key)
+                    .setValue(new ActiveDeskCheckBox(text.getText().toString(), key, check.isChecked()));
         }
-        myRef.child(user.getUid()).child("Desks").child("Cards").push().setValue(new Card("myCard", description.getText().toString(), isChecked, subTasks));
     }
-
-    private void displayCards(ListView listCards) {
-        Query query = FirebaseDatabase.getInstance().getReference().child("Desks").child("Cards");
-
-        FirebaseListOptions<Card> options = new FirebaseListOptions.Builder<Card>()
-                .setLayout(R.layout.custom_edittext_layout)
-                .setQuery(query, Card.class)
-                .build();
-        adapter = new FirebaseListAdapter<Card>(options) {
-            @Override
-            protected void populateView(View v, Card model, int position) {
-                cards.add("myCard");
-            }
-        };
-
-        listCards.setAdapter(adapter);
-        adapter.startListening();
-    }
-
 }

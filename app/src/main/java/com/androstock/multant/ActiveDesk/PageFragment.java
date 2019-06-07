@@ -221,16 +221,6 @@ public class PageFragment extends Fragment {
 
     }
 
-    /*public void onOpenCardClick(View v){
-        *//*Intent intent = new Intent(context, ActiveDeskPage.class);
-        intent.putExtra("id_desk", id_desk);
-        intent.putExtra("id_page", id_page);
-        intent.putExtra("id_card", id_cards.get(v.getVerticalScrollbarPosition()));
-        startActivity(intent);*//*
-        Toast.makeText(context, "card number " + v.getVerticalScrollbarPosition(), Toast.LENGTH_SHORT).show();
-    }*/
-
-
     private void fetch() {
         Query query = FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("Desks").child(id_desk)
                 .child("Columns").child(id_page).child("Cards");
@@ -291,6 +281,5 @@ public class PageFragment extends Fragment {
             TextView text_card = (TextView)mView.findViewById(R.id.text_in_card_in_active_desk_column);
             text_card.setText(text);
         }
-
     }
 }
