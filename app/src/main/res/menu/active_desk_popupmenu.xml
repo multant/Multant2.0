@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <group android:id="@+id/menugroup_card" >
+        <item
+            android:id="@+id/menu_add_user"
+            android:title="Добавить пользователя к доске"/>
+        <item
+            android:id="@+id/menu_list_user"
+            android:title="Открыть список пользователей"/>
+        <item
+            android:id="@+id/menu_del_desk"
+            android:title="Удалить доску"/>
+    </group>
+
+</menu>

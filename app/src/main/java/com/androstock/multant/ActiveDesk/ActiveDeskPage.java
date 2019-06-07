@@ -1,6 +1,8 @@
 package com.androstock.multant.ActiveDesk;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,8 +11,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -99,6 +105,88 @@ public class ActiveDeskPage extends FragmentActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
+        Button btn_more = (Button)findViewById(R.id.onMoreActiveDeskPageClick);
+        btn_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
+    }
+
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.inflate(R.menu.active_desk_popupmenu);
+        myRef = FirebaseDatabase.getInstance().getReference();
+        popupMenu
+                .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu_add_user:
+                            {
+                                //Получаем вид с файла prompt.xml, который применим для диалогового окна:
+                                LayoutInflater li = LayoutInflater.from(context);
+                                View promptsView = li.inflate(R.layout.active_desk_prompt, null);
+
+                                //Создаем AlertDialog
+                                AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
+
+                                //Настраиваем prompt.xml для нашего AlertDialog:
+                                mDialogBuilder.setView(promptsView);
+
+                                //Настраиваем отображение поля для ввода текста в открытом диалоге:
+                                final EditText userInput = (EditText) promptsView.findViewById(R.id.input_text);
+                                userInput.setHint("E-mail пользователя");
+                                //Настраиваем сообщение в диалоговом окне:
+                                mDialogBuilder
+                                        .setCancelable(false)
+                                        .setPositiveButton("OK",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog,int id) {
+                                                        //Вводим текст и отображаем в строке ввода на основном экране:
+                                                        if (userInput.getText().toString().trim().length() < 1) {
+                                                            Toast.makeText(context, "Введите почту пользователя!", Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            Toast.makeText(context, "Успешно!", Toast.LENGTH_SHORT).show();
+                                                            String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("AllowedToUsers").push().getKey();
+                                                            myRef.child(user.getUid()).child("Desks").child(id_desk).child("AllowedToUsers").child(key).setValue(new User(userInput.getText().toString()));
+                                                        }
+                                                    }
+                                                })
+                                        .setNegativeButton("Отмена",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog,int id) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+
+                                //Создаем AlertDialog:
+                                AlertDialog alertDialog = mDialogBuilder.create();
+
+                                //и отображаем его:
+                                alertDialog.show();
+
+                            }
+                                return true;
+                            case R.id.menu_del_desk:
+                                Toast.makeText(getApplicationContext(),
+                                        "На этой кнопке будет удаление доски ",
+                                        Toast.LENGTH_SHORT).show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+            }
+        });
+        popupMenu.show();
     }
 
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
