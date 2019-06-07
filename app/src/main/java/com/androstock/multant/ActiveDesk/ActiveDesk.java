@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,7 +41,6 @@ public class ActiveDesk extends AppCompatActivity {
     private DatabaseReference myRef;
 
     FirebaseUser user = mAuth.getInstance().getCurrentUser();
-
 
     private List<String> ids = new ArrayList<>();
     private List<String> desks = new ArrayList<>();
@@ -134,7 +134,7 @@ public class ActiveDesk extends AppCompatActivity {
                         .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                myRef.child(user.getUid()).child("Desks").child(ids.get(position)).removeValue();
+                                myRef.child("Desks").child(ids.get(position)).removeValue();
                             }
                         })
                         .setNegativeButton("Нет", null)
@@ -149,7 +149,7 @@ public class ActiveDesk extends AppCompatActivity {
 
     private void displayDesk(ListView listDesks) {
 
-        Query query = FirebaseDatabase.getInstance().getReference().child(this.user.getUid()).child("Desks");
+        Query query = FirebaseDatabase.getInstance().getReference().child("Desks");
         //Query query = FirebaseDatabase.getInstance().getReference().child("Desk");
         FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
                 .setLayout(R.layout.active_desk_list_row)
@@ -158,11 +158,23 @@ public class ActiveDesk extends AppCompatActivity {
         adapter = new FirebaseListAdapter<Desk>(options) {
             @Override
             protected void populateView(View v, Desk model, int position) {
-                TextView nameDesk;
-                nameDesk = (TextView)v.findViewById(R.id.text1);
-                nameDesk.setText(model.getNameDesk());
-                desks.add(model.getNameDesk());
-                ids.add(model.getId());
+
+                List<String> all = new ArrayList<>();
+                all.addAll(model.getAllows());
+                int n = 0;
+                for(int i = 0; i < all.size(); i++){
+                    if(all.get(i).equals(user.getEmail())){
+                        n++;
+                    }
+                }
+                if(n != 0){
+
+                    TextView nameDesk;
+                    nameDesk = (TextView)v.findViewById(R.id.text1);
+                    nameDesk.setText(model.getNameDesk());
+                    desks.add(model.getNameDesk());
+                    ids.add(model.getId());
+                }
             }
         };
 

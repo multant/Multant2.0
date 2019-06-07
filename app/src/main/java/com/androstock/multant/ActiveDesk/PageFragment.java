@@ -131,8 +131,8 @@ public class PageFragment extends Fragment {
                                                 Toast.makeText(context, "Введите название Колонны!", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 Toast.makeText(context, "Успешно!", Toast.LENGTH_SHORT).show();
-                                                String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").push().getKey();
-                                                myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(key).setValue(new Column(name_column, key));
+                                                String key = myRef.child("Desks").child(id_desk).child("Columns").push().getKey();
+                                                myRef.child("Desks").child(id_desk).child("Columns").child(key).setValue(new Column(name_column, key));
                                                 Intent intent1 = new Intent(context, ActiveDeskPage.class);
                                                 intent1.putExtra("id_desk", id_desk);
                                                 intent1.putExtra("page_pos", fposition);
@@ -192,8 +192,8 @@ public class PageFragment extends Fragment {
                                                 Toast.makeText(context, "Заполните Карточку!", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 Toast.makeText(context, "Успешно!", Toast.LENGTH_SHORT).show();
-                                                String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").push().getKey();
-                                                myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").child(key).setValue(new Card(userInput.getText().toString(), key));
+                                                String key = myRef.child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").push().getKey();
+                                                myRef.child("Desks").child(id_desk).child("Columns").child(id_page).child("Cards").child(key).setValue(new Card(userInput.getText().toString(), key));
                                                 Intent intent1 = new Intent(context, ActiveDeskPage.class);
                                                 intent1.putExtra("id_desk", id_desk);
                                                 intent1.putExtra("page_pos", fposition);
@@ -222,7 +222,7 @@ public class PageFragment extends Fragment {
     }
 
     private void fetch() {
-        Query query = FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("Desks").child(id_desk)
+        Query query = FirebaseDatabase.getInstance().getReference().child("Desks").child(id_desk)
                 .child("Columns").child(id_page).child("Cards");
 
         FirebaseRecyclerOptions<Card> options =

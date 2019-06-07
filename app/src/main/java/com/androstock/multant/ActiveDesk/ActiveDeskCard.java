@@ -71,7 +71,7 @@ public class ActiveDeskCard extends AppCompatActivity {
         LinearLayout linear = (LinearLayout) findViewById(R.id.mylist);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         myRef = db.getReference();
-        myRef.child(user.getUid()).child("Desks").child(id_desk)
+        myRef.child("Desks").child(id_desk)
                 .child("Columns").child(id_page).child("Cards").child(id_card).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -174,16 +174,16 @@ public class ActiveDeskCard extends AppCompatActivity {
         checkBoxes.clear();
         EditText txtCard = (EditText) findViewById(R.id.textCard);
         EditText desc = (EditText) findViewById(R.id.description);
-        myRef.child(user.getUid()).child("Desks").child(id_desk)
+        myRef.child("Desks").child(id_desk)
                 .child("Columns").child(id_page).child("Cards").child(id_card)
                 .setValue(new Card(txtCard.getText().toString(), desc.getText().toString(), id_card));
         for (int i=0; i<allEds.size(); i++){
             View view = allEds.get(i);
             CheckBox check = view.findViewById(R.id.checkbox);
             EditText text = view.findViewById(R.id.editText);
-            String key = myRef.child(user.getUid()).child("Desks").child(id_desk)
+            String key = myRef.child("Desks").child(id_desk)
                     .child("Columns").child(id_page).child("Cards").child(id_card).child("CheckBoxes").push().getKey();
-            myRef.child(user.getUid()).child("Desks").child(id_desk)
+            myRef.child("Desks").child(id_desk)
                     .child("Columns").child(id_page).child("Cards").child(id_card).child("CheckBoxes").child(key)
                     .setValue(new ActiveDeskCheckBox(text.getText().toString(), key, check.isChecked()));
         }

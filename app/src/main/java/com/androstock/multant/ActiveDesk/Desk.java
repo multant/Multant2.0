@@ -14,6 +14,7 @@ public class Desk implements Parcelable {
     private String autor = "";
     private String id = "";
     private long time_create_desk = 0;
+    private List<String> allows = new ArrayList<>();
 
 
     public Desk(String name_desk, String autor) {
@@ -28,6 +29,7 @@ public class Desk implements Parcelable {
         this.autor = autor;
         this.id = id;
         this.time_create_desk = new Date().getTime();
+        allows.add(autor);
     }
 
     public Desk(String autor, String id, String name_desk, long time) {
@@ -50,6 +52,15 @@ public class Desk implements Parcelable {
     };
 
     public Desk() {
+    }
+
+    public void setAllows(List<String> allows) {
+        this.allows.clear();
+        this.allows.addAll(allows);
+    }
+
+    public List<String> getAllows() {
+        return allows;
     }
 
     public String getNameDesk() {

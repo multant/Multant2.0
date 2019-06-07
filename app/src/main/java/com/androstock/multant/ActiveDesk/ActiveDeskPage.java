@@ -58,7 +58,7 @@ public class ActiveDeskPage extends FragmentActivity {
         this.id_desk = getIntent().getExtras().getString("id_desk");
         this.id_page = getIntent().getExtras().getInt("page_pos");
         myRef = FirebaseDatabase.getInstance().getReference();
-        myRef.child(user.getUid()).child("Desks").child(id_desk).child("Columns").addValueEventListener(new ValueEventListener() {
+        myRef.child("Desks").child(id_desk).child("Columns").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
@@ -95,7 +95,7 @@ public class ActiveDeskPage extends FragmentActivity {
             }
         });
 
-        myRef.child(user.getUid()).child("Desks").child(id_desk).addValueEventListener(new ValueEventListener() {
+        myRef.child("Desks").child(id_desk).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Desk desk = dataSnapshot.getValue(Desk.class);
@@ -152,9 +152,33 @@ public class ActiveDeskPage extends FragmentActivity {
                                                             Toast.makeText(context, "Введите почту пользователя!", Toast.LENGTH_SHORT).show();
                                                         } else {
                                                             Toast.makeText(context, "Успешно!", Toast.LENGTH_SHORT).show();
-                                                            String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("AllowedToUsers").push().getKey();
+                                                            //String key = myRef.child(user.getUid()).child("Desks").child(id_desk).child("AllowedToUsers").push().getKey();
                                                             //myRef.child(user.getUid()).child("Desks").child(id_desk).child("AllowedToUsers").child(key).setValue(new User(userInput.getText().toString()));
-                                                            myRef.child("Desk").child(id_desk).child("AllowedToUsers").setValue(new User(userInput.getText().toString()));
+                                                            myRef.child("Desks").child(id_desk).addValueEventListener(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                    Desk d = dataSnapshot.getValue(Desk.class);
+                                                                    List<String> all = new ArrayList<>();
+                                                                    all.addAll(d.getAllows());
+                                                                    int n = 0;
+                                                                    for(int i = 0; i < all.size(); i++){
+                                                                        if(all.get(i).equals(userInput.getText().toString())){
+                                                                            n++;
+                                                                        }
+                                                                    }
+                                                                    if(n == 0){
+                                                                        all.add(userInput.getText().toString());
+                                                                        d.setAllows(all);
+                                                                        myRef.child("Desks").child(id_desk).setValue(d);
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                }
+                                                            });
+
                                                         }
                                                     }
                                                 })
