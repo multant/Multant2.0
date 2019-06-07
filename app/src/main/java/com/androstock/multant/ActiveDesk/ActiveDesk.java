@@ -46,7 +46,7 @@ public class ActiveDesk extends AppCompatActivity {
     private List<String> desks = new ArrayList<>();
     private FirebaseListAdapter<Desk> adapter;
 
-    @Override
+    /*@Override
     protected void onStart() {
         super.onStart();
         adapter.startListening();
@@ -55,7 +55,7 @@ public class ActiveDesk extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
-    }
+    }*/
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -100,14 +100,14 @@ public class ActiveDesk extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
 
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        myRef = db.getReference();
         ListView listDesks = (ListView)findViewById(R.id.deskView);
-
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             displayDesk(listDesks);
         }
 
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        myRef = db.getReference();
+
         listDesks.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -149,38 +149,46 @@ public class ActiveDesk extends AppCompatActivity {
 
     private void displayDesk(ListView listDesks) {
 
-        Query query = FirebaseDatabase.getInstance().getReference().child("Desks");
-        //Query query = FirebaseDatabase.getInstance().getReference().child("Desk");
-        FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
-                .setLayout(R.layout.active_desk_list_row)
-                .setQuery(query, Desk.class)
-                .build();
-        adapter = new FirebaseListAdapter<Desk>(options) {
+        myRef.child("Desks").addValueEventListener(new ValueEventListener() {
             @Override
-            protected void populateView(View v, Desk model, int position) {
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Query query = FirebaseDatabase.getInstance().getReference().child("Desks");
                 List<String> all = new ArrayList<>();
-                all.addAll(model.getAllows());
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                Desk d = postSnapshot.getValue(Desk.class);
+                all.addAll(d.getAllows());
                 int n = 0;
-                for(int i = 0; i < all.size(); i++){
-                    if(all.get(i).equals(user.getEmail())){
+                for (int i = 0; i < all.size(); i++) {
+                    if (all.get(i).equals(user.getEmail())) {
                         n++;
                     }
                 }
-                if(n != 0){
-
-                    TextView nameDesk;
-                    nameDesk = (TextView)v.findViewById(R.id.text1);
-                    nameDesk.setText(model.getNameDesk());
-                    desks.add(model.getNameDesk());
-                    ids.add(model.getId());
+                if (n != 0) {
+                    FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
+                            .setLayout(R.layout.active_desk_list_row)
+                            .setQuery(query, Desk.class)
+                            .build();
+                    adapter = new FirebaseListAdapter<Desk>(options) {
+                        @Override
+                        protected void populateView(View v, Desk model, int position) {
+                            TextView nameDesk;
+                            nameDesk = (TextView) v.findViewById(R.id.text1);
+                            nameDesk.setText(model.getNameDesk());
+                            desks.add(model.getNameDesk());
+                            ids.add(model.getId());
+                        }
+                    };
+                }
+                adapter.onDataChanged();
+                listDesks.setAdapter(adapter);
+                adapter.startListening();
                 }
             }
-        };
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        adapter.onDataChanged();
-        listDesks.setAdapter(adapter);
-        adapter.startListening();
+            }
+        });
     }
 
 
