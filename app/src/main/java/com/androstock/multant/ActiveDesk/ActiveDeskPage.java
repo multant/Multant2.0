@@ -168,8 +168,10 @@ public class ActiveDeskPage extends FragmentActivity {
                                                                     }
                                                                     if(n == 0){
                                                                         all.add(userInput.getText().toString());
-                                                                        d.setAllows(all);
-                                                                        myRef.child("Desks").child(id_desk).setValue(d);
+                                                                        for (int i = 0; i < all.size(); i++){
+                                                                            myRef.child("Desks").child(id_desk).child("allows").setValue(all);
+                                                                        }
+
                                                                     }
                                                                 }
 
