@@ -148,6 +148,7 @@ public class ActiveDeskCard extends AppCompatActivity {
                         } catch(IndexOutOfBoundsException ex) {
                             ex.printStackTrace();
                         }
+
                     }
                 });
                 //добавляем все что создаем в массив
@@ -155,22 +156,28 @@ public class ActiveDeskCard extends AppCompatActivity {
                 //добавляем елементы в linearlayout
                 linear.addView(view);
             }
+
         });
-
-
     }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        upDate();
+    }
+
 
     public void onBackPressed(View v){
         Intent intent = new Intent(ActiveDeskCard.this, ActiveDeskPage.class);
         intent.putExtra("id_desk", id_desk);
         intent.putExtra("page_pos", position);
         startActivity(intent);
+
         finish();
     }
 
-    @Override
-    protected void onStop(){
-        super.onStop();
+    public void upDate(){
+
         checkBoxes.clear();
         EditText txtCard = (EditText) findViewById(R.id.textCard);
         EditText desc = (EditText) findViewById(R.id.description);

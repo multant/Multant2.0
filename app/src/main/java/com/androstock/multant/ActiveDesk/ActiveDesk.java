@@ -1,6 +1,7 @@
 package com.androstock.multant.ActiveDesk;
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.LifecycleObserver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.androstock.multant.Task.TaskHome;
 import com.androstock.multant.chat.Chat_Groups;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
+import com.firebase.ui.database.ObservableSnapshotArray;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,18 +47,6 @@ public class ActiveDesk extends AppCompatActivity {
     private List<String> ids = new ArrayList<>();
     private List<String> desks = new ArrayList<>();
     private FirebaseListAdapter<Desk> adapter;
-
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }*/
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -148,48 +138,55 @@ public class ActiveDesk extends AppCompatActivity {
 
 
     private void displayDesk(ListView listDesks) {
-        Query query = FirebaseDatabase.getInstance().getReference().child("Desks");
-        List<String> all = new ArrayList<>();
+
+
         myRef.child("Desks").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                Desk d = postSnapshot.getValue(Desk.class);
-                all.addAll(d.getAllows());
-                int n = 0;
-                for (int i = 0; i < all.size(); i++) {
-                    if (all.get(i).equals(user.getEmail())) {
-                        n++;
+                List<Integer> delete = new ArrayList<>();
+                //Query query = FirebaseDatabase.getInstance().getReference().child("Desks");
+                List<String> all = new ArrayList<>();
+                List<Desk> desks_query = new ArrayList<>();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    int n = 0;
+                    Desk d = postSnapshot.getValue(Desk.class);
+                    all.clear();
+                    all.addAll(d.getAllows());
+                    for (int i = 0; i < all.size(); i++) {
+                        if (all.get(i).equals(user.getEmail())) {
+                            n++;
+                        }
+                    }
+                    if (n != 0) {
+                        desks_query.add(d);
                     }
                 }
-                if (n != 0) {
-                    FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
-                            .setLayout(R.layout.active_desk_list_row)
-                            .setQuery(query, Desk.class)
-                            .build();
-                    adapter = new FirebaseListAdapter<Desk>(options) {
-                        @Override
-                        protected void populateView(View v, Desk model, int position) {
-                            TextView nameDesk;
-                            nameDesk = (TextView) v.findViewById(R.id.text1);
-                            nameDesk.setText(model.getNameDesk());
-                            desks.add(model.getNameDesk());
-                            ids.add(model.getId());
+                List<View> views = new ArrayList<>();
+                Query query = myRef.child("Desks");
+                FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
+                        .setLayout(R.layout.active_desk_list_row)
+                        .setQuery(query, Desk.class)
+                        .build();
+                adapter = new FirebaseListAdapter<Desk>(options) {
+                    @Override
+                    protected void populateView(View v, Desk model, int position) {
+                        for (int i = 0; i < desks_query.size(); i++){
+                            if(model.getId().equals(desks_query.get(i).getId())){
+                                TextView nameDesk;
+                                nameDesk = (TextView) v.findViewById(R.id.text1);
+                                nameDesk.setText(model.getNameDesk());
+                                desks.add(model.getNameDesk());
+                                ids.add(model.getId());
+                            }else{
+                                v.invalidate();
+
+                            }
                         }
-                    };
-                }else{
-                    FirebaseListOptions<Desk> options = new FirebaseListOptions.Builder<Desk>()
-                            .build();
-                    adapter = new FirebaseListAdapter<Desk>(options) {
-                        @Override
-                        protected void populateView(View v, Desk model, int position) {
-                        }
-                    };
-                }
+                    }
+                };
                 adapter.onDataChanged();
                 listDesks.setAdapter(adapter);
                 adapter.startListening();
-                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
